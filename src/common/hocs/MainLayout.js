@@ -38,13 +38,13 @@ class MenuPage extends React.Component {
             key: 'dashboard',
             title: (
               <>
-              <span>
-                <Icon type='home' />
-                <span>Dashboard</span>
-              </span>
-              <div>
+                <span>
+                  <Icon type='home' />
+                  <span>Dashboard</span>
+                </span>
+                <div>
                 Huy nguyen
-              </div>
+                </div>
               </>
             )
           }
