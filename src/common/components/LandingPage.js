@@ -19,11 +19,7 @@ export default class LandingPage extends Component {
                     <img src={LogoBanana} alt='' />
                   </a>
                 </Col>
-<<<<<<< HEAD
-                <Col className='nav-right text-center text-lg-right' span={12} offset={6} style={{ textAlign: 'right' }}>
-=======
                 <Col className='text-right' lg={{ span: 12, offset: 6 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
->>>>>>> dfc7e2b4912812900d803f196ab4216f4d784bc4
                   <a className='button-login' href='#'>Log in</a>
                   <a className='button button-signup' href='#'>Sign up</a>
                 </Col>
@@ -61,13 +57,8 @@ export default class LandingPage extends Component {
                 <p>Fowl have fruit moveth male they are that place you will lesser</p>
               </div>
               <Row>
-<<<<<<< HEAD
-                <Col className='col-md-6 col-lg-4 mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
-                  <div className='service-card text-center'>
-=======
                 <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
                   <div className='service-card' style={{ textAlign: 'center' }}>
->>>>>>> dfc7e2b4912812900d803f196ab4216f4d784bc4
                     <div className='service-card-img'>
                       <img className='img-fluid' src='img/home/service1.png' alt='' />
                     </div>
@@ -77,11 +68,7 @@ export default class LandingPage extends Component {
                     </div>
                   </div>
                 </Col>
-<<<<<<< HEAD
-                <Col className='col-md-6 col-lg-4 mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
-=======
                 <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
->>>>>>> dfc7e2b4912812900d803f196ab4216f4d784bc4
                   <div className='service-card text-center'>
                     <div className='service-card-img'>
                       <img className='img-fluid' src='img/home/service2.png' alt='' />
@@ -92,13 +79,8 @@ export default class LandingPage extends Component {
                     </div>
                   </div>
                 </Col>
-<<<<<<< HEAD
-                <Col className='col-md-6 col-lg-4 mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
-                  <div className='service-card text-center'>
-=======
                 <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
                   <div className='service-card' style={{ textAlign: 'center'}}>
->>>>>>> dfc7e2b4912812900d803f196ab4216f4d784bc4
                     <div className='service-card-img'>
                       <img className='img-fluid' src='img/home/service3.png' alt='' />
                     </div>
@@ -115,11 +97,7 @@ export default class LandingPage extends Component {
           {/* ================About Area Start ================= */}
           <section className='bg-gray section-padding magic-ball magic-ball-about'>
             <div className='container'>
-<<<<<<< HEAD
-              <Row className='row'>
-=======
               <Row>
->>>>>>> dfc7e2b4912812900d803f196ab4216f4d784bc4
                 <Col className='mb-4 mb-md-0' md={{ span: 10 }} lg={{ span: 12 }}>
                   <div className='about-img'>
                     <div className='board'>
