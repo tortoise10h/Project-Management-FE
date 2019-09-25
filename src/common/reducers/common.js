@@ -8,6 +8,18 @@ const defaultState = {
   locations: []
 }
 
-const handlers = { [actions.clearAll]: (state, action) => ({ ...defaultState }) }
+const handlers = {
+  [actions.clearAll]: (state, action) => ({ ...defaultState }),
+  [actions.setRequestTimeout]: (state, action) => {
+    return {
+      ...state,
+      timeout: action.payload
+    }
+  },
+  [actions.setLocations]: (state, action) => ({
+    ...state,
+    locations: action.payload
+  })
+}
 
 export default handleActions(handlers, defaultState)

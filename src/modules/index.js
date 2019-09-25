@@ -1,8 +1,13 @@
 // MODULE NAMES
-import { MODULE_NAME as MODULE_VIEW } from './todo/models'
+import { MODULE_NAME as MODULE_USER } from './user/models'
+
 // MODULE REDUCERS
-import viewReducers from './todo/reducers'
+import userReducers from './user/reducers'
+
+export const MODULE_SAGAS = [
+
+]
 
 export const MODULE_REDUCERS = {
-  [MODULE_VIEW]: viewReducers
+  [MODULE_USER]: userReducers
 }

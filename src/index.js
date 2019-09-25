@@ -1,5 +1,6 @@
 import React from 'react'
-import 'antd/dist/antd.min.css'
+// import 'antd/dist/antd.min.css'
+import './assets/custom-antd.css'
 import ReactDOM from 'react-dom'
 import * as serviceWorker from './serviceWorker'
 import Root from './common/hocs/Root'
