@@ -5,13 +5,19 @@ import UnderContruct from '../pages/UnderContruct'
 import LoginPage from '../pages/LoginPage'
 import ViewListPage from '../pages/ViewListPage'
 
+import LandingPage from './components/LandingPage'
+
 export default class Routes extends Component {
   render () {
     const { store } = this.props
     let { user } = store.getState()
     user = user || {}
     /** If use is not exists => not login then show mot found page */
-    // if (!user.user || !user.user.id) {
+    if (!user.user || !user.user.id) { 
+      return (
+        <LandingPage />
+      )
+    }
     if (true) {
       return (
         <MainLayout mode='1'>
