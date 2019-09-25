@@ -12,14 +12,14 @@ export default class LandingPage extends Component {
       <Layout style={{ background: '#ffff' }}>
         <Header className='header_area' style={{ background: 'none', padding: 10, height: 'auto' }}>
           <div className='main_menu'>
-            <nav className='navbar navbar-expand-lg navbar-light'>
-              <Row className='container'>
-                <Col span={6}>
+            <nav className='navbar navbar-light'>
+              <Row className='container-nav'>
+                <Col lg={{ span: 6 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
                   <a className='navbar-brand logo_h' href='index.html'>
                     <img src={LogoBanana} alt='' />
                   </a>
                 </Col>
-                <Col className='nav-right text-center text-lg-right' span={12} offset={6} style={{ textAlign: 'right'}}>
+                <Col className='text-right' lg={{ span: 12, offset: 6 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
                   <a className='button-login' href='#'>Log in</a>
                   <a className='button button-signup' href='#'>Sign up</a>
                 </Col>
@@ -32,16 +32,16 @@ export default class LandingPage extends Component {
           {/* ================Hero Banner Area Start ================= */}
           <section className='hero-banner magic-ball'>
             <div className='container'>
-              <Row className='text-md-left' style={{ alignItems: 'center', textAlign: 'left' }}>
-                <Col className='col-md-6 col-lg-5 mb-5 mb-md-0' md={{ span: 12 }} lg={{ span: 10 }}>
+              <Row className='text-md-left' style={{ alignItems: 'center'}}>
+                <Col className='mb-5 mb-md-0' md={{ span: 12 }} lg={{ span: 10 }} >
                   <h1>Transform Ideas Into Action</h1>
                   <p>Visualize product roadmaps, project plans, and reports for effective team collaboration and putting into action that impact </p>
                   <div className='get-start'>
                     <input type='text' placeholder='Enter your email' />
-                    <a className='button button-hero mt-4' href='#'>Get Started</a>
+                    <a className='button button-hero' href='#' style={{ marginTop: '1.5rem' }}>Get Started</a>
                   </div>
                 </Col>
-                <Col className='col-md-6 col-lg-7 col-xl-6 offset-xl-1' md={{ span: 12 }} lg={{ span: 14 }} xl={{ span: 12, offset: 2 }}>
+                <Col md={{ span: 12 }} lg={{ span: 14 }} xl={{ span: 12, offset: 2 }}>
                   <img className='img-fluid' src='img/banner/banner1.png' alt='' />
                 </Col>
               </Row>
@@ -51,14 +51,14 @@ export default class LandingPage extends Component {
           {/* ================Service Area Start ================= */}
           <section className='section-margin generic-margin'>
             <div className='container'>
-              <div className='section-intro text-center pb-90px'>
+              <div className='section-intro' style={{ textAlign: 'center', paddingBottom: '90px'}}>
                 <img className='section-intro-img' src='img/home/logo.svg' alt='' />
                 <h2>Our Popular Services</h2>
                 <p>Fowl have fruit moveth male they are that place you will lesser</p>
               </div>
               <Row>
-                <Col className='col-md-6 col-lg-4 mb-4 mb-lg-0'  md={{ span: 12 }} lg={{ span: 8 }}>
-                  <div className='service-card text-center'>
+                <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
+                  <div className='service-card' style={{ textAlign: 'center' }}>
                     <div className='service-card-img'>
                       <img className='img-fluid' src='img/home/service1.png' alt='' />
                     </div>
@@ -68,7 +68,7 @@ export default class LandingPage extends Component {
                     </div>
                   </div>
                 </Col>
-                <Col className='col-md-6 col-lg-4 mb-4 mb-lg-0'  md={{ span: 12 }} lg={{ span: 8 }}>
+                <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
                   <div className='service-card text-center'>
                     <div className='service-card-img'>
                       <img className='img-fluid' src='img/home/service2.png' alt='' />
@@ -79,8 +79,8 @@ export default class LandingPage extends Component {
                     </div>
                   </div>
                 </Col>
-                <Col className='col-md-6 col-lg-4 mb-4 mb-lg-0'  md={{ span: 12 }} lg={{ span: 8 }}>
-                  <div className='service-card text-center'>
+                <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
+                  <div className='service-card' style={{ textAlign: 'center'}}>
                     <div className='service-card-img'>
                       <img className='img-fluid' src='img/home/service3.png' alt='' />
                     </div>
@@ -97,18 +97,18 @@ export default class LandingPage extends Component {
           {/* ================About Area Start ================= */}
           <section className='bg-gray section-padding magic-ball magic-ball-about'>
             <div className='container'>
-              <Row className='row'>
-                <Col className='mb-4 mb-md-0'  md={{ span: 10 }} lg={{ span: 12 }}>
+              <Row>
+                <Col className='mb-4 mb-md-0' md={{ span: 10 }} lg={{ span: 12 }}>
                   <div className='about-img'>
                     <div className='board'>
                       <div className='header'>
                         <div className='title'>
-                            <h3>Team Tasks</h3>
+                          <h3>Team Tasks</h3>
                         </div>
                       </div>
                       <div className='lists'>
                         <div className='list'>
-                            <div className='list-content'>
+                          <div className='list-content'>
                             <h5>Doing</h5>
                             <div className='card' data-aos='fade-right' data-aos-delay={500}>
                               <div className='card-content'>
@@ -167,9 +167,9 @@ export default class LandingPage extends Component {
                             <div className='add-card'> Add Todo..
                             </div>
                           </div>
-                          </div>
+                        </div>
                         <div className='list'>
-                            <div className='list-content'>
+                          <div className='list-content'>
                             <h5>Done</h5>
                             <div className='card' data-aos='fade-left' data-aos-delay={500}>
                               <div className='card-content'>
@@ -211,7 +211,7 @@ export default class LandingPage extends Component {
                             <div className='add-card'> Add Todo...
                             </div>
                           </div>
-                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
