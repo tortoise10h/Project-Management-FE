@@ -17,11 +17,17 @@
 /* global style start
 	============================================================================================ */
 body {
+  background-color: #ffff;
   color: #888888;
   font-family: "Roboto", sans-serif;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.667;
+}
+
+.container {
+  width: 70%;
+  margin: auto;
 }
 
 ul {
@@ -136,6 +142,9 @@ h3, .h3 {
   .generic-margin {
     margin-top: 180px;
   }
+  .text-lg-right{
+    text-align: right
+  }
 }
 
 @media (min-width: 1200px) {
@@ -143,9 +152,8 @@ h3, .h3 {
     margin-top: 250px;
   }
 }
-
 /* global style end
-	============================================================================================ */
+  ============================================================================================ */
 /* header style start
   ============================================================================================ */
 .header_area {
@@ -2653,7 +2661,7 @@ h3, .h3 {
 }
 .button.button-signup
 {
-  padding: 8px 18px;
+  padding: 0px 18px;
   border-radius: 10px 0px 10px 0px;
   font-weight: 500;
   font-size: 20px;

@@ -13,7 +13,7 @@ export default class Routes extends Component {
     let { user } = store.getState()
     user = user || {}
     /** If use is not exists => not login then show mot found page */
-    if (!user.user || !user.user.id) { 
+    if (!user.user || !user.user.id) {
       return (
         <LandingPage />
       )
