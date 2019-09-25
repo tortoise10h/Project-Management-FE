@@ -82,6 +82,11 @@ h3, .h3 {
   font-size: 20px;
 }
 
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
 .primary-text {
   color: #64CCBD;
 }
@@ -497,7 +502,7 @@ h3, .h3 {
     margin-bottom: 23px;
   }
   .header_area .navbar {
-    background: #d1cff4;
+    background: #ffff;
   }
   .header_area .navbar .nav-item.active .nav-link {
     color: #64CCBD !important;
@@ -3010,5 +3015,106 @@ button.button {
 }
 
 /* footer style end
-	============================================================================================ */
+  ============================================================================================ */
+  
+/* Custom start 
+  ============================================================================================ */
+
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
+}
+
+.mb-0 {
+  margin-bottom:0!important
+}
+.mb-1 {
+  margin-bottom:.25rem!important
+}
+.mb-2 {
+  margin-bottom:.5rem!important
+}
+.mb-3 {
+  margin-bottom:1rem!important
+}
+.mb-4 {
+  margin-bottom:1.5rem!important
+}
+.mb-5 {
+  margin-bottom:3rem!important
+}
+
+.container-nav {
+  width: 70%;
+  margin: auto;
+}
+@media ( max-width: 576px ) {
+  .container-nav {
+    width: 90%;
+    margin: auto;
+  }
+}
+
+@media ( min-width: 768px ) {
+  .text-md-right {
+    text-align: right;
+  }
+  .text-md-left {
+    text-align: left;
+  }
+  .mb-md-0 {
+    margin-bottom:0!important
+  }
+  .mb-md-1 {
+    margin-bottom:.25rem!important
+  }
+  .mb-md-2 {
+    margin-bottom:.5rem!important
+  }
+  .mb-md-3 {
+    margin-bottom:1rem!important
+  }
+  .mb-md-4 {
+    margin-bottom:1.5rem!important
+  }
+  .mb-md-5 {
+    margin-bottom:3rem!important
+  }
+} 
+
+@media ( min-width: 992px ) {
+  .text-lg-right {
+    text-align: right;
+  }
+  .text-lg-left {
+    text-align: left;
+  }
+  .mb-lg-0 {
+    margin-bottom:0!important
+  }
+  .mb-lg-1 {
+    margin-bottom:.25rem!important
+  }
+  .mb-lg-2 {
+    margin-bottom:.5rem!important
+  }
+  .mb-lg-3 {
+    margin-bottom:1rem!important
+  }
+  .mb-lg-4 {
+    margin-bottom:1.5rem!important
+  }
+  .mb-lg-5 {
+    margin-bottom:3rem!important
+  }
+}
+
+
+/* Custom end
+============================================================================================ */
 /*# sourceMappingURL=style.css.map */
