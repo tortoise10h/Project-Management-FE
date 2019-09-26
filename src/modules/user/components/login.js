@@ -1,7 +1,7 @@
 import React from 'react'
-import loginImg from '../../login.svg'
+import loginImg from './../../../assets/images/login.svg'
 
-export class Login extends React.Component {
+export default class Login extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}

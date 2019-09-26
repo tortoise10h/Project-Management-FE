@@ -1,8 +1,8 @@
 import React from 'react'
 import './css/style.css'
-import loginImg from '../../login.svg'
+import loginImg from './../../../assets/images/login.svg'
 
-export class Register extends React.Component {
+export default class Register extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}

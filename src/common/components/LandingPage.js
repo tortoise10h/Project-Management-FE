@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Row, Col, Layout, Modal, Button } from 'antd'
+import { Row, Col, Layout, Button } from 'antd'
+import { Link } from 'react-router-dom'
 import './css/landingpage.css'
 import './css/kapan.css'
 import LogoBanana from './../../assets/images/landingpage/logo-banana.png'
@@ -35,7 +36,9 @@ export default class LandingPage extends Component {
                 </Col>
                 <Col className='text-right' lg={{ span: 12, offset: 6 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
                   <Button onClick={this.handleShowRegisterModal}>Login</Button>
-                  <a className='button button-signup' href='#'>Sign up</a>
+                  <Link to='/register-login'>
+                    <a className='button button-signup'>Sign up</a>
+                  </Link>
                 </Col>
               </Row>
             </nav>
