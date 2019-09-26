@@ -29,6 +29,7 @@ export default class RegisterModal extends Component {
   }
 
   render () {
+    console.log('======== Bao Minh debug :>: RegisterModal -> render -> this.props', this.props)
     const { isLogginActive } = this.state
     const current = isLogginActive ? 'Register' : 'Login'
     const currentActive = isLogginActive ? 'login' : 'register'
@@ -40,7 +41,10 @@ export default class RegisterModal extends Component {
               <Login containerRef={ref => (this.current = ref)} />
             )}
             {!isLogginActive && (
-              <Register containerRef={ref => (this.current = ref)} />
+              <Register
+                containerRef={ref => (this.current = ref)}
+                registerAccount={this.props.registerAccount}
+              />
             )}
           </div>
           <RightSide
