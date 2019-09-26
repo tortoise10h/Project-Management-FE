@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import { Row, Col, Layout } from 'antd'
 import './css/landingpage.css'
 import './css/kapan.css'
-import LogoBanana from './../../assets/images/logo-banana.png'
+import LogoBanana from './../../assets/images/landingpage/logo-banana.png'
+import Banner from './../../assets/images/landingpage/banner1.png'
 
 const { Header, Content, Footer } = Layout
 
 export default class LandingPage extends Component {
   render () {
     return (
-      <Layout style={{ background: '#ffff' }}>
+      <Layout style={{ background: '#ffff' }} className='bg-shape'>
         <Header className='header_area' style={{ background: 'none', padding: 10, height: 'auto' }}>
           <div className='main_menu'>
             <nav className='navbar navbar-light'>
@@ -42,7 +43,7 @@ export default class LandingPage extends Component {
                   </div>
                 </Col>
                 <Col md={{ span: 12 }} lg={{ span: 14 }} xl={{ span: 12, offset: 2 }}>
-                  <img className='img-fluid' src='img/banner/banner1.png' alt='' />
+                  <img className='img-fluid' src={Banner} alt='' />
                 </Col>
               </Row>
             </div>
