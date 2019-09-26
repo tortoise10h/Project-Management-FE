@@ -1,35 +1,37 @@
 import React, { Component } from 'react'
+import Login from './login'
+import Register from './register'
 
 export default class RegisterModal extends Component {
- constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       isLogginActive: true
-    };
+    }
   }
 
-  componentDidMount() {
-    //Add .right by default
-    this.rightSide.classList.add('right');
+  componentDidMount () {
+    // Add .right by default
+    this.rightSide.classList.add('right')
   }
 
-  changeState() {
-    const { isLogginActive } = this.state;
+  changeState () {
+    const { isLogginActive } = this.state
 
     if (isLogginActive) {
-      this.rightSide.classList.remove('right');
-      this.rightSide.classList.add('left');
+      this.rightSide.classList.remove('right')
+      this.rightSide.classList.add('left')
     } else {
-      this.rightSide.classList.remove('left');
-      this.rightSide.classList.add('right');
+      this.rightSide.classList.remove('left')
+      this.rightSide.classList.add('right')
     }
-    this.setState(prevState => ({ isLogginActive: !prevState.isLogginActive }));
+    this.setState(prevState => ({ isLogginActive: !prevState.isLogginActive }))
   }
 
   render () {
-    const { isLogginActive } = this.state;
-    const current = isLogginActive ? 'Register' : 'Login';
-    const currentActive = isLogginActive ? 'login' : 'register';
+    const { isLogginActive } = this.state
+    const current = isLogginActive ? 'Register' : 'Login'
+    const currentActive = isLogginActive ? 'login' : 'register'
     return (
       <div className='App'>
         <div className='login'>
@@ -47,7 +49,7 @@ export default class RegisterModal extends Component {
             containerRef={ref => (this.rightSide = ref)}
             onClick={this.changeState.bind(this)}
           />
-         
+
         </div>
       </div>
     )

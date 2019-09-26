@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Layout } from 'antd'
+import { Row, Col, Layout, Modal, Button } from 'antd'
 import './css/landingpage.css'
 import './css/kapan.css'
 import LogoBanana from './../../assets/images/landingpage/logo-banana.png'
@@ -8,6 +8,19 @@ import Banner from './../../assets/images/landingpage/banner1.png'
 const { Header, Content, Footer } = Layout
 
 export default class LandingPage extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      registerVisible: false
+    }
+
+    this.handleShowRegisterModal = this.handleShowRegisterModal.bind(this)
+  }
+
+  handleShowRegisterModal (e) {
+    this.setState({ registerVisible: true })
+  }
+
   render () {
     return (
       <Layout style={{ background: '#ffff' }} className='bg-shape'>
@@ -21,7 +34,7 @@ export default class LandingPage extends Component {
                   </a>
                 </Col>
                 <Col className='text-right' lg={{ span: 12, offset: 6 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
-                  <a className='button-login' href='#'>Log in</a>
+                  <Button onClick={this.handleShowRegisterModal}>Login</Button>
                   <a className='button button-signup' href='#'>Sign up</a>
                 </Col>
               </Row>
@@ -33,8 +46,8 @@ export default class LandingPage extends Component {
           {/* ================Hero Banner Area Start ================= */}
           <section className='hero-banner magic-ball'>
             <div className='container'>
-              <Row className='text-md-left' style={{ alignItems: 'center'}}>
-                <Col className='mb-5 mb-md-0' md={{ span: 12 }} lg={{ span: 10 }} >
+              <Row className='text-md-left' style={{ alignItems: 'center' }}>
+                <Col className='mb-5 mb-md-0' md={{ span: 12 }} lg={{ span: 10 }}>
                   <h1>Transform Ideas Into Action</h1>
                   <p>Visualize product roadmaps, project plans, and reports for effective team collaboration and putting into action that impact </p>
                   <div className='get-start'>
@@ -52,7 +65,7 @@ export default class LandingPage extends Component {
           {/* ================Service Area Start ================= */}
           <section className='section-margin generic-margin'>
             <div className='container'>
-              <div className='section-intro' style={{ textAlign: 'center', paddingBottom: '90px'}}>
+              <div className='section-intro' style={{ textAlign: 'center', paddingBottom: '90px' }}>
                 <img className='section-intro-img' src='img/home/logo.svg' alt='' />
                 <h2>Our Popular Services</h2>
                 <p>Fowl have fruit moveth male they are that place you will lesser</p>
@@ -81,7 +94,7 @@ export default class LandingPage extends Component {
                   </div>
                 </Col>
                 <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
-                  <div className='service-card' style={{ textAlign: 'center'}}>
+                  <div className='service-card' style={{ textAlign: 'center' }}>
                     <div className='service-card-img'>
                       <img className='img-fluid' src='img/home/service3.png' alt='' />
                     </div>
