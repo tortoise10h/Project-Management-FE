@@ -1,55 +1,92 @@
 import React from 'react'
 import loginImg from './../../../assets/images/login.svg'
+import { Form, Input, Icon, Checkbox, Button, Row, Col } from 'antd'
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
+    this.handleLogin = this.handleLogin.bind(props)
+  }
+
+  async handleLogin (e) {
+    e.preventDefault()
   }
 
   render () {
+    const { form } = this.props
+    const { getFieldDecorator } = form
+    const formItemLayout = {
+      labelCol: { span: 0 },
+      wrapperCol: { span: 24 }
+    }
     return (
       <div className='base-container' ref={this.props.containerRef}>
         <div className='header'>Login</div>
         <div className='content'>
           <div className='image'>
-            <img src={loginImg} />
+            <img src={loginImg} alt='' />
           </div>
-          <div className='form'>
-            <div className='form-group'>
-              <label htmlFor='username'>Username</label>
-              <input type='text' name='username' placeholder='username' />
+          <Form {...formItemLayout} style={{ width: '80%', margin: 'auto' }} onSubmit={this.handleLogin}>
+            <Form.Item>
+              {getFieldDecorator('username', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input username or email'
+                  }
+                ]
+              })(
+                <Input
+                  placeholder='Email' size='large'
+                  prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                />)}
+            </Form.Item>
+            <Form.Item className='form-group'>
+              {getFieldDecorator('password', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input password'
+                  }
+                ]
+              })(
+                <Input.Password
+                  placeholder='Password' size='large'
+                  prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                />)}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('remember', {
+                valuePropName: 'checked',
+                initialValue: true
+              })(<Checkbox>Remember me</Checkbox>)}
+              <a className="login-form-forgot" href="" style={{ float: 'right' }}>
+                Forgot password
+              </a>
+              <Button className='Login' type='primary' size='large' htmlType='submit' style={{ width: '100%' }}>Login</Button>
+            </Form.Item>
+          </Form>
+        </div>
+        <h3 style={{ textAlign: 'center' }}>
+          OR
+        </h3>
+        <Row className='login-fb-gg'>
+          <Col lg={{ span: 12 }} sm={{ span: 24 }}>
+            <div class='loginBtn loginBtn--facebook'>
+              Login with Facebook
             </div>
-            <div className='form-group'>
-              <label htmlFor='password'>Password</label>
-              <input type='password' name='password' placeholder='password' />
+          </Col>
+          <Col lg={{ span: 12 }} sm={{ span: 24 }}>
+            <div class='loginBtn loginBtn--google'>
+              Login with Google
             </div>
-          </div>
-        </div>
-        {/* <div className="footer">
-                    <button type="button" className="btn">Login</button>
-                </div> */}
-        <a href='#' className='Login'>
-          <span />
-          <span />
-          <span />
-          <span />
-                    Login
-        </a>
-        <div className='end-footer'>
-          <a className='forgot' href='#'> Forgot password ? </a>
-        </div>
-        <div className='login-fb-gg'>
-          <button class='loginBtn loginBtn--facebook'>
-                        Login with Facebook
-          </button>
-
-          <button class='loginBtn loginBtn--google'>
-                        Login with Google
-          </button>
-        </div>
+          </Col>
+        </Row>
 
       </div>
     )
   }
 }
+
+export default Form.create({ name: 'login' })(Login)

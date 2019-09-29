@@ -10,6 +10,9 @@ class Register extends React.Component {
     super(props)
     this.state = {}
     this.handleOnSubmit = this.handleOnSubmit.bind(this)
+    this.handleConfirmBlur = this.handleConfirmBlur.bind(this)
+    this.compareToFirstPassword = this.compareToFirstPassword.bind(this)
+    this.validateToNextPassword = this.validateToNextPassword.bind(this)
   }
 
   async handleOnSubmit (e) {
@@ -24,9 +27,35 @@ class Register extends React.Component {
     })
   }
 
+  handleConfirmBlur (e) {
+    const { value } = e.target
+    this.setState({ confirmDirty: this.state.confirmDirty || !!value })
+  }
+
+  compareToFirstPassword (rule, value, callback) {
+    const { form } = this.props
+    if (value && value !== form.getFieldValue('password')) {
+      callback('Two passwords that you enter is inconsistent!')
+    } else {
+      callback()
+    }
+  }
+
+  validateToNextPassword (rule, value, callback) {
+    const { form } = this.props
+    if (value && this.state.confirmDirty) {
+      form.validateFields(['confirm'], { force: true })
+    }
+    callback()
+  }
+
   render () {
     const { form } = this.props
     const { getFieldDecorator } = form
+    const formItemLayout = {
+      labelCol: { span: 12 },
+      wrapperCol: { span: 24 }
+    }
     return (
       <div className='base-container' ref={this.props.containerRef}>
         <div className='header'>Register</div>
@@ -35,62 +64,76 @@ class Register extends React.Component {
             <img src={loginImg} />
           </div>
           <Form
-            className='form'
+            {...formItemLayout}
             onSubmit={this.handleOnSubmit}
+            layout='vertical'
+            style={{ width: '80%', margin: 'auto' }}
           >
-            <div className='form-group'>
-              <Form.Item label='Full name'>
-                {getFieldDecorator('name', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input your name'
-                    }
-                  ]
-                })(<Input />)}
-              </Form.Item>
-            </div>
-            <div className='form-group'>
-              <Form.Item label='Email'>
-                {getFieldDecorator('email', {
-                  rules: [
-                    {
-                      type: 'email',
-                      message: 'Sai email !!!!!'
-                    },
-                    {
-                      required: true,
-                      message: 'Please input your email'
-                    }
-                  ]
-                })(<Input />)}
-              </Form.Item>
-            </div>
-            <div className='form-group'>
-              <Form.Item label='Password'>
-                {getFieldDecorator('password', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input your password'
-                    }
-                  ]
-                })(<Input type='Password' />)}
-              </Form.Item>
-            </div>
-            <div className='form-group'>
-              <Form.Item label='Phone'>
-                {getFieldDecorator('phone', {
-                  rules: [
-                    {
-                      required: true,
-                      message: 'Please input your phone'
-                    }
-                  ]
-                })(<Input />)}
-              </Form.Item>
-            </div>
-            <Button className='Login' type='primary' htmlType='submit'>Register</Button>
+            <Form.Item label='Full Name'>
+              {getFieldDecorator('name', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input your name'
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label='Email'>
+              {getFieldDecorator('email', {
+                rules: [
+                  {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!'
+                  },
+                  {
+                    required: true,
+                    message: 'Please input your email!'
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label='Phone'>
+              {getFieldDecorator('phone', {
+                rules: [
+                  {
+                    type: 'email',
+                    message: 'The input is not valid E-mail!'
+                  },
+                  {
+                    required: true,
+                    message: 'Please input your email!'
+                  }
+                ]
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label='Password' hasFeedback>
+              {getFieldDecorator('password', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please input your password!'
+                  },
+                  {
+                    validator: this.validateToNextPassword
+                  }
+                ]
+              })(<Input.Password />)}
+            </Form.Item>
+            <Form.Item label='Comfirm Password' hasFeedback>
+              {getFieldDecorator('comfirm_password', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Please confirm your password!'
+                  },
+                  {
+                    validator: this.compareToFirstPassword
+                  }
+                ]
+              })(<Input.Password onBlur={this.handleConfirmBlur} />)}
+            </Form.Item>
+            <Button className='Login' type='primary' htmlType='submit' style={{ width: '100%' }}>Register</Button>
           </Form>
         </div>
         {/* <a href='#' className='Login'>

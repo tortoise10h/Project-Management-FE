@@ -1,71 +1,26 @@
 .base-container {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column
 }
 .base-container .header {
     font-size: 24px;
-    font-family: "Open Sans", sans-serif;
     color: #08a890;
+    text-align: center;
 }
 .base-container .content {
-    display: flex;
     flex-direction: column;
 }
 .base-container .content .image {
-    width: 21em;
+    width: 100%;
+    text-align: center;
+    display: block;
+    padding-bottom: 50px;
 }
 .base-container .content .image img {
-    width: 100%;
-    height: 100%;
+    width: 90%;
 }
-.base-container .content .form {
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.base-container .content .form .combine {
-    display: inline;
-}
-.base-container .content .form .combine #group-inline {
-    float: left;
-    padding-right: 5px;
-}
-.base-container .content .form .combine #group-inline input {
-    width: 8em !important;
-    min-width: 50px !important;
-}
-.base-container .content .form .form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: fit-content;
-}
-.base-container .content .form .form-group label {
-    color: #08a890;
-    font-size: 20px;
-}
-.base-container .content .form .form-group input {
-    min-width: 18em;
-    height: 37px;
-    padding: 0px 10px;
-    font-size: 16px;
-    font-family: "Open Sans", sans-serif;
-    background-color: #f3f3f3;
-    border: 0;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    transition: all 250ms ease-in-out;
-}
-.base-container .content .form .form-group input:hover {
-    background-color: #fff;
-    box-shadow: 0px 0px 14px 0.3px #0e81ce 96;
-}
-.base-container .content .form .form-group input:focus {
-    outline: none;
-    box-shadow: 0px 0px 12px 0.8px #3474db b2;
+.base-container .content .ant-form-item {
+    padding-bottom: 0.5em;
 }
 .base-container .footer {
     margin-top: 1em;
@@ -80,7 +35,7 @@
     text-decoration: none;
     font-style: italic;
 }
-.base-container .Login {
+/* .base-container .Login {
     width: 150px;
     height: 40px;
     margin: auto;
@@ -99,249 +54,12 @@
     background: #08a890;
     box-shadow: 0 0 10px #08ca32, 0 0 40px #08ca32, 0 0 80px #08ca32;
     transition-delay: 1s;
-}
-.base-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.base-container .header {
-    font-size: 24px;
-    font-family: "Open Sans", sans-serif;
-    color: #08a890;
-}
-.base-container .content {
-    display: flex;
-    flex-direction: column;
-}
-.base-container .content .image {
-    width: 21em;
-}
-.base-container .content .image img {
-    width: 100%;
-    height: 100%;
-}
-.base-container .content .form {
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.base-container .content .form .combine {
-    display: inline;
-}
-.base-container .content .form .combine #group-inline {
-    float: left;
-    padding-right: 5px;
-}
-.base-container .content .form .combine #group-inline input {
-    width: 8em !important;
-    min-width: 50px !important;
-}
-.base-container .content .form .form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: fit-content;
-}
-.base-container .content .form .form-group label {
-    color: #08a890;
-    font-size: 20px;
-}
-.base-container .content .form .form-group input {
-    min-width: 18em;
-    height: 37px;
-    padding: 0px 10px;
-    font-size: 16px;
-    font-family: "Open Sans", sans-serif;
-    background-color: #f3f3f3;
-    border: 0;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    transition: all 250ms ease-in-out;
-}
-.base-container .content .form .form-group input:hover {
-    background-color: #fff;
-    box-shadow: 0px 0px 14px 0.3px #0e81ce 96;
-}
-.base-container .content .form .form-group input:focus {
-    outline: none;
-    box-shadow: 0px 0px 12px 0.8px #3474db b2;
-}
-.base-container .footer {
-    margin-top: 1em;
-}
-.base-container .end-footer {
-    margin-left: 11.5em;
-    margin-top: 1em;
-}
-.base-container .end-footer .forgot {
-    color: #08a890;
-    font-size: 15px;
-    text-decoration: none;
-    font-style: italic;
-}
-.base-container .Login {
-    width: 150px;
-    height: 40px;
-    margin: auto;
-    position: relative;
-    background: #08a890;
-    color: #fff;
-    font-size: 24px;
-    letter-spacing: 5px;
-    text-decoration: none;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-    overflow: hidden;
-    border-radius: 30px;
-}
-.base-container .Login:hover {
-    color: #b5c5d3;
-    background: #08a890;
-    box-shadow: 0 0 10px #08ca32, 0 0 40px #08ca32, 0 0 80px #08ca32;
-    transition-delay: 1s;
-}
-.base-container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.base-container .header {
-    font-size: 24px;
-    font-family: "Open Sans", sans-serif;
-    color: #08a890;
-}
-.base-container .content {
-    display: flex;
-    flex-direction: column;
-}
-.base-container .content .image {
-    width: 21em;
-}
-.base-container .content .image img {
-    width: 100%;
-    height: 100%;
-}
-.base-container .content .form {
-    margin-top: 1em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.base-container .content .form .combine {
-    display: inline;
-}
-.base-container .content .form .combine #group-inline {
-    float: left;
-    padding-right: 5px;
-}
-.base-container .content .form .combine #group-inline input {
-    width: 8em !important;
-    min-width: 50px !important;
-}
-.base-container .content .form .form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: fit-content;
-}
-.base-container .content .form .form-group label {
-    color: #08a890;
-    font-size: 20px;
-}
-.base-container .content .form .form-group input {
-    min-width: 18em;
-    height: 37px;
-    padding: 0px 10px;
-    font-size: 16px;
-    font-family: "Open Sans", sans-serif;
-    background-color: #f3f3f3;
-    border: 0;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    transition: all 250ms ease-in-out;
-}
-.base-container .content .form .form-group input:hover {
-    background-color: #fff;
-    box-shadow: 0px 0px 14px 0.3px #0e81ce 96;
-}
-.base-container .content .form .form-group input:focus {
-    outline: none;
-    box-shadow: 0px 0px 12px 0.8px #3474db b2;
-}
-.base-container .footer {
-    margin-top: 1em;
-}
-.base-container .end-footer {
-    margin-left: 11.5em;
-    margin-top: 1em;
-}
-.base-container .end-footer .forgot {
-    color: #08a890;
-    font-size: 15px;
-    text-decoration: none;
-    font-style: italic;
-}
-.base-container .Login {
-    width: 150px;
-    height: 40px;
-    margin: auto;
-    position: relative;
-    background: #08a890;
-    color: #fff;
-    font-size: 24px;
-    letter-spacing: 5px;
-    text-decoration: none;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-    overflow: hidden;
-    border-radius: 30px;
-}
-.base-container .Login:hover {
-    color: #b5c5d3;
-    background: #08a890;
-    box-shadow: 0 0 10px #08ca32, 0 0 40px #08ca32, 0 0 80px #08ca32;
-    transition-delay: 1s;
-}
-
+} */
 /* App Style Start 
  ================================================================== */
- @import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
- .App {
-	 text-align: center;
-	 display: flex;
-	 justify-content: center;
-	 align-items: center;
-	 font-family: "Open Sans", sans-serif;
-}
- .App-logo {
-	 animation: App-logo-spin infinite 20s linear;
-	 height: 40vmin;
-	 pointer-events: none;
-}
- .App-header {
-	 background-color: #282c34;
-	 min-height: 100vh;
-	 display: flex;
-	 flex-direction: column;
-	 align-items: center;
-	 justify-content: center;
-	 font-size: calc(10px + 2vmin);
-	 color: white;
-}
- .App-link {
-	 color: #61dafb;
-}
- @keyframes App-logo-spin {
-	 from {
-		 transform: rotate(0deg);
-	}
-	 to {
-		 transform: rotate(360deg);
-	}
-}
  .login {
+     width: 25%;
+     margin: auto;
 	 display: flex;
 	 justify-content: center;
 	 align-items: center;
@@ -428,6 +146,7 @@
   box-sizing: border-box;
   position: relative;
   /* width: 13em;  - apply for fixed size */
+  cursor: pointer;
   margin: 0.2em;
   padding: 0 15px 0 46px;
   border: none;
@@ -457,7 +176,6 @@
 
 /* Facebook */
 .loginBtn--facebook {
-  width: 170px;
   background-color: #4C69BA;
   background-image: linear-gradient(#4C69BA, #3B55A0);
   /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
@@ -476,7 +194,6 @@
 
 /* Google */
 .loginBtn--google {
-  width: 160px;
   /*font-family: "Roboto", Roboto, arial, sans-serif;*/
   background: #DD4B39;
 }

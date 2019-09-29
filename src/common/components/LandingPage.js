@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Row, Col, Layout, Button } from 'antd'
+import { Row, Col, Layout, Carousel, Icon } from 'antd'
+import classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import './css/landingpage.css'
 import './css/kapan.css'
@@ -27,20 +28,51 @@ export default class LandingPage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      registerVisible: false
+      prevScrollpos: window.pageYOffset,
+      visible: true,
+      isTop: true
     }
-
-    this.handleShowRegisterModal = this.handleShowRegisterModal.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
   }
 
-  handleShowRegisterModal (e) {
-    this.setState({ registerVisible: true })
+  // Adds an event listener when the component is mount.
+  componentDidMount () {
+    window.addEventListener('scroll', this.handleScroll)
+  }
+
+  // Remove the event listener when the component is unmount.
+  componentWillUnmount () {
+    window.removeEventListener('scroll', this.handleScroll)
+  }
+
+  // Hide or show the menu.
+  handleScroll () {
+    const { prevScrollpos } = this.state
+    const currentScrollPos = window.pageYOffset
+    const visible = prevScrollpos > currentScrollPos
+    const isTop = currentScrollPos === 0
+
+    this.setState({
+      prevScrollpos: currentScrollPos,
+      visible,
+      isTop
+    })
   }
 
   render () {
     return (
       <Layout style={{ background: '#ffff' }} className='bg-shape'>
-        <Header className='header_area' style={{ background: 'none', padding: 10, height: 'auto' }}>
+        <Header
+          className={ classnames('header_area', {
+            'header_area--hidden': !this.state.visible,
+            'header_area--top': !this.state.isTop
+          })}
+          style={{
+            padding: 10,
+            height: 'auto',
+            position: 'fixed'
+          }}
+        >
           <div className='main_menu'>
             <nav className='navbar navbar-light'>
               <Row className='container-nav'>
@@ -50,9 +82,8 @@ export default class LandingPage extends Component {
                   </a>
                 </Col>
                 <Col className='text-right' lg={{ span: 12, offset: 6 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
-                  <Button onClick={this.handleShowRegisterModal}>Login</Button>
                   <Link to='/register-login'>
-                    <a className='button button-signup'>Sign up</a>
+                    <a className='button button-signup'>Sign up | Login</a>
                   </Link>
                 </Col>
               </Row>
@@ -64,13 +95,13 @@ export default class LandingPage extends Component {
           {/* ================Hero Banner Area Start ================= */}
           <section className='hero-banner magic-ball'>
             <div className='container'>
-              <Row className='text-md-left' style={{ alignItems: 'center' }}>
+              <Row className='text-md-left' type='flex' justify='space-around' align='middle'>
                 <Col className='mb-5 mb-md-0' md={{ span: 12 }} lg={{ span: 10 }}>
                   <h1>Transform Ideas Into Action</h1>
                   <p>Visualize product roadmaps, project plans, and reports for effective team collaboration and putting into action that impact </p>
                   <div className='get-start'>
-                    <input type='text' placeholder='Enter your email' />
-                    <a className='button button-hero' href='#' style={{ marginTop: '1.5rem' }}>Get Started</a>
+                    <input type='text' placeholder='Email here ...' />
+                    <a className='button button-hero' href='#' style={{ marginTop: '1.5rem', textAlign: 'center' }}>Get Started</a>
                   </div>
                 </Col>
                 <Col md={{ span: 12 }} lg={{ span: 14 }} xl={{ span: 12, offset: 2 }}>
@@ -129,7 +160,7 @@ export default class LandingPage extends Component {
           {/* ================About Area Start ================= */}
           <section className='bg-gray section-padding magic-ball magic-ball-about'>
             <div className='container'>
-              <Row>
+              <Row type='flex' justify='space-around' align='middle'>
                 <Col className='mb-4 mb-md-0' md={{ span: 10 }} lg={{ span: 12 }}>
                   <div className='about-img'>
                     <div className='board'>
@@ -334,12 +365,12 @@ export default class LandingPage extends Component {
           {/* ================Testimonial section Start ================= */}
           <section className='bg-gray section-padding magic-ball magic-ball-testimonial pb-xl-5'>
             <div className='container'>
-              <div className='section-intro text-center pb-90px'>
-                <img className='section-intro-img' src='img/home/logo.svg' alt='' />
+              <div className='section-intro text-center' style={{ paddingBottom: '90px' }}>
+                <img className='section-intro-img' src={Logo} alt='' />
                 <h2>Our client says</h2>
                 <p>Fowl have fruit moveth male they are that place you will lesser</p>
               </div>
-              <div className='owl-carousel owl-theme testimonial pb-xl-5'>
+              <Carousel className='testimonial pb-xl-5'>
                 <div className='testimonial__item'>
                   <Row>
                     <Col className='align-self-center' md={{ span: 6 }} lg={{ span: 4 }}>
@@ -391,7 +422,7 @@ export default class LandingPage extends Component {
                     </Col>
                   </Row>
                 </div>
-              </div>
+              </Carousel>
             </div>
           </section>
           {/* ================Testimonial section End ================= */}
@@ -400,16 +431,16 @@ export default class LandingPage extends Component {
         <Footer className='footer-area'>
           <div className='container'>
             <div className='footer-bottom'>
-              <Row className='row align-items-center'>
-                <p className='col-lg-8 col-sm-12 footer-text m-0 text-center text-lg-left'>{/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
+              <Row style={{ alignItems: 'center' }}>
+                <Col className='footer-text m-0 text-center text-lg-left' lg={{ span: 16 }} sm={{ span: 24 }} style={{ margin: 0, color: 'white' }}>{/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
                   Copyright © All rights reserved | This template is made with <i className='fa fa-heart' aria-hidden='true' /> by <a href='https://colorlib.com'>Colorlib</a>
                   {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-                </p>
-                <Col className='col-lg-4 col-sm-12 footer-social text-center text-lg-right' lg={{ span: 8 }} sm={{ span: 24 }}>
-                  <a href='#'><i className='fab fa-facebook-f' /></a>
-                  <a href='#'><i className='fab fa-twitter' /></a>
-                  <a href='#'><i className='fab fa-dribbble' /></a>
-                  <a href='#'><i className='fab fa-behance' /></a>
+                </Col>
+                <Col className='footer-social text-center text-lg-right' lg={{ span: 8 }} sm={{ span: 24 }}>
+                  <a href='#'><Icon type='facebook'/></a>
+                  <a href='#'><Icon type='twitter' /></a>
+                  <a href='#'><Icon type='dribbble' /></a>
+                  <a href='#'><Icon type='behance' /></a>
                 </Col>
               </Row>
             </div>

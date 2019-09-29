@@ -162,13 +162,22 @@ h3, .h3 {
 /* header style start
   ============================================================================================ */
 .header_area {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 99;
-  -webkit-transition: background 0.4s, all 0.3s linear;
-  transition: background 0.4s, all 0.3s linear;
+  background: none;
+  -webkit-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+}
+
+.header_area--hidden {
+  top: -100px;
+}
+.header_area--top {
+  background: #ffff;
+  box-shadow: 0 8px 6px -6px #111;
 }
 
 .header_area .navbar-right {
@@ -863,6 +872,9 @@ h3, .h3 {
   .hero-banner h1 {
     font-size: 40px;
   }
+  .hero-banner .get-start input,.hero-banner .get-start .button {
+    width: 90%;
+  }
 }
 
 @media (max-width: 991px) {
@@ -912,6 +924,7 @@ h3, .h3 {
 
 .bg-shape {
   position: relative;
+  z-index: 1;
 }
 
 .bg-shape::before {
@@ -2671,17 +2684,13 @@ h3, .h3 {
   font-weight: 500;
   font-size: 20px;
 }
-.button-login
-{
-  display: inline-block;
-  padding: 8px 25px;
-  text-transform: capitalize;
-  transition: all 0.3s ease 0s;
-  color: #08A890;
-  font-size:15px;
-}
-.button-login:hover{
-  text-decoration:#08A890
+@media ( max-width: 576px ) {
+  .header_area .navbar-brand img {
+    height: 30px;
+  }
+  .button.button-signup {
+    font-size: 13px;
+  }
 }
 
 @media (min-width: 600px) {
@@ -3048,15 +3057,37 @@ button.button {
 .mb-5 {
   margin-bottom:3rem!important
 }
+.mt-0 {
+  margin-top:0!important
+}
+.mt-1 {
+  margin-top:.25rem!important
+}
+.mt-2 {
+  margin-top:.5rem!important
+}
+.mt-3 {
+  margin-top:1rem!important
+}
+.mt-4 {
+  margin-top:1.5rem!important
+}
+.mt-5 {
+  margin-top:3rem!important
+}
+
 
 .container-nav {
-  width: 70%;
+  width: 80%;
   margin: auto;
 }
 @media ( max-width: 576px ) {
   .container-nav {
     width: 90%;
     margin: auto;
+  }
+  .mt-sm-0 {
+    margin-top:0!important
   }
 }
 
@@ -3114,6 +3145,11 @@ button.button {
   }
 }
 
+@media ( min-width: 1200px ) {
+  .pb-xl-5 {
+    padding-bottom:3rem!important
+  }
+}
 
 /* Custom end
 ============================================================================================ */
