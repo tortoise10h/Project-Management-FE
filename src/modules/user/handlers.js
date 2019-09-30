@@ -1,21 +1,10 @@
 import { fetchAuthLoading, fetch } from '../../common/effects'
 import { ENDPOINTS, LIMIT } from './models'
-import { setTodoList } from './actions'
-
-// export function getTodoListAsync({ page = 1, search = {}, params = {} }) {
-//   return fetchAuthLoading({
-//     url: ENDPOINTS.getTodoList,
-//     method: 'GET',
-//     params: {
-//       page,
-//       limit: LIMIT,
-//       ...search,
-//       ...params
-//     }
-//   }).then((response) => {
-//     return response.data
-//   })
-// }
+import {
+  setUserToken,
+  setUserTokenExp,
+  setUserInformation,
+} from './actions'
 
 export default (dispatch, props) => ({
   registerAccount: async (newUserInfo) => {
@@ -37,7 +26,11 @@ export default (dispatch, props) => ({
         method: 'POST',
         data: userInfo
       })
-      console.log('======== Bao Minh debug :>: result', result)
+      if (result.data && result.status === 200) {
+        dispatch(setUserToken(result.data.token))
+        dispatch(setUserTokenExp(result.data.exp))
+        dispatch(setUserInformation(result.data.user))
+      }
     } catch (error) {
       return { success: false, message: 'Server Error' }
     }
