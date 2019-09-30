@@ -29,5 +29,17 @@ export default (dispatch, props) => ({
     } catch (error) {
       return { success: false, message: 'Server Error' }
     }
+  },
+  loginAccount: async (userInfo) => {
+    try {
+      const result = await fetch({
+        url: ENDPOINTS.loginAccount,
+        method: 'POST',
+        data: userInfo
+      })
+      console.log('======== Bao Minh debug :>: result', result)
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
   }
 })

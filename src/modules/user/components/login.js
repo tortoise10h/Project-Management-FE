@@ -6,11 +6,19 @@ class Login extends React.Component {
   constructor (props) {
     super(props)
     this.state = {}
-    this.handleLogin = this.handleLogin.bind(props)
+    this.handleOnSubmit = this.handleOnSubmit.bind(this)
   }
 
-  async handleLogin (e) {
+  async handleOnSubmit (e) {
     e.preventDefault()
+    const { form, loginAccount } = this.props
+    console.log('======== Bao Minh debug :>: Register -> handleOnSubmit -> this.props', this.props)
+    form.validateFieldsAndScroll(['email', 'password'], async (err, values) => {
+      if (!err) {
+        const result = await loginAccount(values)
+        console.log('======== Bao Minh debug :>: Register -> handleOnSubmit -> result', result)
+      }
+    })
   }
 
   render () {
@@ -27,9 +35,9 @@ class Login extends React.Component {
           <div className='image'>
             <img src={loginImg} alt='' />
           </div>
-          <Form {...formItemLayout} style={{ width: '80%', margin: 'auto' }} onSubmit={this.handleLogin}>
+          <Form {...formItemLayout} style={{ width: '80%', margin: 'auto' }} onSubmit={this.handleOnSubmit}>
             <Form.Item>
-              {getFieldDecorator('username', {
+              {getFieldDecorator('email', {
                 rules: [
                   {
                     required: true,

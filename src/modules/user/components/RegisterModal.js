@@ -13,6 +13,7 @@ export default class RegisterModal extends Component {
   componentDidMount () {
     // Add .right by default
     this.rightSide.classList.add('right')
+    console.log('=========> TuLinh Debug: >: RegisterModal -> componentDidMount -> this.props', this.props)
   }
 
   changeState () {
@@ -31,18 +32,22 @@ export default class RegisterModal extends Component {
   render () {
     console.log('======== Bao Minh debug :>: RegisterModal -> render -> this.props', this.props)
     const { isLogginActive } = this.state
+    const { loginAccount, registerAccount } = this.props
     const current = isLogginActive ? 'Register' : 'Login'
     const currentActive = isLogginActive ? 'login' : 'register'
     return (
       <div className='login'>
         <div className='container' ref={ref => (this.container = ref)}>
           {isLogginActive && (
-            <Login containerRef={ref => (this.current = ref)} />
+            <Login
+              containerRef={ref => (this.current = ref)}
+              loginAccount={loginAccount}
+            />
           )}
           {!isLogginActive && (
             <Register
               containerRef={ref => (this.current = ref)}
-              registerAccount={this.props.registerAccount}
+              registerAccount={registerAccount}
             />
           )}
         </div>
