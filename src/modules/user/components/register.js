@@ -79,7 +79,7 @@ class Register extends React.Component {
                 ]
               })(<Input />)}
             </Form.Item>
-            <Form.Item label='Email'>
+            <Form.Item label='Email' hasFeedback>
               {getFieldDecorator('email', {
                 rules: [
                   {
@@ -96,10 +96,6 @@ class Register extends React.Component {
             <Form.Item label='Phone'>
               {getFieldDecorator('phone', {
                 rules: [
-                  {
-                    type: 'email',
-                    message: 'The input is not valid E-mail!'
-                  },
                   {
                     required: true,
                     message: 'Please input your email!'
@@ -121,7 +117,7 @@ class Register extends React.Component {
               })(<Input.Password />)}
             </Form.Item>
             <Form.Item label='Comfirm Password' hasFeedback>
-              {getFieldDecorator('comfirm_password', {
+              {getFieldDecorator('confirm', {
                 rules: [
                   {
                     required: true,

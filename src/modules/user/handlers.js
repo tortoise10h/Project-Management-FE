@@ -25,7 +25,7 @@ export default (dispatch, props) => ({
         method: 'POST',
         data: newUserInfo
       })
-      console.log('======== Bao Minh debug :>: result', result)  
+      console.log('======== Bao Minh debug :>: result', result)
     } catch (error) {
       return { success: false, message: 'Server Error' }
     }

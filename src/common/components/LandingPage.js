@@ -68,6 +68,7 @@ export default class LandingPage extends Component {
             'header_area--top': !this.state.isTop
           })}
           style={{
+            width: '100%',
             padding: 10,
             height: 'auto',
             position: 'fixed'
