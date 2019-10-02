@@ -4,12 +4,18 @@ import Lottie from '../../../libraries/Lottie'
 export default () => (
   <div className='loading-session-body'>
     <div className='loading'>
+      <h1
+        style={{
+          textAlign: 'center'
+        }}
+      >
+        UNDER CONSTRUCT!
+      </h1>
       <Lottie
         options={{
-          animationData: require('../../../assets/animations/not_found.json')
+          animationData: require('../../../assets/animations/gears-animation.json')
         }}
-        width={120}
-        height={120}
+        width='50%'
       />
     </div>
   </div>
