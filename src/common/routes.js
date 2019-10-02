@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router'
-import MainLayout from './hocs/MainLayout'
+import MainLayout from './hocs/MainLayout2'
 import UnderContruct from '../pages/UnderContruct'
 // import LoginPage from '../pages/LoginPage'
+import ViewListPage from '../pages/RegisterModalPage'
 import LandingPage from './components/LandingPage'
 import RegisterModalPage from './../pages/RegisterModalPage'
 
@@ -14,7 +15,6 @@ export default class Routes extends Component {
     /** If use is not exists => not login then show mot found page */
     if (!user.user || !user.user.id) {
       return (
-        // <Register />
         <Switch>
           <Route key='landing-page' path='/' exact component={LandingPage} />
           <Route key='register-login' path='/register-login' exact component={RegisterModalPage} />
@@ -25,7 +25,7 @@ export default class Routes extends Component {
       return (
         <MainLayout mode='1'>
           <Switch>
-            {/* <Route key='' path='/login' exact component={LoginPage} />, */}
+            <Route key='' path='/dashboard' exact component={ViewListPage} />
             <Route component={UnderContruct} />
           </Switch>
         </MainLayout>
