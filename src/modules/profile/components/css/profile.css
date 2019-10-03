@@ -1,0 +1,68 @@
+/* --------------------Bootstrap css Start--------------------- */
+.container-profile {
+  margin-right: auto;
+  margin-left: auto;
+}
+.container-profile .ant-col {
+  position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.well{
+  height: auto;
+  padding: 0px;
+}
+.img-rounded {
+  border-radius: 6px;
+}
+.img-responsive {
+  display: block;
+  height: auto;
+  max-width: 100%;
+  margin: auto;
+}
+
+/* --------------------Bootstrap css End--------------------- */
+
+/* --------------------Tu Che css Start--------------------- */
+.profile-avatar {
+  text-align: center;
+}
+.btn-change {
+  background: #08A890;
+  color: #ffffff;
+  margin-top: 20px;
+}
+.container-profile .anticon {
+  font-size: 17px;
+  color: #64CCBD;
+}
+.ant-typography {
+  margin-bottom: 10px !important;
+  color: rgba(0, 0, 0, 0.85) !important;
+}
+
+.location-icon {
+  margin-right: 10px;
+  margin-top: 3px;
+  float: left;
+}
+.location-icon--project {
+  margin: 5px 0px 15px 0px;
+}
+.lb-info {
+  font-size: 15px;
+  float: left;
+} 
+.input-psw {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  width: 80%;
+  border-bottom: 1px solid;
+}
+.text-edit {
+  margin-left: 30px;
+}
+/* --------------------Tu Che css End--------------------- */

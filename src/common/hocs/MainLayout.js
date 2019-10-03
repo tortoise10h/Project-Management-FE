@@ -189,7 +189,7 @@ class MenuPage extends React.Component {
                 <span style={collapsed ? { display: 'none' } : { display: 'block' }}>ACCOUNT</span>
               }
             >
-              <Menu.Item key='profile'>
+              <Menu.Item key={`profile/${user.id}`}>
                 <Icon type='user' />
                 <span>Profile</span>
               </Menu.Item>
@@ -246,7 +246,7 @@ class MenuPage extends React.Component {
                 <Dropdown
                   overlay={
                     <Menu onClick={this.handleOnSelectMenuItem}>
-                      <Menu.Item key='profile'>
+                      <Menu.Item key={`profile/${user.id}`}>
                         <Icon type='user' />
                         <span>
                           Profile

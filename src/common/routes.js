@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router'
 import MainLayout from './hocs/MainLayout'
 import UnderContruct from '../pages/UnderContruct'
 import ProjectListModal from '../pages/ProjectListModal'
+import UserProfile from '../modules/profile/components/ProfileModal'
 import LandingPage from './components/LandingPage'
 import RegisterModalPage from './../pages/RegisterModalPage'
 import ConfirmEmail from './../pages/ConfirmEmail'
@@ -31,6 +32,7 @@ export default class Routes extends Component {
           <Switch>
             <Route key='' path='/project' exact component={ProjectListModal} />
             <Route key='' path='/project-kanban/:id' exact component={KanbanPage} />
+            <Route key='' path='/profile/:id' exact component={UserProfile} />
             <Route component={UnderContruct} />
           </Switch>
         </MainLayout>
