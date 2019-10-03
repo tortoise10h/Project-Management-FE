@@ -18,7 +18,6 @@ class Register extends React.Component {
   async handleOnSubmit (e) {
     e.preventDefault()
     const { form, registerAccount } = this.props
-    console.log('======== Bao Minh debug :>: Register -> handleOnSubmit -> this.props', this.props)
     form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         const result = await registerAccount(values)
@@ -35,7 +34,7 @@ class Register extends React.Component {
   compareToFirstPassword (rule, value, callback) {
     const { form } = this.props
     if (value && value !== form.getFieldValue('password')) {
-      callback('Two passwords that you enter is inconsistent!')
+      callback()
     } else {
       callback()
     }
@@ -61,7 +60,7 @@ class Register extends React.Component {
         <div className='header'>Register</div>
         <div className='content'>
           <div className='image'>
-            <img src={loginImg} />
+            <img src={loginImg} alt='img' />
           </div>
           <Form
             {...formItemLayout}

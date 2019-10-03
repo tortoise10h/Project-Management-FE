@@ -1,0 +1,75 @@
+.ant-input-affix-wrapper .ant-input:not(:first-child) {
+    padding-left: 40px;
+    border: none;
+  }
+  
+.ant-dropdown {
+  position: fixed;
+}
+  .btn-search{
+    font-size: 20px;
+    color: #CCC;
+    transition: 0.5s ease-out
+  }
+  
+  .btn-search:hover{
+    color: rgba(0, 0, 0, 0.65)
+  }
+  
+  #logo{
+    float: left;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  
+  .my-logo img{
+    fill: green;
+    height: 30px;
+    margin-right: 16px;
+    transition: 0.3s ease-in;
+  }
+  
+  .my-logo.collapse img:first-child{
+    height: 35px;
+    margin-left:5px
+  }
+  
+  .my-logo.collapse img:last-child{
+    visibility: hidden;
+  }
+  
+  img{
+    vertical-align: middle;
+  }
+  
+  .right-menu-item{
+    line-height: 3;
+  }
+
+/* =========================   */
+  .menuBar{
+    height: 65.5px;
+    background-color: #fff;
+    padding: 0 20px;
+    border-bottom: solid 1px #e8e8e8;
+    overflow: hidden;
+    /* box-shadow: 0 0 30px #f3f1f1; */
+  }
+  .menuBar .btn-search-a{
+    display: none
+  }
+  .menuBar .right-menu-item
+  {
+    cursor: pointer;
+  }
+  
+  @media(max-width: 992px){
+    .nav-input-search{
+      display: none
+    }
+    .menuBar .btn-search-a{
+      display: inline;
+    }
+  }

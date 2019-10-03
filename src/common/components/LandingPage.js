@@ -61,9 +61,9 @@ export default class LandingPage extends Component {
 
   render () {
     return (
-      <Layout style={{ background: '#ffff' }} className='bg-shape'>
+      <Layout style={{ background: '#ffff' }} className='bg-shape landing-page'>
         <Header
-          className={ classnames('header_area', {
+          className={classnames('header_area', {
             'header_area--hidden': !this.state.visible,
             'header_area--top': !this.state.isTop
           })}
@@ -438,7 +438,7 @@ export default class LandingPage extends Component {
                   {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
                 </Col>
                 <Col className='footer-social text-center text-lg-right' lg={{ span: 8 }} sm={{ span: 24 }}>
-                  <a href='#'><Icon type='facebook'/></a>
+                  <a href='#'><Icon type='facebook' /></a>
                   <a href='#'><Icon type='twitter' /></a>
                   <a href='#'><Icon type='dribbble' /></a>
                   <a href='#'><Icon type='behance' /></a>

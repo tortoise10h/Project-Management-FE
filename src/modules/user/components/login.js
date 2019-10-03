@@ -69,7 +69,7 @@ class Login extends React.Component {
                 valuePropName: 'checked',
                 initialValue: true
               })(<Checkbox>Remember me</Checkbox>)}
-              <a className="login-form-forgot" href="" style={{ float: 'right' }}>
+              <a className='login-form-forgot' href='' style={{ float: 'right' }}>
                 Forgot password
               </a>
               <Button className='Login' type='primary' size='large' htmlType='submit' style={{ width: '100%' }}>Login</Button>
