@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { Route, Switch } from 'react-router'
 import MainLayout from './hocs/MainLayout2'
 import UnderContruct from '../pages/UnderContruct'
-// import LoginPage from '../pages/LoginPage'
 import ViewListPage from '../pages/RegisterModalPage'
 import LandingPage from './components/LandingPage'
 import RegisterModalPage from './../pages/RegisterModalPage'
+import ConfirmEmail from './../pages/ConfirmEmail'
+import ConfirmSuccess from './../pages/ConfirmSuccess'
 
 export default class Routes extends Component {
   render () {
@@ -18,6 +19,8 @@ export default class Routes extends Component {
         <Switch>
           <Route key='landing-page' path='/' exact component={LandingPage} />
           <Route key='register-login' path='/register-login' exact component={RegisterModalPage} />
+          <Route key='landing-page' path='/confirm-email' exact component={ConfirmEmail} />
+          <Route key='landing-page' path='/confirm-success' exact component={ConfirmSuccess} />
         </Switch>
       )
     }
