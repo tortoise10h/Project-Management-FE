@@ -28,12 +28,27 @@
 
 /* Header Style End
  =================================================== */
+/* Sidebar Style Start
+ =================================================== */
+.side-bar {
+  font-family: 'Roboto'
+}
+.side-bar .ant-menu-item {
+  padding-left: 30px;
+}
+/* Sidebar Style End
+ =================================================== */
 /* Layout Style Start
  =================================================== */
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+}
 #components-layout-demo-side .logo {
     height: 65px;
     background: #64CCBD;
-    /* background-image: url('./image/background.png'); */
+    background-image: url('./../../../assets/images/background.png');
     background-repeat: no-repeat;
     background-size: cover;
     padding:16px
@@ -75,7 +90,6 @@
 }
 
 .my-logo img{
-  fill: green;
   height: 30px;
   margin-right: 16px;
   transition: 0.3s ease-in;

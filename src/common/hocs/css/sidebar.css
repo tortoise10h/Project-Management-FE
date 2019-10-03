@@ -1,0 +1,19 @@
+#components-layout-demo-side .logo {
+    height: 65px;
+    background: #64CCBD;
+    background-image: url('../../../assets/images/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding:16px
+  }
+
+.side-bar{
+    -webkit-box-shadow: -9px 12px 41px -14px rgba(0,0,0,0.44);
+    -moz-box-shadow: -9px 12px 41px -14px rgba(0,0,0,0.44);
+    box-shadow: -9px 12px 41px -14px rgba(0,0,0,0.44);
+}
+.menu-item-group.non-collapse
+{
+  box-shadow: inset 0px 11px 8px -10px #CCC,
+            inset 0px -11px 8px -10px #CCC;
+}
