@@ -97,7 +97,7 @@ export default class LandingPage extends Component {
           <section className='hero-banner magic-ball'>
             <div className='container'>
               <Row className='text-md-left' type='flex' justify='space-around' align='middle'>
-                <Col className='mb-5 mb-md-0' md={{ span: 12 }} lg={{ span: 10 }}>
+                <Col className='mb-5' md={{ span: 24 }} lg={{ span: 13 }} xl={{ span: 11 }}>
                   <h1>Transform Ideas Into Action</h1>
                   <p>Visualize product roadmaps, project plans, and reports for effective team collaboration and putting into action that impact </p>
                   <div className='get-start'>
@@ -105,7 +105,7 @@ export default class LandingPage extends Component {
                     <a className='button button-hero' href='#' style={{ marginTop: '1.5rem', textAlign: 'center' }}>Get Started</a>
                   </div>
                 </Col>
-                <Col md={{ span: 12 }} lg={{ span: 14 }} xl={{ span: 12, offset: 2 }}>
+                <Col md={{ span: 24 }} lg={{ span: 10, offset: 1 }} xl={{ span: 12, offset: 1 }}>
                   <img className='img-fluid' src={Banner} alt='' />
                 </Col>
               </Row>
@@ -120,8 +120,8 @@ export default class LandingPage extends Component {
                 <h2>Our Popular Services</h2>
                 <p>Fowl have fruit moveth male they are that place you will lesser</p>
               </div>
-              <Row>
-                <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
+              <Row gutter={20}>
+                <Col className='mb-4 mb-lg-0' md={{ span: 24 }} lg={{ span: 8 }}>
                   <div className='service-card' style={{ textAlign: 'center' }}>
                     <div className='service-card-img'>
                       <img className='img-fluid' src={Service1} alt='' />
@@ -132,7 +132,7 @@ export default class LandingPage extends Component {
                     </div>
                   </div>
                 </Col>
-                <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
+                <Col className='mb-4 mb-lg-0' md={{ span: 24 }} lg={{ span: 8 }}>
                   <div className='service-card text-center'>
                     <div className='service-card-img'>
                       <img className='img-fluid' src={Service2} alt='' />
@@ -143,7 +143,7 @@ export default class LandingPage extends Component {
                     </div>
                   </div>
                 </Col>
-                <Col className='mb-4 mb-lg-0' md={{ span: 12 }} lg={{ span: 8 }}>
+                <Col className='mb-4 mb-lg-0' md={{ span: 24 }} lg={{ span: 8 }}>
                   <div className='service-card' style={{ textAlign: 'center' }}>
                     <div className='service-card-img'>
                       <img className='img-fluid' src={Service3} alt='' />
@@ -162,7 +162,7 @@ export default class LandingPage extends Component {
           <section className='bg-gray section-padding magic-ball magic-ball-about'>
             <div className='container'>
               <Row type='flex' justify='space-around' align='middle'>
-                <Col className='mb-4 mb-md-0' md={{ span: 10 }} lg={{ span: 12 }}>
+                <Col className='mb-4 mb-md-0' xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 24 }} lg={{ span: 24 }} xl={{ span: 12 }}>
                   <div className='about-img'>
                     <div className='board'>
                       <div className='header'>
@@ -280,7 +280,7 @@ export default class LandingPage extends Component {
                     </div>
                   </div>
                 </Col>
-                <Col className='about-content' md={{ span: 14 }} lg={{ span: 12 }} style={{ position: 'relative', alignSelf: 'center' }}>
+                <Col className='about-content' xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 24 }} lg={{ span: 24 }} xl={{ span: 12 }} style={{ position: 'relative', alignSelf: 'center' }}>
                   <h2>Work with any team</h2>
                   <p>Whether it’s for work, a side project or even the next family vacation, Our helps your team stay organized.</p>
                   <a className='button' href='#'>Start Doing   →</a>
@@ -292,10 +292,18 @@ export default class LandingPage extends Component {
           {/* ================Tour section Start ================= */}
           <section className='section-margin pb-xl-5'>
             <div className='container'>
-              <Row>
-                <Col md={{ span: 12 }}>
+              <Row gutter={25}>
+                <Col md={{ span: 24 }} lg={{ span: 12 }}>
+                  <Row style={{ marginBottom: 16 }}>
+                    <Col lg={{ span: 20, offset: 2 }}>
+                      <div className='tour-content'>
+                        <h2>We offer worldwise tour plan recently</h2>
+                        <p>Make she'd moved divided air. Whose tree that hath own upon them it multiply was blessed </p>
+                      </div>
+                    </Col>
+                  </Row>
                   <div className='tour-card'>
-                    <img className='card-img rounded-0' src={Banner1} alt='' />
+                    <img className='card-img rounded-0' src={Banner2} alt='' width='100%' />
                     <div className='tour-card-overlay'>
                       <div className='media'>
                         <div className='media-body'>
@@ -307,17 +315,9 @@ export default class LandingPage extends Component {
                     </div>
                   </div>
                 </Col>
-                <Col md={{ span: 12 }}>
-                  <Row>
-                    <Col lg={{ span: 20, offset: 2 }}>
-                      <div className='tour-content'>
-                        <h2>We offer worldwise tour plan recently</h2>
-                        <p>Make she'd moved divided air. Whose tree that hath own upon them it multiply was blessed </p>
-                      </div>
-                    </Col>
-                  </Row>
+                <Col md={{ span: 24 }} lg={{ span: 12 }}>
                   <div className='tour-card'>
-                    <img className='card-img rounded-0' src={Banner2} alt='' />
+                    <img className='card-img rounded-0' src={Banner1} alt='' width='100%' />
                     <div className='tour-card-overlay'>
                       <div className='media'>
                         <div className='media-body'>
@@ -330,10 +330,10 @@ export default class LandingPage extends Component {
                   </div>
                 </Col>
               </Row>
-              <Row>
-                <Col md={{ span: 12 }} lg={{ span: 14 }}>
+              <Row gutter={25}>
+                <Col md={{ span: 24 }} lg={{ span: 14 }}>
                   <div className='tour-card'>
-                    <img className='card-img rounded-0' src={Banner3} alt='' />
+                    <img className='card-img rounded-0' src={Banner3} alt='' width='100%' />
                     <div className='tour-card-overlay'>
                       <div className='media'>
                         <div className='media-body'>
@@ -345,9 +345,9 @@ export default class LandingPage extends Component {
                     </div>
                   </div>
                 </Col>
-                <Col md={{ span: 12 }} lg={{ span: 10 }}>
+                <Col md={{ span: 24 }} lg={{ span: 10 }}>
                   <div className='tour-card'>
-                    <img className='card-img rounded-0' src={Banner4} alt='' />
+                    <img className='card-img rounded-0' src={Banner4} alt='' width='100%' />
                     <div className='tour-card-overlay'>
                       <div className='media'>
                         <div className='media-body'>
