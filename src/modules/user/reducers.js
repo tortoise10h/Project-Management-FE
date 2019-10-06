@@ -5,7 +5,7 @@ import { clearAll } from '../../common/actions/common'
 export const defaultState = {
   token: null,
   exp: null,
-  user: {},
+  user: {}
 }
 
 const handlers = {
@@ -27,4 +27,3 @@ const handlers = {
 }
 
 export default handleActions(handlers, defaultState)
-

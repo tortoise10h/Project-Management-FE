@@ -18,36 +18,36 @@ import {
 import PageLoading from '../components/widgets/PageLoading'
 import ProgressLoading from '../components/widgets/ProgressLoading'
 
-function* onFetchStart({ payload: { config } }) {
+function * onFetchStart ({ payload: { config } }) {
   yield ProgressLoading.show()
   // console.log('Fetch Start', config)
 }
 
-function* onFetchSuccess({ payload: { response, config } }) {
+function * onFetchSuccess ({ payload: { response, config } }) {
   yield ProgressLoading.hide()
   // console.log('Fetch Success', config)
 }
 
-function* onFetchFailure({ payload: { error, config } }) {
+function * onFetchFailure ({ payload: { error, config } }) {
   yield ProgressLoading.hide()
   // Notification.error(error.message)
   console.error(error)
 }
 
-function* watchFetchStart() {
+function * watchFetchStart () {
   yield takeEvery(fetchStart.toString(), onFetchStart)
 }
-function* watchFetchSuccess() {
+function * watchFetchSuccess () {
   yield takeEvery(fetchSuccess.toString(), onFetchSuccess)
 }
-function* watchFetchFailure() {
+function * watchFetchFailure () {
   yield takeEvery(fetchFailure.toString(), onFetchFailure)
 }
-function* watchFetchEnd() {
+function * watchFetchEnd () {
   yield takeEvery(fetchEnd.toString(), onFetchSuccess)
 }
 
-function* onLoadingChanged() {
+function * onLoadingChanged () {
   // TODO: Do something in redux when loading
   const isLoading = yield select(state => state.session.isLoading)
   const loadingCount = yield select(state => state.session.loadingCount)
@@ -58,11 +58,11 @@ function* onLoadingChanged() {
   }
 }
 
-function* watchLoadStart() {
+function * watchLoadStart () {
   yield takeEvery(loadStart.toString(), onLoadingChanged)
 }
 
-function* watchLoadEnd() {
+function * watchLoadEnd () {
   yield takeEvery(loadEnd.toString(), onLoadingChanged)
 }
 

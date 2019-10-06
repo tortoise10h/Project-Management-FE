@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route, Switch } from 'react-router'
 import MainLayout from './hocs/MainLayout2'
 import UnderContruct from '../pages/UnderContruct'
-import ViewListPage from '../pages/RegisterModalPage'
+import ProjectListModal from '../modules/project/containers/ProjectListModal'
 import LandingPage from './components/LandingPage'
 import RegisterModalPage from './../pages/RegisterModalPage'
 import ConfirmEmail from './../pages/ConfirmEmail'
@@ -28,7 +28,7 @@ export default class Routes extends Component {
       return (
         <MainLayout mode='1'>
           <Switch>
-            <Route key='' path='/dashboard' exact component={ViewListPage} />
+            <Route key='' path='/project' exact component={ProjectListModal} />
             <Route component={UnderContruct} />
           </Switch>
         </MainLayout>

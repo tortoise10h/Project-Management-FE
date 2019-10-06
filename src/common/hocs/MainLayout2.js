@@ -205,7 +205,7 @@ class MenuPage extends React.Component {
         <Layout style={{ marginLeft: sidebarWidth, transition: 'all 0.2s' }}>
           <Header className='menuBar' style={{ width: 'calc(100% - ' + sidebarWidth + 'px)', padding: 16, position: 'fixed', zIndex: 10, transition: 'all 0.2s', boxShadow: '0 3px 8px -6px rgba(0,0,0,0.44)' }}>
             <Row type='flex'>
-              <Col xs={{ span: 0 }} lg={{ span: 9, offset: 1 }} xl={{ span: 8, offset: 1 }}>
+              <Col xs={{ span: 0 }} lg={{ span: 9, offset: 1 }} xl={{ span: 8, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
                 <Input
                   className='nav-input-search'
                   placeholder='Search...'
@@ -233,7 +233,7 @@ class MenuPage extends React.Component {
                   </div>
                 </Popover>
               </Col>
-              <Col xs={{ span: 2 }} lg={{ span: 1, offset: 8 }} xl={{ span: 1, offset: 11 }} className='right-menu-item'>
+              <Col xs={{ span: 2 }} lg={{ span: 1, offset: 7 }} xl={{ span: 1, offset: 10 }} xxl={{ span: 1, offset: 910 }} className='right-menu-item'>
                 <Popover
                   // content={<Notification />}
                   trigger='click' placement='bottom'
@@ -243,7 +243,7 @@ class MenuPage extends React.Component {
                   </Badge>
                 </Popover>
               </Col>
-              <Col xs={{ span: 10 }} lg={{ span: 5 }} xl={{ span: 3 }} className='right-menu-item' style={{ float: 'left' }}>
+              <Col xs={{ span: 10 }} lg={{ span: 5 }} xl={{ span: 4 }} xxl={{ span: 3 }} className='right-menu-item' style={{ float: 'left' }}>
                 <Dropdown
                   overlay={
                     <Menu onClick={this.handleOnSelectMenuItem}>
