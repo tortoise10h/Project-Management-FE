@@ -76,6 +76,7 @@ export default class ProjectItem extends Component {
   }
 
   render () {
+    console.log('render -> this.props,', this.props)
     const { title, Users, id, status } = this.props.project
     const owner = Users[0]
     const { favorited } = this.state
@@ -106,6 +107,7 @@ export default class ProjectItem extends Component {
                   lineHeight: '3',
                   borderRadius: '50%'
                 }}
+                  onClick={() => this.props.history.push(`/project-kanban/${id}`)}
               >
                 <Icon type='arrow-right' />
               </div>
