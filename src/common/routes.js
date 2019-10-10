@@ -7,6 +7,7 @@ import LandingPage from './components/LandingPage'
 import RegisterModalPage from './../pages/RegisterModalPage'
 import ConfirmEmail from './../pages/ConfirmEmail'
 import ConfirmSuccess from './../pages/ConfirmSuccess'
+import KanbanPage from './../pages/KanbanPage'
 
 export default class Routes extends Component {
   render () {
@@ -29,6 +30,7 @@ export default class Routes extends Component {
         <MainLayout mode='1'>
           <Switch>
             <Route key='' path='/project' exact component={ProjectListModal} />
+            <Route key='' path='/project-kanban/:id' exact component={KanbanPage} />
             <Route component={UnderContruct} />
           </Switch>
         </MainLayout>

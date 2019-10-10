@@ -2,11 +2,6 @@ import React, { Component } from 'react'
 import './css/project.css'
 import ProjectList from './ProjectList'
 import AddProject from './AddProject'
-import uuid from 'uuid'
-import img1 from './../../../assets/images/landingpage/user/avatar1.png'
-import img2 from './../../../assets/images/landingpage/user/avatar2.png'
-import img3 from './../../../assets/images/landingpage/user/avatar3.png'
-import img4 from './../../../assets/images/landingpage/user/avatar4.png'
 import { Button, Pagination, Row, Col, Typography, Form, Select, Input, Icon, Empty } from 'antd'
 import ButtonGroup from 'antd/lib/button/button-group'
 
@@ -58,6 +53,7 @@ class ProjectListModal extends Component {
   }
 
   render () {
+    console.log('project list model -> render -> this.props', this.props)
     const searchInput = (
       <span>
         <Input
@@ -107,7 +103,12 @@ class ProjectListModal extends Component {
           </Col>
         </Row>
         <Row gutter={50}>
-          <ProjectList projects={data} min={this.state.minValue} max={this.state.maxValue} />
+          <ProjectList
+            history={this.props.history}
+            projects={data} min={this.state.minValue}
+            max={this.state.maxValue}
+            id={this.props.match.params.id}
+          />
         </Row>
         <Pagination
           current={currentPage}
