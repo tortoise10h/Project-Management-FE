@@ -9,14 +9,17 @@ import {
 export default (dispatch, props) => ({
   registerAccount: async (newUserInfo) => {
     try {
-      const result = await fetch({
+      await fetch({
         url: ENDPOINTS.registerAccount,
         method: 'POST',
         data: newUserInfo
       })
-      console.log('======== Bao Minh debug :>: result', result)
     } catch (error) {
-      return { success: false, message: 'Server Error' }
+      console.log('========== Bao Minh: error', error.response)
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
     }
   },
   loginAccount: async (userInfo) => {
@@ -32,7 +35,11 @@ export default (dispatch, props) => ({
         dispatch(setUserInformation(result.data.user))
       }
     } catch (error) {
-      return { success: false, message: 'Server Error' }
+      console.log('========== Bao Minh: error', error.response)
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
     }
   }
 })

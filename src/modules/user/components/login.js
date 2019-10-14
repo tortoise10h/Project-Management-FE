@@ -1,6 +1,7 @@
 import React from 'react'
 import loginImg from './../../../assets/images/login.svg'
 import { Form, Input, Icon, Checkbox, Button, Row, Col } from 'antd'
+import checkError from '../../../libraries/CheckError'
 
 class Login extends React.Component {
   constructor (props) {
@@ -11,12 +12,18 @@ class Login extends React.Component {
 
   async handleOnSubmit (e) {
     e.preventDefault()
-    const { form, loginAccount } = this.props
-    console.log('======== Bao Minh debug :>: Register -> handleOnSubmit -> this.props', this.props)
+    const { form, loginAccount, onLoading, history } = this.props
     form.validateFieldsAndScroll(['email', 'password'], async (err, values) => {
       if (!err) {
+        onLoading()
         const result = await loginAccount(values)
-        console.log('======== Bao Minh debug :>: Register -> handleOnSubmit -> result', result)
+        if (result) {
+          const errors = result.error
+          onLoading()
+          checkError(errors.error)
+        } else {
+          history.push('/')
+        }
       }
     })
   }
@@ -40,8 +47,9 @@ class Login extends React.Component {
               {getFieldDecorator('email', {
                 rules: [
                   {
+                    type: 'email',
                     required: true,
-                    message: 'Please input username or email'
+                    message: 'Please input email !!'
                   }
                 ]
               })(
@@ -81,12 +89,12 @@ class Login extends React.Component {
         </h3>
         <Row className='login-fb-gg'>
           <Col lg={{ span: 12 }} sm={{ span: 24 }}>
-            <div class='loginBtn loginBtn--facebook'>
+            <div className='loginBtn loginBtn--facebook'>
               Login with Facebook
             </div>
           </Col>
           <Col lg={{ span: 12 }} sm={{ span: 24 }}>
-            <div class='loginBtn loginBtn--google'>
+            <div className='loginBtn loginBtn--google'>
               Login with Google
             </div>
           </Col>

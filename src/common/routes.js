@@ -20,7 +20,7 @@ export default class Routes extends Component {
           <Route key='landing-page' path='/' exact component={LandingPage} />
           <Route key='register-login' path='/register-login' exact component={RegisterModalPage} />
           <Route key='landing-page' path='/confirm-email' exact component={ConfirmEmail} />
-          <Route key='landing-page' path='/confirm-success' exact component={ConfirmSuccess} />
+          <Route key='landing-page' path='/verify' exact component={ConfirmSuccess} />
         </Switch>
       )
     }

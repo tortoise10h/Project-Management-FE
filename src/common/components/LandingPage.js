@@ -84,7 +84,7 @@ export default class LandingPage extends Component {
                 </Col>
                 <Col className='text-right' lg={{ span: 12, offset: 6 }} md={{ span: 12 }} sm={{ span: 12 }} xs={{ span: 12 }}>
                   <Link to='/register-login'>
-                    <a className='button button-signup'>Sign up | Login</a>
+                    <p className='button button-signup'>Sign up | Login</p>
                   </Link>
                 </Col>
               </Row>
