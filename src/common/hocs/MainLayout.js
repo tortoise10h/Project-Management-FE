@@ -1,9 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { Avatar, Layout, Menu, Icon, notification } from 'antd'
+import './css/style.css'
+import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Input, Badge, Typography } from 'antd'
 import storeAccessible from '../utils/storeAccessible'
 import { clearAll } from '../actions/common'
+
+const { Text } = Typography
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
 
@@ -17,7 +20,8 @@ class MenuPage extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      collapsed: false
+      collapsed: false,
+      sidebarWidth: 260
     }
     this.MENUS = []
     if (props.user && props.user.user_type_id === 3 && props.user.jobSeekerOfUser) {
@@ -25,9 +29,9 @@ class MenuPage extends React.Component {
     } else {
       this.setMenus(props.mode)
     }
-    this.handleClick = this.handleClick.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
-    this.changePage = this.changePage.bind(this)
+    this.handleChangePage = this.handleChangePage.bind(this)
+    this.handleOnSelectMenuItem = this.handleOnSelectMenuItem.bind(this)
   }
 
   setMenus (mode, type) {
@@ -37,15 +41,23 @@ class MenuPage extends React.Component {
           {
             key: 'dashboard',
             title: (
-              <>
+              <span>
+                <Icon type='bar-chart' style={{ fontSize: 20 }} />
                 <span>
-                  <Icon type='home' />
-                  <span>Dashboard</span>
+                  Dashboard
                 </span>
-                <div>
-                Huy nguyen
-                </div>
-              </>
+              </span>
+            )
+          },
+          {
+            key: 'project',
+            title: (
+              <span>
+                <Icon type='project' style={{ fontSize: 20 }} />
+                <span>
+                  My Projects
+                </span>
+              </span>
             )
           }
         ]
@@ -74,20 +86,20 @@ class MenuPage extends React.Component {
     }
   }
 
-  changePage (e) {
+  handleChangePage (e) {
     const { history } = this.props
     const item = this.MENUS.find(data => data.key === e.key)
     history.push(item.redirect)
   }
 
   handleToggle () {
-    const { collapsed } = this.state
-    this.setState({
-      collapsed: !collapsed
-    })
+    let { collapsed } = this.state
+    collapsed = !collapsed
+    const sidebarWidth = collapsed ? 80 : 260
+    this.setState({ collapsed, sidebarWidth })
   }
 
-  handleClick (value) {
+  handleOnSelectMenuItem (value) {
     const { history } = this.props
     switch (value.key) {
       case 'logout':
@@ -103,91 +115,182 @@ class MenuPage extends React.Component {
   }
 
   render () {
-    const { collapsed } = this.state
-    const { children, history: { location }, userName } = this.props
+    const { collapsed, sidebarWidth } = this.state
+    const { children, history: { location }, user } = this.props
+    let name = user.name.split(' ')
+    name = name[name.length - 1]
     if (FULL_PAGES.includes(location.pathname)) {
       return children
     }
+    const logoClass = ['my-logo']
+    const menuGroupClass = ['menu-item-group']
+    if (collapsed) {
+      logoClass.push('collapse')
+    } else {
+      menuGroupClass.push('non-collapse')
+    }
     return (
-      <Layout className='menu-page'>
+      <Layout style={{ minHeight: '100vh' }} id='components-layout-demo-side'>
         <Sider
+          // {...this.state.width < 700 ? 'breakpoint='lg' collapsedWidth='0'' : '' }
+          className='side-bar'
           theme='light'
-          style={{ height: '100vh', overflow: 'auto' }}
+          width={sidebarWidth}
+          collapsible
           collapsed={collapsed}
           onCollapse={this.handleToggle}
-        >
-          <div style={{
-            display: 'flex',
-            justifyContent: !collapsed ? 'space-between' : 'center',
-            alignItems: 'center',
-            height: 55,
-            padding: '0px 15px',
-            borderBottom: '1px solid #303546'
+          style={{
+            overflow: 'auto',
+            height: '100vh',
+            minHeight: 'auto',
+            position: 'fixed',
+            zIndex: 99
           }}
-          >
-            {!collapsed
-              ? <img alt='logo' src={require('../../assets/images/logo-ccp2x.png')} className='logo' />
-              : null}
-            <div style={{ fontSize: '1.4em', cursor: 'pointer', padding: 6 }} onClick={this.handleToggle}>
-              <Icon type='menu' />
-            </div>
+        >
+          <div className='logo'>
+            <a id='logo' href='/' className={logoClass.join(' ')}>
+              <img alt='logo' src={require('../../assets/images/logo.svg')} />
+              <img alt='Banana' src={require('../../assets/images/BananaBoys.png')} style={{ fill: '#ffff' }} />
+            </a>
           </div>
           <Menu
-            onClick={this.handleClick}
+            onClick={this.handleOnSelectMenuItem}
+            theme='light'
             defaultSelectedKeys={['dashboard']}
             selectedKeys={[this.props.location.pathname.replace('/', '')]}
-            theme='light'
-            mode='horizontal'
+            mode='inline'
           >
-            {this.MENUS.map(item => {
-              if (item.children) {
+            <Menu.ItemGroup title={
+              <span style={collapsed ? { display: 'none' } : { display: 'block' }}>PROJECTS</span>
+            }
+            >
+              {this.MENUS.map(item => {
+                if (item.children) {
+                  return (
+                    <SubMenu
+                      key={item.key}
+                      title={item.title}
+                    >
+                      {item.children.map(child => {
+                        return <Menu.Item key={child.key}>{child.title}</Menu.Item>
+                      })}
+                    </SubMenu>
+                  )
+                }
                 return (
-                  <SubMenu
-                    key={item.key}
-                    title={item.title}
-                  >
-                    {item.children.map(child => {
-                      return <Menu.Item key={child.key}>{child.title}</Menu.Item>
-                    })}
-                  </SubMenu>
+                  <Menu.Item key={item.key}>
+                    {item.title}
+                  </Menu.Item>
                 )
+              })}
+            </Menu.ItemGroup>
+            <Menu.ItemGroup
+              title={
+                <span style={collapsed ? { display: 'none' } : { display: 'block' }}>ACCOUNT</span>
               }
-              return (
-                <Menu.Item key={item.key}>
-                  {item.title}
-                </Menu.Item>
-              )
-            })}
+            >
+              <Menu.Item key='profile'>
+                <Icon type='user' />
+                <span>Profile</span>
+              </Menu.Item>
+              {/* <Menu.Divider /> */}
+              <Menu.Item key='logout'>
+                <Icon type='logout' />
+                <span>Sign out</span>
+              </Menu.Item>
+            </Menu.ItemGroup>
           </Menu>
         </Sider>
-        <Layout>
-          <Header
+        <Layout style={{ marginLeft: sidebarWidth, transition: 'all 0.2s' }}>
+          <Header className='menuBar' style={{ width: 'calc(100% - ' + sidebarWidth + 'px)', padding: 16, position: 'fixed', zIndex: 10, transition: 'all 0.2s', boxShadow: '0 3px 8px -6px rgba(0,0,0,0.44)' }}>
+            <Row type='flex'>
+              <Col xs={{ span: 0 }} lg={{ span: 9, offset: 1 }} xl={{ span: 8, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
+                <Input
+                  className='nav-input-search'
+                  placeholder='Search...'
+                  allowClear
+                  style={{ width: '100%', margin: 0, border: 'none', float: 'left' }}
+                  size='large'
+                  prefix={<Icon type='search' className='btn-search' />}
+                />
+              </Col>
+              <Col xs={{ span: 2, offset: 10 }} lg={{ span: 0 }} className='btn-search-a right-menu-item'>
+
+                <Popover
+                  trigger='click' placement='bottom' content={
+                    <Input.Search
+                      placement='leftBottom'
+                      placeholder='Search...'
+                      allowClear
+                      style={{ width: 500 }}
+                      onSearch={value => console.log(value)}
+                    />
+                  }
+                >
+                  <div className='circle-base notification'>
+                    <Icon type='search' className='btn-notice' style={{ fontSize: 20 }} />
+                  </div>
+                </Popover>
+              </Col>
+              <Col xs={{ span: 2 }} lg={{ span: 1, offset: 7 }} xl={{ span: 1, offset: 10 }} xxl={{ span: 1, offset: 910 }} className='right-menu-item'>
+                <Popover
+                  // content={<Notification />}
+                  trigger='click' placement='bottom'
+                >
+                  <Badge dot>
+                    <Icon type='notification' className='btn-notice' style={{ fontSize: 20 }} />
+                  </Badge>
+                </Popover>
+              </Col>
+              <Col xs={{ span: 10 }} lg={{ span: 5 }} xl={{ span: 4 }} xxl={{ span: 3 }} className='right-menu-item' style={{ float: 'left' }}>
+                <Dropdown
+                  overlay={
+                    <Menu onClick={this.handleOnSelectMenuItem}>
+                      <Menu.Item key='profile'>
+                        <Icon type='user' />
+                        <span>
+                          Profile
+                        </span>
+                      </Menu.Item>
+                      <Menu.Item key='logout'>
+                        <Icon type='logout' />
+                        <span>
+                          Log out
+                        </span>
+                      </Menu.Item>
+                    </Menu>
+                  }
+                  trigger={['click']} className='menu-bar-dropdown'
+                >
+                  <div className='circle-base user'>
+                    <img
+                      src={require('../../assets/images/logo.svg')}
+                      alt='user-img'
+                      style={{
+                        height: 40,
+                        width: 40,
+                        borderRadius: '50%',
+                        marginRight: 30,
+                        marginBottom: 10,
+                        backgroundColor: '#64CCBD'
+                      }}
+                    />
+                    <Text strong>Hi, {name || 'User'}</Text>
+                    <Icon type='down' style={{ marginLeft: 10, fontSize: 15 }} />
+                  </div>
+                </Dropdown>
+              </Col>
+            </Row>
+          </Header>
+          <Content
             style={{
-              background: '#f3f6fd',
-              padding: 0,
-              paddingLeft: 20,
-              paddingRight: 20,
-              height: 55,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              borderBottom: '1px solid #d1d7e2'
+              background: '#fff',
+              padding: 24,
+              margin: 20,
+              marginTop: 100,
+              minHeight: 280
             }}
           >
-            <div style={{ borderLeft: '1px solid #d1d7e2', padding: '0px 10px' }}>
-              <Avatar
-                icon='user'
-                style={{ backgroundColor: '#2c3e50', verticalAlign: 'middle' }}
-                size='default'
-              >
-                {userName || ''}
-              </Avatar>
-            </div>
-            <div style={{ color: '#2c3e50', maxWidth: 350, textOverflow: 'ellipsis', overflow: 'hidden', display: 'inline-block' }}>
-              {userName || ''}
-            </div>
-          </Header>
-          <Content style={{ minHeight: 'auto', backgroundColor: '#e4eaf6', padding: 20 }}>
             {children}
           </Content>
         </Layout>
@@ -197,13 +300,7 @@ class MenuPage extends React.Component {
 }
 
 export default connect((state) => {
-  // return {
-  //   user: state.user.user,
-  //   userName: state.user.user
-  //     ? state.user.user.user_name
-  //     : 'N'
-  // }
-  return (
-    <div>Test</div>
-  )
+  return {
+    user: state.user.user
+  }
 })(withRouter(MenuPage))

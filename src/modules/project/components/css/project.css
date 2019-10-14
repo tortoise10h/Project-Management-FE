@@ -311,8 +311,11 @@ cursor: pointer;
 
 /* My Custom Start
  ====================================== */
-.post-meta .favorite .anticon.anticon-heart.filled {
+.favorite .anticon.anticon-heart.filled {
   color: #D30243
+}
+.change-view .ant-btn.disabled, .ant-btn[disabled] {
+  cursor: default;
 }
 /* My Custom End
  ====================================== */

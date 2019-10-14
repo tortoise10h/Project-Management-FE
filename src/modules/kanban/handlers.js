@@ -19,6 +19,7 @@ export default (dispatch, props) => ({
         return result.data
       }
     } catch (error) {
+      console.log('======== Bao Minh: error', error.response)
       return { success: false, message: 'Server Error' }
     }
   },

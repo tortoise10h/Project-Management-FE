@@ -1,15 +1,14 @@
 import { fetchAuthLoading, fetch } from '../../common/effects'
 import { ENDPOINTS, LIMIT } from './models'
-import {
-  setUserToken,
-  setUserTokenExp,
-  setUserInformation
-} from './actions'
+// import {
+//   setUserToken,
+//   setUserTokenExp,
+//   setUserInformation
+// } from './actions'
 
 export default (dispatch, props) => ({
   getProjects: async (page = 1, offset, params) => {
     try {
-      console.log('Run getProjects')
       const result = await fetchAuthLoading({
         url: ENDPOINTS.getProjects,
         method: 'GET',
@@ -19,10 +18,8 @@ export default (dispatch, props) => ({
           offset
         }
       })
-      console.log('======== Bao Minh debug :>: result', result)
       return result
     } catch (error) {
-      console.log('======== Bao Minh debug :>: error', error)
       return { success: false, message: 'Server Error' }
     }
   },
@@ -33,7 +30,21 @@ export default (dispatch, props) => ({
         method: 'POST',
         data: newProject
       })
-      return result.data
+      return result
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  toggleFavorite: async (userId, projectId, isFavorite) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: ENDPOINTS.toggleFavorite(userId, projectId),
+        method: 'PUT',
+        data: {
+          is_favorite: isFavorite
+        }
+      })
+      return result
     } catch (error) {
       return { success: false, message: 'Server Error' }
     }

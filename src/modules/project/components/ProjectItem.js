@@ -35,32 +35,41 @@ export default class ProjectItem extends Component {
     })
   }
 
+  componentDidMount () {
+    this.setState({
+      favorited: this.props.project.is_favorite
+    })
+  }
+
   handleFavorite () {
+    const { id, is_favorite: favorite } = this.props.project
+    const { onFavorite } = this.props
+    onFavorite(id, !favorite)
     this.setState({ favorited: !this.state.favorited })
   }
 
   setStatus (mode) {
     let status = ''
     switch (mode) {
-      case '1':
+      case 'New':
         status =
           <div className='category arrow_box status-new' style={{ background: 'linear-gradient(to right, #02aab0, #00cdac)' }}>
-            New project
+            New
           </div>
         break
-      case '2':
+      case 'In processing':
         status =
           <div className='category arrow_box status-processing'>
             In processing
           </div>
         break
-      case '3':
+      case 'Dead line':
         status =
           <div className='category arrow_box status-deadline'>
-            Deal line
+            Dead line
           </div>
         break
-      case '4':
+      case 'Done':
         status =
           <div className='category arrow_box status-done'>
             Done
@@ -69,17 +78,17 @@ export default class ProjectItem extends Component {
       default:
         status =
           <div className='category arrow_box status-new'>
-            New project
+            New
           </div>
     }
     return status
   }
 
   render () {
-    console.log('render -> this.props,', this.props)
-    const { title, Users, id, status } = this.props.project
-    const owner = Users[0]
     const { favorited } = this.state
+    const { project } = this.props
+    const { title, Users, id, status } = project
+    const owner = Users[0]
     const span = 6
     return (
       <Col key={id} xxl={{ span: 6 }} xl={{ span: 8 }} lg={{ span: 12 }} style={cardStyle}>
@@ -107,7 +116,7 @@ export default class ProjectItem extends Component {
                   lineHeight: '3',
                   borderRadius: '50%'
                 }}
-                  onClick={() => this.props.history.push(`/project-kanban/${id}`)}
+                onClick={() => this.props.history.push(`/project-kanban/${id}`)}
               >
                 <Icon type='arrow-right' />
               </div>
@@ -215,8 +224,4 @@ const styles = {
 const cardStyle = {
   marginBottom: 30,
   borderRadius: '10%'
-}
-
-ProjectItem.propTypes = {
-  content: PropTypes.object.isRequired
 }

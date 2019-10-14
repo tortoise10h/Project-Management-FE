@@ -1,0 +1,21 @@
+.project-list-table-appear {
+  opacity: 0;
+  transform:translateX(100px)
+}
+
+.project-list-table-appear.project-list-table-appear-active {
+  opacity: 1;
+  transform:translateX(0px);
+  transition: all 0.5s ease-in;
+}
+
+.project-list-card-appear {
+  opacity: 0;
+  transform:translateX(-100px)
+}
+
+.project-list-card-appear.project-list-card-appear-active {
+  opacity: 1;
+  transform:translateX(0px);
+  transition: all 0.5s ease-in;
+}
