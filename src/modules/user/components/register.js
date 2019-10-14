@@ -3,6 +3,7 @@ import './css/style.css'
 import {
   Input, Form, Button
 } from 'antd'
+import checkError from '../../../libraries/CheckError'
 import loginImg from './../../../assets/images/login.svg'
 
 class Register extends React.Component {
@@ -17,11 +18,20 @@ class Register extends React.Component {
 
   async handleOnSubmit (e) {
     e.preventDefault()
-    const { form, registerAccount } = this.props
+    this.setState({ loading: true })
+    const { form, registerAccount, history, onLoading } = this.props
     form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
+        onLoading()
         const result = await registerAccount(values)
-        console.log('======== Bao Minh debug :>: Register -> handleOnSubmit -> result', result)
+        console.log('======== Bao Minh: handleOnSubmit -> result', result)
+        if (result) {
+          const errors = result.error
+          onLoading()
+          checkError(errors.error)
+        } else {
+          history.push('/confirm-email')
+        }
       }
     })
   }
@@ -34,7 +44,7 @@ class Register extends React.Component {
   compareToFirstPassword (rule, value, callback) {
     const { form } = this.props
     if (value && value !== form.getFieldValue('password')) {
-      callback()
+      callback('Two passwords that you enter is inconsistent!')
     } else {
       callback()
     }
@@ -116,7 +126,7 @@ class Register extends React.Component {
               })(<Input.Password />)}
             </Form.Item>
             <Form.Item label='Comfirm Password' hasFeedback>
-              {getFieldDecorator('confirm', {
+              {getFieldDecorator('confirmed', {
                 rules: [
                   {
                     required: true,
@@ -131,13 +141,6 @@ class Register extends React.Component {
             <Button className='Login' type='primary' htmlType='submit' style={{ width: '100%' }}>Register</Button>
           </Form>
         </div>
-        {/* <a href='#' className='Login'>
-          <span />
-          <span />
-          <span />
-          <span />
-          Register
-        </a> */}
       </div>
     )
   }
