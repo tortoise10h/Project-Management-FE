@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import './css/project.css'
+import './css/transition.css'
 import ProjectList from './ProjectList'
 import AddProject from './AddProject'
-import { Button, Pagination, Row, Col, Typography, Form, Select, Input, Icon, Empty } from 'antd'
+import { Button, Pagination, Row, Col, Typography, Form, Select, Input, Icon } from 'antd'
 import ButtonGroup from 'antd/lib/button/button-group'
+import TableMode from './TableMode'
 
 const { Option } = Select
 const { Title } = Typography
@@ -21,6 +23,7 @@ class ProjectListModal extends Component {
     this.handlePaging = this.handlePaging.bind(this)
     this.handleView = this.handleView.bind(this)
     this.handleGetProjectList = this.handleGetProjectList.bind(this)
+    this.handleToggleFavorite = this.handleToggleFavorite.bind(this)
   }
 
   async handleGetProjectList (value) {
@@ -34,7 +37,12 @@ class ProjectListModal extends Component {
     })
   }
 
-  componentDidMount () {
+  async handleToggleFavorite (projectId, favorite) {
+    const { toggleFavorite, user } = this.props
+    await toggleFavorite(user.id, projectId, favorite)
+  }
+
+  async componentDidMount () {
     const { currentPage } = this.state
     this.handleGetProjectList(currentPage)
   }
@@ -47,13 +55,14 @@ class ProjectListModal extends Component {
   }
 
   handleView () {
+    const { currentPage } = this.state
     this.setState({
       view: !this.state.view
     })
+    this.handleGetProjectList(currentPage)
   }
 
   render () {
-    console.log('project list model -> render -> this.props', this.props)
     const searchInput = (
       <span>
         <Input
@@ -69,8 +78,8 @@ class ProjectListModal extends Component {
         </Select>
       </span>
     )
-    const { createProject } = this.props
-    const { currentPage, totalRecord, offset } = this.state
+    const { createProject, history } = this.props
+    const { currentPage, totalRecord, offset, view } = this.state
     const data = this.state.projects
     return (
       <div>
@@ -96,26 +105,41 @@ class ProjectListModal extends Component {
         </Row>
         <Row style={{ marginBottom: 20 }}>
           <Col lg={{ span: 4, offset: 20 }}>
-            <ButtonGroup style={{ float: 'right' }}>
+            <ButtonGroup className='change-view' style={{ float: 'right' }}>
               <Button icon='table' size='large' disabled={this.state.view} onClick={this.handleView} />
               <Button icon='unordered-list' size='large' disabled={!this.state.view} onClick={this.handleView} />
             </ButtonGroup>
           </Col>
         </Row>
-        <Row gutter={50}>
-          <ProjectList
-            history={this.props.history}
-            projects={data} min={this.state.minValue}
-            max={this.state.maxValue}
-            id={this.props.match.params.id}
+        { view
+          ? <>
+            <Row gutter={50}>
+              <ProjectList
+                history={history}
+                onFavorite={this.handleToggleFavorite}
+                projects={data}
+                min={this.state.minValue}
+                max={this.state.maxValue}
+              />
+            </Row>
+            <Pagination
+              current={currentPage}
+              pageSize={offset}
+              onChange={this.handlePaging}
+              total={totalRecord}
+            />
+          </>
+          : <TableMode
+            projects={data}
+            pagination={{
+              pageSize: offset,
+              total: totalRecord,
+              current: currentPage
+            }}
+            onFavorite={this.handleToggleFavorite}
+            onPaging={this.handlePaging}
           />
-        </Row>
-        <Pagination
-          current={currentPage}
-          pageSize={offset}
-          onChange={this.handlePaging}
-          total={totalRecord}
-        />
+        }
       </div>
     )
   }

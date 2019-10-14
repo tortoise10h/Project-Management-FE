@@ -39,7 +39,7 @@ class AddProject extends Component {
     form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
         const result = await createProject(values)
-        if (result) {
+        if (result.data) {
           notification.success({
             message: 'Create project successfully'
           })
