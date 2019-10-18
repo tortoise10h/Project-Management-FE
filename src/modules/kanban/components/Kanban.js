@@ -9,6 +9,7 @@ import BananaTrelloCardForm from './BananaTrelloCardForm'
 import BananaTrelloLaneForm from './BananaTrelloLaneForm'
 import BananaTrelloAddCard from './BananaTrelloAddCard'
 import BananaTrelloLaneSection from './BananaTrelloLaneSection'
+import CheckError from '../../../libraries/CheckError'
 
 class Kanban extends React.Component {
   constructor (props) {
@@ -18,7 +19,9 @@ class Kanban extends React.Component {
         lanes: []
       }
     }
-
+    notification.config({
+      placement: 'topRight'
+    })
     this.getKanbanData = this.getKanbanData.bind(this)
     this.addNewColumn = this.addNewColumn.bind(this)
     this.addNewTask = this.addNewTask.bind(this)
@@ -31,16 +34,14 @@ class Kanban extends React.Component {
     const result = await addColumn(projectId, {
       title: params.title
     })
-    if (result) {
+    if (result.success !== false) {
       notification.success({
         message: 'Add new column successfully'
       })
-      await this.getKanbanData(projectId)
     } else {
-      notification.error({
-        message: 'Server error'
-      })
+      CheckError(result.error.error)
     }
+    await this.getKanbanData(projectId)
   }
 
   async updateColumn (columnId, params) {
