@@ -2,7 +2,9 @@ import { fetchAuthLoading } from '../../common/effects'
 import { ENDPOINTS, LIMIT } from './models'
 import {
   setTasks,
-  setKanbanInfo
+  setKanbanInfo,
+  setUserRole,
+  setProjectInfo
 } from './actions'
 
 export default (dispatch, props) => ({
@@ -19,7 +21,6 @@ export default (dispatch, props) => ({
         return result.data
       }
     } catch (error) {
-      console.log('======== Bao Minh: error', error.response)
       return { success: false, message: 'Server Error' }
     }
   },
@@ -47,6 +48,34 @@ export default (dispatch, props) => ({
       })
       if (result) {
         dispatch(setKanbanInfo(result.data))
+        return result.data
+      }
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  getUserRole: async (projectId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getUserRole(projectId)}`,
+        method: 'GET'
+      })
+      if (result) {
+        dispatch(setUserRole(result.data))
+        return result.data
+      }
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  getProjectInfo: async (projectId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getProjectInfo(projectId)}`,
+        method: 'GET'
+      })
+      if (result) {
+        dispatch(setProjectInfo(result.data))
         return result.data
       }
     } catch (error) {

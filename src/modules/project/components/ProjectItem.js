@@ -147,7 +147,7 @@ export default class ProjectItem extends Component {
                 {
                   Users && Users.slice(0, 3).map((user) => (
                     <Col span={span} key={user.id}>
-                      <Popover style={{ textAlign: 'center' }} placement='bottom' title={<Text strong>{user.name}</Text>} content='Programing Developer'>
+                      <Tooltip placement='top' title={user.name}>
                         <img
                           alt=''
                           src={user.photo_location || require('./../../../assets/images/landingpage/user/avatar1.png')}
@@ -159,7 +159,7 @@ export default class ProjectItem extends Component {
                             borderRadius: '50%'
                           }}
                         />
-                      </Popover>
+                      </Tooltip>
                     </Col>
                   ))
                 }

@@ -144,8 +144,10 @@ class Kanban extends React.Component {
   }
 
   async getKanbanData () {
-    const { getKanbanInfo, projectId } = this.props
+    const { getKanbanInfo, getUserRole, getProjectInfo, projectId } = this.props
     const kanbanInfo = await getKanbanInfo(projectId)
+    getUserRole(projectId)
+    getProjectInfo(projectId)
     /** Define allColumnsInfo as an object because react-trello takes lanes property to use */
     const allColumnsInfo = {}
     allColumnsInfo.lanes = kanbanInfo.map((column) => {
