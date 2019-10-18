@@ -10,6 +10,11 @@ import ConfirmSuccess from './../pages/ConfirmSuccess'
 import KanbanPage from './../pages/KanbanPage'
 
 export default class Routes extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+
   render () {
     const { store } = this.props
     let { user } = store.getState()
@@ -25,9 +30,10 @@ export default class Routes extends Component {
         </Switch>
       )
     }
+    /** Case user is login */
     if (user && user.user) {
       return (
-        <MainLayout mode='1'>
+        <MainLayout>
           <Switch>
             <Route key='' path='/project' exact component={ProjectListModal} />
             <Route key='' path='/project-kanban/:id' exact component={KanbanPage} />
@@ -36,16 +42,6 @@ export default class Routes extends Component {
         </MainLayout>
       )
     }
-    /** Case user is login */
-    // if (user.user.user_type_id === 1 && user.user.admin_id) {
-    //   return (
-    //     <MainLayout mode='1'>
-    //       <Switch>
-    //         <Route path='/' exact component={UnderContruct} />
-    //       </Switch>
-    //     </MainLayout>
-    //   )
-    // }
     return <Route path='*' exact component={UnderContruct} />
   }
 }

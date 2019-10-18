@@ -9,6 +9,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 
 const mapStateToProps = (state, props) => {
   return {
+    user: state.user.user
   }
 }
 

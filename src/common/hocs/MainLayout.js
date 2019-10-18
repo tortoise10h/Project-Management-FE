@@ -2,11 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import './css/style.css'
-import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Input, Badge, Typography } from 'antd'
+import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Input, Badge, Typography, Tooltip } from 'antd'
 import storeAccessible from '../utils/storeAccessible'
 import { clearAll } from '../actions/common'
+import { Link } from 'react-router-dom'
+import {
+  setKanbanInfo,
+  setUserRole,
+  setProjectInfo
+} from '../../modules/kanban/actions'
+// import { setKanbanInfo, clearAll } from './../../modules/kanban/actions'
 
-const { Text } = Typography
+const { Text, Title } = Typography
 const { Header, Content, Sider } = Layout
 const { SubMenu } = Menu
 
@@ -24,65 +31,206 @@ class MenuPage extends React.Component {
       sidebarWidth: 260
     }
     this.MENUS = []
-    if (props.user && props.user.user_type_id === 3 && props.user.jobSeekerOfUser) {
-      this.setMenus(props.mode, props.user.jobSeekerOfUser.type)
+    if (props.kanban.user && props.kanban.user.id) {
+      this.handleToggle()
+      switch (props.kanban.user.role) {
+        case 'Admin':
+          this.setMenus('1', props.kanban.project)
+          break
+        default:
+          this.setMenus('2', props.kanban.project)
+      }
     } else {
-      this.setMenus(props.mode)
+      this.setMenus('10')
     }
+    this.setHeader = this.setHeader.bind(this)
     this.handleToggle = this.handleToggle.bind(this)
     this.handleChangePage = this.handleChangePage.bind(this)
     this.handleOnSelectMenuItem = this.handleOnSelectMenuItem.bind(this)
   }
 
-  setMenus (mode, type) {
+  setMenus (mode, value) {
     switch (mode) {
+      // When USER click to a project
       case '1':
         this.MENUS = [
           {
-            key: 'dashboard',
-            title: (
-              <span>
-                <Icon type='bar-chart' style={{ fontSize: 20 }} />
-                <span>
-                  Dashboard
-                </span>
-              </span>
-            )
-          },
+            key: 'project',
+            title: value.title,
+            children: [
+              {
+                key: `project-kanban/${value.id}`,
+                title: (
+                  <span>
+                    <Icon type='schedule' style={{ fontSize: 20 }} />
+                    <span>
+                      Kanban
+                    </span>
+                  </span>
+                )
+              },
+              {
+                key: 'setting',
+                title: (
+                  <span>
+                    <Icon type='setting' style={{ fontSize: 20 }} />
+                    <span>
+                      Setting
+                    </span>
+                  </span>
+                ),
+                children: [
+                  {
+                    key: 'setting-members',
+                    title: (
+                      <span>
+                        <Icon type='team' style={{ fontSize: 20 }} />
+                        <span>
+                          Members
+                        </span>
+                      </span>
+                    )
+                  },
+                  {
+                    key: 'setting-label',
+                    title: (
+                      <span>
+                        <Icon type='bars' style={{ fontSize: 20 }} />
+                        <span>
+                          Labels
+                        </span>
+                      </span>
+                    )
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+        break
+      // USER IN PROJECT IS MEMBER
+      case '2':
+        this.MENUS = [
           {
             key: 'project',
-            title: (
-              <span>
-                <Icon type='project' style={{ fontSize: 20 }} />
-                <span>
-                  My Projects
-                </span>
-              </span>
-            )
+            title: value.title,
+            children: [
+              {
+                key: `project-kanban/${value.id}`,
+                title: (
+                  <span>
+                    <Icon type='schedule' style={{ fontSize: 20 }} />
+                    <span>
+                      Kanban
+                    </span>
+                  </span>
+                )
+              }
+            ]
           }
         ]
         break
       default:
-        this.MENUS = [
-          {
-            key: 'dashboard',
-            title: (
-              <span>
-                <Icon type='home' />
-                <span>Dashboard</span>
-              </span>
-            )
-          }
-        ]
+        this.MENUS = []
+        break
+    }
+  }
+
+  setHeader (project, user) {
+    if (project && project.id) {
+      return (
+        <Row type='flex' justify='center' align='middle'>
+          <Col span={12}>
+            <img
+              alt=''
+              src={project.photo_location || require('./../../assets/images/project_img.jpg')}
+              className='user-project'
+              style={{
+                float: 'left',
+                width: 40,
+                height: 40,
+                backgroundColor: '#64CCBD',
+                borderRadius: '50%',
+                marginRight: 10
+              }}
+            />
+            <Title level={4} style={{ paddingTop: 7 }}>
+              {project.title}
+            </Title>
+          </Col>
+          <Col
+            span={12}
+            style={{
+              borderLeft: '2px solid #e8e8e8',
+              borderRight: '2px solid #e8e8e8'
+            }}
+          >
+            <Row type='flex' justify='center' align='middle'>
+              {
+                project.Users.slice(0, 2).map((user) => (
+                  <Col span={6} key={user.id}>
+                    <Tooltip placement='bottom' title={user.name}>
+                      <img
+                        alt=''
+                        src={user.photo_location || require('./../../assets/images/landingpage/user/avatar2.png')}
+                        className='user-project'
+                        style={{
+                          width: 40,
+                          height: 40,
+                          backgroundColor: '#64CCBD',
+                          borderRadius: '50%'
+                        }}
+                      />
+                    </Tooltip>
+                  </Col>
+                ))
+              }
+              {
+                user.id && user.role === 'Admin'
+                  ? (
+                    <Col span={6} key={project.Users.length}>
+                      <Link to='/setting-members'>
+                        <Tooltip placement='bottom' title='Add member'>
+                          <Icon
+                            type='plus'
+                            style={{
+                              width: 40,
+                              height: 40,
+                              backgroundColor: '#64CCBD',
+                              borderRadius: '50%',
+                              verticalAlign: 'middle',
+                              fontSize: 20,
+                              lineHeight: 2.17,
+                              color: '#ffff',
+                              cursor: 'pointer'
+                            }}
+                          />
+                        </Tooltip>
+                      </Link>
+                    </Col>
+                  )
+                  : ''
+              }
+            </Row>
+          </Col>
+        </Row>
+      )
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    const { user, mode } = nextProps
-    if (user && user.user_type_id === 3 && user.jobSeekerOfUser) {
-      this.setMenus(mode, user.jobSeekerOfUser.type)
+    const { kanban } = nextProps
+    if (kanban.user && kanban.user.id) {
+      switch (kanban.user.role) {
+        case 'Admin':
+          this.setMenus('1', kanban.project)
+          break
+        default:
+          this.setMenus('2', kanban.project)
+      }
+      this.handleToggle(true)
     } else {
-      this.setMenus(mode)
+      this.setMenus('10')
     }
   }
 
@@ -92,21 +240,31 @@ class MenuPage extends React.Component {
     history.push(item.redirect)
   }
 
-  handleToggle () {
+  handleToggle (value) {
     let { collapsed } = this.state
-    collapsed = !collapsed
+    collapsed = value || !collapsed
     const sidebarWidth = collapsed ? 80 : 260
     this.setState({ collapsed, sidebarWidth })
   }
 
   handleOnSelectMenuItem (value) {
-    const { history } = this.props
+    const { history, kanban } = this.props
     switch (value.key) {
       case 'logout':
         storeAccessible.dispatch(clearAll())
         setTimeout(() => {
           window.location.href = '/'
         }, 200)
+        break
+      case 'project':
+      case 'dashboard':
+      case 'profile':
+        if (kanban) {
+          storeAccessible.dispatch(setKanbanInfo({}))
+          storeAccessible.dispatch(setUserRole({}))
+          storeAccessible.dispatch(setProjectInfo({}))
+        }
+        history.push(`/${value.key}`)
         break
       default:
         history.push(`/${value.key}`)
@@ -116,7 +274,7 @@ class MenuPage extends React.Component {
 
   render () {
     const { collapsed, sidebarWidth } = this.state
-    const { children, history: { location }, user } = this.props
+    const { children, history: { location }, user, kanban } = this.props
     let name = user.name.split(' ')
     name = name[name.length - 1]
     if (FULL_PAGES.includes(location.pathname)) {
@@ -132,7 +290,6 @@ class MenuPage extends React.Component {
     return (
       <Layout style={{ minHeight: '100vh' }} id='components-layout-demo-side'>
         <Sider
-          // {...this.state.width < 700 ? 'breakpoint='lg' collapsedWidth='0'' : '' }
           className='side-bar'
           theme='light'
           width={sidebarWidth}
@@ -160,29 +317,49 @@ class MenuPage extends React.Component {
             selectedKeys={[this.props.location.pathname.replace('/', '')]}
             mode='inline'
           >
-            <Menu.ItemGroup title={
-              <span style={collapsed ? { display: 'none' } : { display: 'block' }}>PROJECTS</span>
-            }
+            {this.MENUS.map(items => {
+              return (
+                <Menu.ItemGroup
+                  key={items.key}
+                  title={
+                    <span style={collapsed ? { display: 'none' } : { display: 'block' }}>{items.title}</span>
+                  }
+                >
+                  {items.children.map(item => {
+                    if (item.children) {
+                      return (
+                        <SubMenu
+                          key={item.key}
+                          title={item.title}
+                        >
+                          {item.children.map(child => {
+                            return <Menu.Item key={child.key}>{child.title}</Menu.Item>
+                          })}
+                        </SubMenu>
+                      )
+                    }
+                    return (
+                      <Menu.Item key={item.key}>
+                        {item.title}
+                      </Menu.Item>
+                    )
+                  })}
+                </Menu.ItemGroup>
+              )
+            })}
+            <Menu.ItemGroup
+              title={
+                <span style={collapsed ? { display: 'none' } : { display: 'block' }}>PROJECTS</span>
+              }
             >
-              {this.MENUS.map(item => {
-                if (item.children) {
-                  return (
-                    <SubMenu
-                      key={item.key}
-                      title={item.title}
-                    >
-                      {item.children.map(child => {
-                        return <Menu.Item key={child.key}>{child.title}</Menu.Item>
-                      })}
-                    </SubMenu>
-                  )
-                }
-                return (
-                  <Menu.Item key={item.key}>
-                    {item.title}
-                  </Menu.Item>
-                )
-              })}
+              <Menu.Item key='dashboard'>
+                <Icon type='bar-chart' />
+                <span>Dashboard</span>
+              </Menu.Item>
+              <Menu.Item key='project'>
+                <Icon type='project' />
+                <span>My projects</span>
+              </Menu.Item>
             </Menu.ItemGroup>
             <Menu.ItemGroup
               title={
@@ -193,7 +370,6 @@ class MenuPage extends React.Component {
                 <Icon type='user' />
                 <span>Profile</span>
               </Menu.Item>
-              {/* <Menu.Divider /> */}
               <Menu.Item key='logout'>
                 <Icon type='logout' />
                 <span>Sign out</span>
@@ -202,39 +378,13 @@ class MenuPage extends React.Component {
           </Menu>
         </Sider>
         <Layout style={{ marginLeft: sidebarWidth, transition: 'all 0.2s' }}>
-          <Header className='menuBar' style={{ width: 'calc(100% - ' + sidebarWidth + 'px)', padding: 16, position: 'fixed', zIndex: 10, transition: 'all 0.2s', boxShadow: '0 3px 8px -6px rgba(0,0,0,0.44)' }}>
-            <Row type='flex'>
+          <Header className='menuBar' style={{ width: 'calc(100% - ' + sidebarWidth + 'px)', padding: 0, position: 'fixed', zIndex: 10, transition: 'all 0.2s', boxShadow: '0 3px 8px -6px rgba(0,0,0,0.44)' }}>
+            <Row type='flex' justify='center' align='middle'>
               <Col xs={{ span: 0 }} lg={{ span: 9, offset: 1 }} xl={{ span: 8, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
-                <Input
-                  className='nav-input-search'
-                  placeholder='Search...'
-                  allowClear
-                  style={{ width: '100%', margin: 0, border: 'none', float: 'left' }}
-                  size='large'
-                  prefix={<Icon type='search' className='btn-search' />}
-                />
-              </Col>
-              <Col xs={{ span: 2, offset: 10 }} lg={{ span: 0 }} className='btn-search-a right-menu-item'>
-
-                <Popover
-                  trigger='click' placement='bottom' content={
-                    <Input.Search
-                      placement='leftBottom'
-                      placeholder='Search...'
-                      allowClear
-                      style={{ width: 500 }}
-                      onSearch={value => console.log(value)}
-                    />
-                  }
-                >
-                  <div className='circle-base notification'>
-                    <Icon type='search' className='btn-notice' style={{ fontSize: 20 }} />
-                  </div>
-                </Popover>
+                {this.setHeader(kanban.project, kanban.user)}
               </Col>
               <Col xs={{ span: 2 }} lg={{ span: 1, offset: 7 }} xl={{ span: 1, offset: 10 }} xxl={{ span: 1, offset: 910 }} className='right-menu-item'>
                 <Popover
-                  // content={<Notification />}
                   trigger='click' placement='bottom'
                 >
                   <Badge dot>
@@ -301,6 +451,7 @@ class MenuPage extends React.Component {
 
 export default connect((state) => {
   return {
+    kanban: state.kanban,
     user: state.user.user
   }
 })(withRouter(MenuPage))
