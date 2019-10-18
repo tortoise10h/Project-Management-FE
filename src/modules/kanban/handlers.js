@@ -21,7 +21,10 @@ export default (dispatch, props) => ({
         return result.data
       }
     } catch (error) {
-      return { success: false, message: 'Server Error' }
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
     }
   },
   updateColumn: async (columnId, data) => {
