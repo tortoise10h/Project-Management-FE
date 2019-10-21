@@ -28,11 +28,13 @@ class MenuPage extends React.Component {
     super(props)
     this.state = {
       collapsed: false,
-      sidebarWidth: 260
+      sidebarWidth: 260,
+      collapsedWidth: 80,
+      breakpoint: false
     }
     this.MENUS = []
     if (props.kanban.user && props.kanban.user.id) {
-      this.handleToggle()
+      this.handleToggle(true)
       switch (props.kanban.user.role) {
         case 'Admin':
           this.setMenus('1', props.kanban.project)
@@ -243,12 +245,13 @@ class MenuPage extends React.Component {
   handleToggle (value) {
     let { collapsed } = this.state
     collapsed = value || !collapsed
-    const sidebarWidth = collapsed ? 80 : 260
+    const sidebarWidth = collapsed ? this.state.collapsedWidth : 260
     this.setState({ collapsed, sidebarWidth })
   }
 
   handleOnSelectMenuItem (value) {
     const { history, kanban } = this.props
+    const { breakpoint } = this.state
     switch (value.key) {
       case 'logout':
         storeAccessible.dispatch(clearAll())
@@ -270,10 +273,16 @@ class MenuPage extends React.Component {
         history.push(`/${value.key}`)
         break
     }
+    console.log('=========> TuLinh Debug: >: MenuPage -> handleOnSelectMenuItem -> breakpoint', breakpoint)
+    if (breakpoint === true) {
+      this.setState({
+        collapsed: true
+      })
+    }
   }
 
   render () {
-    const { collapsed, sidebarWidth } = this.state
+    const { collapsed, sidebarWidth, breakpoint, collapsedWidth } = this.state
     const { children, history: { location }, user, kanban } = this.props
     let name = user.name.split(' ')
     name = name[name.length - 1]
@@ -290,6 +299,15 @@ class MenuPage extends React.Component {
     return (
       <Layout style={{ minHeight: '100vh' }} id='components-layout-demo-side'>
         <Sider
+          breakpoint='lg'
+          onBreakpoint={broken => {
+            this.setState({
+              collapsedWidth: broken ? 0 : 80,
+              sidebarWidth: broken ? collapsedWidth : 260,
+              breakpoint: broken
+            })
+          }}
+          collapsedWidth={collapsedWidth}
           className='side-bar'
           theme='light'
           width={sidebarWidth}
@@ -297,7 +315,6 @@ class MenuPage extends React.Component {
           collapsed={collapsed}
           onCollapse={this.handleToggle}
           style={{
-            overflow: 'auto',
             height: '100vh',
             minHeight: 'auto',
             position: 'fixed',
@@ -377,9 +394,9 @@ class MenuPage extends React.Component {
             </Menu.ItemGroup>
           </Menu>
         </Sider>
-        <Layout style={{ marginLeft: sidebarWidth, transition: 'all 0.2s' }}>
-          <Header className='menuBar' style={{ width: 'calc(100% - ' + sidebarWidth + 'px)', padding: 0, position: 'fixed', zIndex: 10, transition: 'all 0.2s', boxShadow: '0 3px 8px -6px rgba(0,0,0,0.44)' }}>
-            <Row type='flex' justify='center' align='middle'>
+        <Layout style={{ marginLeft: breakpoint ? 0 : sidebarWidth, transition: 'all 0.2s' }}>
+          <Header className='menuBar' style={{ width: breakpoint ? '100%' : 'calc(100% - ' + sidebarWidth + 'px)', padding: 0, position: 'fixed', zIndex: 10, transition: 'all 0.2s', boxShadow: '0 3px 8px -6px rgba(0,0,0,0.44)' }}>
+            <Row type='flex'>
               <Col xs={{ span: 0 }} lg={{ span: 9, offset: 1 }} xl={{ span: 8, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
                 {this.setHeader(kanban.project, kanban.user)}
               </Col>
