@@ -258,7 +258,7 @@ class MenuPage extends React.Component {
         break
       case 'project':
       case 'dashboard':
-      case 'profile':
+      case `profile/${kanban.user.id}`:
         if (kanban) {
           storeAccessible.dispatch(setKanbanInfo({}))
           storeAccessible.dispatch(setUserRole({}))
