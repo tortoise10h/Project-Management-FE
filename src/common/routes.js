@@ -9,6 +9,7 @@ import RegisterModalPage from './../pages/RegisterModalPage'
 import ConfirmEmail from './../pages/ConfirmEmail'
 import ConfirmSuccess from './../pages/ConfirmSuccess'
 import KanbanPage from './../pages/KanbanPage'
+import MembersMenu from './../modules/Members/containers/MembersMenu'
 
 export default class Routes extends Component {
   constructor (props) {
@@ -39,6 +40,7 @@ export default class Routes extends Component {
             <Route key='' path='/project' exact component={ProjectListModal} />
             <Route key='' path='/project-kanban/:id' exact component={KanbanPage} />
             <Route key='' path='/profile/:id' exact component={UserProfile} />
+            <Route key='' path='/setting-members' exact component={MembersMenu} />
             <Route component={UnderContruct} />
           </Switch>
         </MainLayout>

@@ -13,6 +13,7 @@ import {
 } from '../../modules/kanban/actions'
 import MenuItem from 'antd/lib/menu/MenuItem'
 import DrawerLayout from '../../modules/kanban/components/DrawerLayout'
+import ContentPopover from '../../modules/Members/containers/Members'
 // import { setKanbanInfo, clearAll } from './../../modules/kanban/actions'
 
 const { Text, Title } = Typography
@@ -252,24 +253,34 @@ class MenuPage extends React.Component {
                 user.id && user.role === 'Admin'
                   ? (
                     <Col span={6} key={project.Users.length}>
-                      <Link to='/setting-members'>
-                        <Tooltip placement='bottom' title='Add member'>
-                          <Icon
-                            type='plus'
-                            style={{
-                              width: 40,
-                              height: 40,
-                              backgroundColor: '#64CCBD',
-                              borderRadius: '50%',
-                              verticalAlign: 'middle',
-                              fontSize: 20,
-                              lineHeight: 2.17,
-                              color: '#ffff',
-                              cursor: 'pointer'
-                            }}
-                          />
-                        </Tooltip>
-                      </Link>
+                      {/* <Link to='/setting-members'> */}
+                      <div>
+                        <Popover
+                          style={{ height: 500 }}
+                          placement='bottom'
+                          title='Invite To Board'
+                          content={<ContentPopover history={this.props.history} />}
+                          trigger='click'
+                        >
+                          <Tooltip placement='bottom' title='Add member'>
+                            <Icon
+                              type='plus'
+                              style={{
+                                width: 40,
+                                height: 40,
+                                backgroundColor: '#64CCBD',
+                                borderRadius: '50%',
+                                verticalAlign: 'middle',
+                                fontSize: 20,
+                                lineHeight: 2.17,
+                                color: '#ffff',
+                                cursor: 'pointer'
+                              }}
+                            />
+                          </Tooltip>
+                        </Popover>
+                      </div>
+                      {/* </Link> */}
                     </Col>
                   )
                   : ''
