@@ -3131,3 +3131,26 @@ button.button {
 /* Custom end
 ============================================================================================ */
 /*# sourceMappingURL=style.css.map */
+
+
+/* Start css Go Top */
+
+.scroll {
+  opacity: 0.9;
+  background-color: #64CCBD;
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  border-radius: 5px;
+  border: none;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.scroll:hover {
+  opacity: 1;
+}
+
+/* End css Go Top */

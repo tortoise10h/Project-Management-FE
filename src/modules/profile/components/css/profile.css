@@ -40,7 +40,7 @@
 }
 .container-profile .ant-typography {
   margin-bottom: 10px !important;
-  color: rgba(0, 0, 0, 0.85) !important;
+  color: rgba(0, 0, 0, 0.85);
 }
 
 .location-icon {

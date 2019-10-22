@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { Link } from 'react-router-dom'
 import './css/landingpage.css'
 import './css/kapan.css'
+import GoTop from './GoToTop'
 
 // Import Image
 import LogoBanana from './../../assets/images/landingpage/logo-banana.png'
@@ -448,6 +449,7 @@ export default class LandingPage extends Component {
           </div>
         </Footer>
         {/* ================ End footer Area ================= */}
+        <GoTop scrollStepInPx='50' delayInMs='30' />
       </Layout>
     )
   }
