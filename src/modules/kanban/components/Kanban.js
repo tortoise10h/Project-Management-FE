@@ -65,11 +65,14 @@ class Kanban extends React.Component {
     const { data } = this.state
     const { lanes } = data
     const toColumnObject = lanes[lanes.findIndex(val => val.id === toLaneId)]
-    let newIndexOfTasksInToColumn
+    const fromColumnObject = lanes[lanes.findIndex(val => val.id === fromLaneId)]
+
+    let toColumnTasks
+    let fromColumnTasks
     if (fromLaneId !== toLaneId) {
       /** If move task between 2 different columns */
       /** Generate new index of toLane column to make new space for new task */
-      newIndexOfTasksInToColumn = toColumnObject.cards.map((task) => {
+      toColumnTasks = toColumnObject.cards.map((task) => {
         const taskWithNewIndex = {
           id: task.id
         }
@@ -85,12 +88,25 @@ class Kanban extends React.Component {
         }
         return taskWithNewIndex
       })
+
+      /** Generate new index of toLane column to make new space for new task */
+      fromColumnTasks = fromColumnObject.cards.map((task) => {
+        const taskWithNewIndex = {
+          id: task.id
+        }
+        if (task.index >= newIndex) {
+          taskWithNewIndex.index = ++task.index
+        } else {
+          taskWithNewIndex.index = task.index
+        }
+        return taskWithNewIndex
+      })
     } else {
       /** If move task inside one column */
       /** Remove moved task in column tasks list to generate new index */
       toColumnObject.cards.splice(toColumnObject.cards.findIndex(val => val.id === taskId), 1)
 
-      newIndexOfTasksInToColumn = toColumnObject.cards.map((task, index) => {
+      toColumnTasks = toColumnObject.cards.map((task, index) => {
         /** min index in DB is 1, so increase array index by 1 */
         index++
         const taskWithNewIndex = {
@@ -113,8 +129,8 @@ class Kanban extends React.Component {
       index: newIndex
     })
     /** If user moved task then update tasks in column index to show correct order */
-    if (newIndexOfTasksInToColumn.length > 0) {
-      await updateTaskIndex(newIndexOfTasksInToColumn)
+    if (toColumnTasks.length > 0) {
+      await updateTaskIndex(toColumnTasks)
     }
     if (result) {
       await this.getKanbanData(projectId)
