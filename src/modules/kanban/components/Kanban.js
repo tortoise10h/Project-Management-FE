@@ -89,15 +89,15 @@ class Kanban extends React.Component {
         return taskWithNewIndex
       })
 
-      /** Generate new index of toLane column to make new space for new task */
-      fromColumnTasks = fromColumnObject.cards.map((task) => {
+      /** Generate new index of fromColumn because one task is gone */
+      /** Remove moved task in from column to generate new index */
+      fromColumnObject.cards.splice(fromColumnObject.cards.findIndex(val => val.id === taskId), 1)
+      fromColumnTasks = fromColumnObject.cards.map((task, index) => {
+        /** min index in DB is 1, so increase array index by 1 */
+        index++
         const taskWithNewIndex = {
-          id: task.id
-        }
-        if (task.index >= newIndex) {
-          taskWithNewIndex.index = ++task.index
-        } else {
-          taskWithNewIndex.index = task.index
+          id: task.id,
+          index
         }
         return taskWithNewIndex
       })
@@ -130,7 +130,11 @@ class Kanban extends React.Component {
     })
     /** If user moved task then update tasks in column index to show correct order */
     if (toColumnTasks.length > 0) {
-      await updateTaskIndex(toColumnTasks)
+      let tasksToUpdateIndex = [...toColumnTasks]
+      if (fromColumnTasks && fromColumnTasks.length > 0) {
+        tasksToUpdateIndex = [...tasksToUpdateIndex, ...fromColumnTasks]
+      }
+      await updateTaskIndex(tasksToUpdateIndex)
     }
     if (result) {
       await this.getKanbanData(projectId)
