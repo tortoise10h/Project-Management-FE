@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import './css/style.css'
-import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Input, Badge, Typography, Tooltip } from 'antd'
+import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip, Tabs } from 'antd'
 import storeAccessible from '../utils/storeAccessible'
 import { clearAll } from '../actions/common'
 import { Link } from 'react-router-dom'
@@ -11,10 +11,13 @@ import {
   setUserRole,
   setProjectInfo
 } from '../../modules/kanban/actions'
+import MenuItem from 'antd/lib/menu/MenuItem'
+import DrawerLayout from '../../modules/kanban/components/DrawerLayout'
 // import { setKanbanInfo, clearAll } from './../../modules/kanban/actions'
 
 const { Text, Title } = Typography
 const { Header, Content, Sider } = Layout
+const { TabPane } = Tabs
 const { SubMenu } = Menu
 
 notification.config({
@@ -30,7 +33,10 @@ class MenuPage extends React.Component {
       collapsed: false,
       sidebarWidth: 260,
       collapsedWidth: 80,
-      breakpoint: false
+      breakpoint: false,
+      // Drawer state
+      drawerContent: '',
+      popOverSettingVisible: false
     }
     this.MENUS = []
     if (props.kanban.user && props.kanban.user.id) {
@@ -49,6 +55,9 @@ class MenuPage extends React.Component {
     this.handleToggle = this.handleToggle.bind(this)
     this.handleChangePage = this.handleChangePage.bind(this)
     this.handleOnSelectMenuItem = this.handleOnSelectMenuItem.bind(this)
+    this.handleSettingKanban = this.handleSettingKanban.bind(this)
+    this.handleViewModeMobile = this.handleViewModeMobile.bind(this)
+    this.handlePopOverSettingVisibleChange = this.handlePopOverSettingVisibleChange.bind(this)
   }
 
   setMenus (mode, value) {
@@ -143,22 +152,58 @@ class MenuPage extends React.Component {
       return (
         <Row type='flex' justify='center' align='middle'>
           <Col span={12}>
-            <img
-              alt=''
-              src={project.photo_location || require('./../../assets/images/project_img.jpg')}
-              className='user-project'
-              style={{
-                float: 'left',
-                width: 40,
-                height: 40,
-                backgroundColor: '#64CCBD',
-                borderRadius: '50%',
-                marginRight: 10
-              }}
-            />
-            <Title level={4} style={{ paddingTop: 7 }}>
-              {project.title}
-            </Title>
+            <div>
+              <img
+                alt=''
+                src={project.photo_location || require('./../../assets/images/project_img.jpg')}
+                className='user-project'
+                style={{
+                  float: 'left',
+                  width: 40,
+                  height: 40,
+                  backgroundColor: '#64CCBD',
+                  borderRadius: '50%',
+                  marginRight: 10,
+                  marginTop: 10
+                }}
+              />
+              <Text style={{ paddingTop: 7, fontSize: 20, fontWeight: 'bold', textOverflow: 'ellipsis', overflow: 'hidden' }}>
+                {project.title}
+              </Text>
+              <Popover
+                placement='bottom'
+                title='Setting'
+                trigger='click'
+                visible={this.state.popOverSettingVisible}
+                onVisibleChange={this.handlePopOverSettingVisibleChange}
+                content={
+                  // Get setting menu item from main menu in side bar
+                  <Menu onClick={this.handleSettingKanban}>
+                    {
+                      this.MENUS[0].children.find(x => x.key === 'setting').children.map((item) => (
+                        <MenuItem key={item.key}>
+                          {item.title}
+                        </MenuItem>
+                      ))
+                    }
+                  </Menu>
+                }
+              >
+                <Tooltip placement='bottom' title='Setting'>
+                  <Icon
+                    className='kanban-settings'
+                    type='setting'
+                    style={{
+                      fontSize: 21,
+                      cursor: 'pointer',
+                      float: 'right',
+                      marginTop: 23,
+                      marginRight: 12
+                    }}
+                  />
+                </Tooltip>
+              </Popover>
+            </div>
           </Col>
           <Col
             span={12}
@@ -236,6 +281,10 @@ class MenuPage extends React.Component {
     }
   }
 
+  handlePopOverSettingVisibleChange (popOverSettingVisible) {
+    this.setState({ popOverSettingVisible })
+  }
+
   handleChangePage (e) {
     const { history } = this.props
     const item = this.MENUS.find(data => data.key === e.key)
@@ -247,6 +296,22 @@ class MenuPage extends React.Component {
     collapsed = value || !collapsed
     const sidebarWidth = collapsed ? this.state.collapsedWidth : 260
     this.setState({ collapsed, sidebarWidth })
+  }
+
+  handleSettingKanban (value) {
+    this.setState({
+      drawerContent: value ? value.key : null,
+      popOverSettingVisible: false
+    })
+  }
+
+  handleViewModeMobile (broken) {
+    const { collapsedWidth } = this.state
+    this.setState({
+      collapsedWidth: broken ? 0 : 80,
+      sidebarWidth: broken ? collapsedWidth : 260,
+      breakpoint: broken
+    })
   }
 
   handleOnSelectMenuItem (value) {
@@ -282,7 +347,7 @@ class MenuPage extends React.Component {
   }
 
   render () {
-    const { collapsed, sidebarWidth, breakpoint, collapsedWidth } = this.state
+    const { collapsed, sidebarWidth, collapsedWidth, breakpoint, drawerContent } = this.state
     const { children, history: { location }, user, kanban } = this.props
     let name = user.name.split(' ')
     name = name[name.length - 1]
@@ -396,11 +461,11 @@ class MenuPage extends React.Component {
         </Sider>
         <Layout style={{ marginLeft: breakpoint ? 0 : sidebarWidth, transition: 'all 0.2s' }}>
           <Header className='menuBar' style={{ width: breakpoint ? '100%' : 'calc(100% - ' + sidebarWidth + 'px)', padding: 0, position: 'fixed', zIndex: 10, transition: 'all 0.2s', boxShadow: '0 3px 8px -6px rgba(0,0,0,0.44)' }}>
-            <Row type='flex'>
-              <Col xs={{ span: 0 }} lg={{ span: 9, offset: 1 }} xl={{ span: 8, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
+            <Row type='flex' justify='center' align='middle'>
+              <Col xs={{ span: 0 }} lg={{ span: 12, offset: 1 }} xl={{ span: 10, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
                 {this.setHeader(kanban.project, kanban.user)}
               </Col>
-              <Col xs={{ span: 2 }} lg={{ span: 1, offset: 7 }} xl={{ span: 1, offset: 10 }} xxl={{ span: 1, offset: 910 }} className='right-menu-item'>
+              <Col xs={{ span: 2 }} lg={{ span: 1, offset: 5 }} xl={{ span: 1, offset: 8 }} xxl={{ span: 1, offset: 910 }} className='right-menu-item'>
                 <Popover
                   trigger='click' placement='bottom'
                 >
@@ -459,6 +524,11 @@ class MenuPage extends React.Component {
             }}
           >
             {children}
+            {/* ================ SETTING KANBAN ON MAINLAYOUT =============== */}
+            {
+              location.pathname === `/project-kanban/${kanban.project.id}`
+                ? <DrawerLayout content={drawerContent} onClose={this.handleSettingKanban} /> : null
+            }
           </Content>
         </Layout>
       </Layout>

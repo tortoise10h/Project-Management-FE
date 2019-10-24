@@ -1,3 +1,13 @@
+
+.kanban-settings{
+  color: #626262;
+  transition: ease-in;
+}
+
+.kanban-settings :hover{
+  color: #63ccbd;
+}
+
 .ant-input-affix-wrapper .ant-input:not(:first-child) {
     padding-left: 40px;
     border: none;
