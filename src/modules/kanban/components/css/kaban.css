@@ -23,6 +23,7 @@
   min-width: 240px;
   max-width: 316px;
   line-height: 18px;
+  position: relative;
 }
 .trello-card--labels {
   overflow: auto;
@@ -56,11 +57,11 @@
 }
 
 .trello-card:hover .trello-card--btn {
-  visibility: visible;
+  display: block;
 }
 
 .trello-card--btn {
-  visibility: hidden;
+  display: none;
   width: 25px;
   height: 25px;
   border-radius: 3px;

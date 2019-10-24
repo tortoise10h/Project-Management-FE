@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import { Row, Col, Icon, Popconfirm } from 'antd'
 
 class MyCard extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {}
+  }
+
   render () {
     const { title, onDelete } = this.props
     return (
