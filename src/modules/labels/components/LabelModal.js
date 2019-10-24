@@ -24,6 +24,7 @@ class LabelModal extends Component {
       '#9900EF'
     ]
     this.setLabel = this.setLabel.bind(this)
+    this.getLabel = this.getLabel.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeTitle = this.handleChangeTitle.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
@@ -47,12 +48,11 @@ class LabelModal extends Component {
   handleDelete () {}
 
   handleCancel () {
-    this.setLabel()
+    this.getLabel()
     this.handleVisible(false)
   }
 
   handleVisible (visible) {
-    if (!visible) this.setLabel()
     this.setState({ displayColorPicker: visible })
   }
 
@@ -62,6 +62,17 @@ class LabelModal extends Component {
 
   handleChangeTitle (e) {
     this.setState({ title: e.target.value })
+  }
+
+  async getLabel () {
+    const { getLabel, content: { id } } = this.props
+    const result = await getLabel(id)
+    if (result.id) {
+      this.setState({
+        color: result.color,
+        title: result.title
+      })
+    }
   }
 
   setLabel () {

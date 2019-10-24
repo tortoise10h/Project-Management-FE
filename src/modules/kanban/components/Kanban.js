@@ -5,6 +5,10 @@ import {
 import Board from 'react-trello'
 import './css/kaban.css'
 import MyCard from './MyCard'
+import BananaTrelloCardForm from './BananaTrelloCardForm'
+import BananaTrelloLaneForm from './BananaTrelloLaneForm'
+import BananaTrelloAddCard from './BananaTrelloAddCard'
+import BananaTrelloLaneSection from './BananaTrelloLaneSection'
 
 class Kanban extends React.Component {
   constructor (props) {
@@ -211,7 +215,13 @@ class Kanban extends React.Component {
             editLaneTitle
             canAddLanes
             editable
-            components={{ Card: MyCard }}
+            components={{
+              NewLaneForm: BananaTrelloLaneForm,
+              NewLaneSection: BananaTrelloLaneSection,
+              NewCardForm: BananaTrelloCardForm,
+              Card: MyCard,
+              AddCardLink: BananaTrelloAddCard
+            }}
             tagStyle={{ fontSize: '1em' }}
             onLaneAdd={(params) => this.addNewColumn(params)}
             onCardAdd={(card, laneId) => this.addNewTask(laneId, card)}
@@ -225,3 +235,4 @@ class Kanban extends React.Component {
 }
 
 export default Kanban
+
