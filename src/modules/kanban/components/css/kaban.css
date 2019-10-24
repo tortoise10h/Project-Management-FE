@@ -1,4 +1,150 @@
-.kaban {
+.kanban {
   font-family: sans-serif;
   text-align: center;
 }
+
+.smooth-dnd-container.vertical::-webkit-scrollbar {
+  width: 12px;
+	background-color: #F5F5F5;
+}
+.smooth-dnd-container.vertical::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+}
+
+/* ====================== CARD STYLE START ===========================*/
+.trello-card {
+  color: #4d4d4d;
+  text-decoration: none;
+  margin: 0px auto 8px auto;
+  /* Trello css */
+  font: 14px "Helvetica Neue",Arial,Helvetica,sans-serif;
+  min-width: 240px;
+  max-width: 316px;
+  line-height: 18px;
+}
+.trello-card--labels {
+  overflow: auto;
+  position: relative;
+}
+.trello-card--labels-text {
+  color: #fff;
+  background-color: #efefef;
+  border-radius: 4px;
+  display: block;
+  float: left;
+  font-size: 12px;
+  font-weight: 600;
+  height: 20px;
+  line-height: 20px;
+  margin: 0 4px 4px 0;
+  min-width: 40px;
+  max-width: 198px;
+  overflow: hidden;
+  padding: 0 6px;
+  position: relative;
+  text-overflow: ellipsis;
+  text-shadow: none;
+  width: auto;
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+}
+
+.trello-card:hover .trello-card--content {
+  background-color: #f4f5f7;
+}
+
+.trello-card:hover .trello-card--btn {
+  visibility: visible;
+}
+
+.trello-card--btn {
+  visibility: hidden;
+  width: 25px;
+  height: 25px;
+  border-radius: 3px;
+  position: absolute;
+  top: 5px;
+  left: 220px;
+  line-height: 25px;
+  color: #999999;
+  cursor: pointer;
+  transition: 0.2s ease;
+  z-index: 4;
+}
+
+.trello-card--btn:hover {
+  background: #dfdfdf;
+}
+
+.trello-card--content {
+  text-align: left;
+  background-color: #fff;
+  border-radius: 3px;
+  clear: both;
+  min-height: 20px;
+  padding: 6px 8px 6px;
+  display: block;
+  overflow: hidden;
+  word-wrap: break-word;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+}
+.trello-card--title {
+  color: #4d4d4d;
+  margin: 8px auto;
+}
+.trello-card--badges {
+  display: flex;
+  float: left;
+  max-width: 100%;
+  margin-top: 5px;
+}
+
+.trello-card--badges-item {
+  height: auto;
+  padding: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.trello-card--members {
+  margin-top: 5px;
+}
+.trello-card--members ul {
+  display: flex;
+  float: right;
+  list-style-type: none;
+}
+.trello-card--member {
+  border-radius: 50%;
+  background-color: #63ccbc;
+  display: block;
+  float: left;
+  height: 32px;
+  margin: 0 4px 4px 0;
+  overflow: hidden;
+  position: relative;
+  width: 32px;
+  user-select: none;
+}
+.trello-card--member img {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  object-fit: cover;
+}
+.trello-card--board-title {
+  align-items: center;
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding-top: 8px;
+}
+
+/* ====================== CARD STYLE END ===========================*/
