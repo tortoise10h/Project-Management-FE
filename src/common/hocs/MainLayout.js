@@ -151,25 +151,40 @@ class MenuPage extends React.Component {
     if (project && project.id) {
       return (
         <Row type='flex' justify='center' align='middle'>
-          <Col span={12}>
+          <Col lg={{ span: 16 }} xl={{ span: 12 }}>
             <div>
-              <img
-                alt=''
-                src={project.photo_location || require('./../../assets/images/project_img.jpg')}
-                className='user-project'
-                style={{
-                  float: 'left',
-                  width: 40,
-                  height: 40,
-                  backgroundColor: '#64CCBD',
-                  borderRadius: '50%',
-                  marginRight: 10,
-                  marginTop: 10
-                }}
-              />
-              <Text style={{ paddingTop: 7, fontSize: 20, fontWeight: 'bold', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                {project.title}
-              </Text>
+              <span>
+                <img
+                  alt=''
+                  src={project.photo_location || require('./../../assets/images/project_img.jpg')}
+                  className='user-project'
+                  style={{
+                    float: 'left',
+                    width: 40,
+                    height: 40,
+                    backgroundColor: '#64CCBD',
+                    borderRadius: '50%',
+                    marginRight: 10,
+                    marginTop: 10
+                  }}
+                />
+              </span>
+              {
+                project.title.length > 12
+                  ? (
+                    <Tooltip placement='bottom' title={project.title}>
+                      <span style={{ display: 'inline-block', maxWidth: '150px', height: 40, fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {project.title}
+                      </span>
+                    </Tooltip>
+                  )
+                  : (
+                    <span style={{ display: 'inline-block', maxWidth: '150px', height: 40, fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      {project.title}
+                    </span>
+                  )
+              }
+              
               <Popover
                 placement='bottom'
                 title='Setting'
@@ -206,7 +221,8 @@ class MenuPage extends React.Component {
             </div>
           </Col>
           <Col
-            span={12}
+            lg={{ span: 8 }}
+            xl={{ span: 12 }}
             style={{
               borderLeft: '2px solid #e8e8e8',
               borderRight: '2px solid #e8e8e8'
@@ -462,10 +478,10 @@ class MenuPage extends React.Component {
         <Layout style={{ marginLeft: breakpoint ? 0 : sidebarWidth, transition: 'all 0.2s' }}>
           <Header className='menuBar' style={{ width: breakpoint ? '100%' : 'calc(100% - ' + sidebarWidth + 'px)', padding: 0, position: 'fixed', zIndex: 10, transition: 'all 0.2s', boxShadow: '0 3px 8px -6px rgba(0,0,0,0.44)' }}>
             <Row type='flex' justify='center' align='middle'>
-              <Col xs={{ span: 0 }} lg={{ span: 12, offset: 1 }} xl={{ span: 10, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
+              <Col xs={{ span: 0 }} lg={{ span: 12, offset: 1 }} xl={{ span: 12, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
                 {this.setHeader(kanban.project, kanban.user)}
               </Col>
-              <Col xs={{ span: 2 }} lg={{ span: 1, offset: 5 }} xl={{ span: 1, offset: 8 }} xxl={{ span: 1, offset: 910 }} className='right-menu-item'>
+              <Col xs={{ span: 2 }} lg={{ span: 1, offset: 5 }} xl={{ span: 1, offset: 6 }} xxl={{ span: 1, offset: 9 }} className='right-menu-item'>
                 <Popover
                   trigger='click' placement='bottom'
                 >

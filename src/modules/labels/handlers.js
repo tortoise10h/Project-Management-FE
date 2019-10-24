@@ -39,6 +39,19 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
+  getLabel: async (labelId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getLabel(labelId)}`,
+        method: 'GET'
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
   getLabelList: async (projectId) => {
     try {
       const result = await fetchAuthLoading({

@@ -15,14 +15,12 @@ class LabelListModal extends Component {
   async getLabelList () {
     const { getLabelList, project: { id } } = this.props
     const result = await getLabelList(id)
-    console.log('======== Bao Minh: LabelListModal -> getLabelList -> result', result)
     this.setState({
-      labels: result
+      labels: result.data
     })
   }
 
   async addLabel (color, title) {
-    console.log('======== Bao Minh: LabelListModal -> addLabel -> this.props', this.props)
     const { addLabel, project: { id } } = this.props
     const result = await addLabel(id, color, title)
     if (result.id) {
@@ -38,13 +36,13 @@ class LabelListModal extends Component {
 
   render () {
     const { labels } = this.state
-    const { updateLabel } = this.props
+    const { updateLabel ,getLabel } = this.props
     return (
       <>
         <div className='list-label' style={{ maxHeight: '100%', height: 'auto', overflowY: 'auto' }}>
           {
             labels && labels.map((label) => (
-              <LabelsModal key={label.id} content={label} updateLabel={updateLabel} />
+              <LabelsModal key={label.id} content={label} updateLabel={updateLabel} getLabel={getLabel} />
             ))
           }
         </div>

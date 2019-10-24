@@ -2,6 +2,13 @@
   font-family: sans-serif;
   text-align: center;
 }
+.react-trello-board {
+  background: linear-gradient(#A3E5D4, #04A68F);
+}
+
+.react-trello-lane {
+  background: #E5EFF5;
+}
 
 .smooth-dnd-container.vertical::-webkit-scrollbar {
   width: 12px;
@@ -78,6 +85,17 @@
 .trello-card--btn:hover {
   background: #dfdfdf;
 }
+.trello-add-card--btn:hover {
+  background-color: rgba(9,30,66,.08);
+  color: #172b4d;
+}
+.trello-add-label--btn {
+  background: rgba(0, 0, 0, 0.06)
+}
+.trello-add-label--btn:hover {
+  background-color: rgba(0,0,0,0.1);
+  color: #172b4d;
+}
 
 .trello-card--content {
   text-align: left;
@@ -89,7 +107,6 @@
   display: block;
   overflow: hidden;
   word-wrap: break-word;
-  box-shadow: 0 1px 0 rgba(9,30,66,.25);
 }
 .trello-card--title {
   color: #4d4d4d;
