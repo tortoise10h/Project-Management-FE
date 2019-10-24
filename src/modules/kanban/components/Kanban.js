@@ -4,6 +4,7 @@ import {
 } from 'antd'
 import Board from 'react-trello'
 import './css/kaban.css'
+import MyCard from './MyCard'
 
 class Kanban extends React.Component {
   constructor (props) {
@@ -203,13 +204,14 @@ class Kanban extends React.Component {
   render () {
     return (
       <div>
-        <div className='kaban'>
+        <div className='kanban'>
           <Board
             data={this.state.data}
             draggable
             editLaneTitle
             canAddLanes
             editable
+            components={{ Card: MyCard }}
             tagStyle={{ fontSize: '1em' }}
             onLaneAdd={(params) => this.addNewColumn(params)}
             onCardAdd={(card, laneId) => this.addNewTask(laneId, card)}
