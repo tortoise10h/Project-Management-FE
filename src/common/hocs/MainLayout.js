@@ -39,7 +39,6 @@ class MenuPage extends React.Component {
     }
     this.MENUS = []
     if (props.kanban.user && props.kanban.user.id) {
-      this.handleToggle(true)
       switch (props.kanban.user.role) {
         case 'Admin':
         case 'Leader':

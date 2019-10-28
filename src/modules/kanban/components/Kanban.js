@@ -236,4 +236,3 @@ class Kanban extends React.Component {
 }
 
 export default Kanban
-
