@@ -36,7 +36,7 @@ class LabelListModal extends Component {
 
   render () {
     const { labels } = this.state
-    const { updateLabel ,getLabel } = this.props
+    const { updateLabel, getLabel } = this.props
     return (
       <>
         <div className='list-label' style={{ maxHeight: '100%', height: 'auto', overflowY: 'auto' }}>
