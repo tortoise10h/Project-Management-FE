@@ -2,10 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import './css/style.css'
-import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip, Tabs } from 'antd'
+import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip } from 'antd'
 import storeAccessible from '../utils/storeAccessible'
 import { clearAll } from '../actions/common'
-import { Link } from 'react-router-dom'
 import {
   setKanbanInfo,
   setUserRole,
@@ -16,9 +15,8 @@ import DrawerLayout from '../../modules/kanban/components/DrawerLayout'
 import ContentPopover from '../../modules/Members/containers/Members'
 // import { setKanbanInfo, clearAll } from './../../modules/kanban/actions'
 
-const { Text, Title } = Typography
+const { Text } = Typography
 const { Header, Content, Sider } = Layout
-const { TabPane } = Tabs
 const { SubMenu } = Menu
 
 notification.config({
@@ -44,6 +42,8 @@ class MenuPage extends React.Component {
       this.handleToggle(true)
       switch (props.kanban.user.role) {
         case 'Admin':
+        case 'Leader':
+        case 'Member':
           this.setMenus('1', props.kanban.project)
           break
         default:
@@ -153,7 +153,7 @@ class MenuPage extends React.Component {
       return (
         <Row type='flex' justify='center' align='middle'>
           <Col lg={{ span: 16 }} xl={{ span: 12 }}>
-            <div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               <span>
                 <img
                   alt=''
@@ -165,8 +165,7 @@ class MenuPage extends React.Component {
                     height: 40,
                     backgroundColor: '#64CCBD',
                     borderRadius: '50%',
-                    marginRight: 10,
-                    marginTop: 10
+                    marginRight: 10
                   }}
                 />
               </span>
@@ -174,51 +173,56 @@ class MenuPage extends React.Component {
                 project.title.length > 12
                   ? (
                     <Tooltip placement='bottom' title={project.title}>
-                      <span style={{ display: 'inline-block', maxWidth: '150px', height: 40, fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {project.title}
+                      <span style={{ display: 'inline-block', maxWidth: '150px', height: 40, lineHeight: '40px', fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Text>{project.title}</Text>
                       </span>
                     </Tooltip>
                   )
                   : (
-                    <span style={{ display: 'inline-block', maxWidth: '150px', height: 40, fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {project.title}
+                    <span style={{ display: 'inline-block', maxWidth: '150px', height: 40, lineHeight: '40px', fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <span>{project.title}</span>
                     </span>
                   )
               }
-              
-              <Popover
-                placement='bottom'
-                title='Setting'
-                trigger='click'
-                visible={this.state.popOverSettingVisible}
-                onVisibleChange={this.handlePopOverSettingVisibleChange}
-                content={
-                  // Get setting menu item from main menu in side bar
-                  <Menu onClick={this.handleSettingKanban}>
-                    {
-                      this.MENUS.children && this.MENUS[0].children.find(x => x.key === 'setting').children.map((item) => (
-                        <MenuItem key={item.key}>
-                          {item.title}
-                        </MenuItem>
-                      ))
-                    }
-                  </Menu>
-                }
-              >
-                <Tooltip placement='bottom' title='Setting'>
-                  <Icon
-                    className='kanban-settings'
-                    type='setting'
-                    style={{
-                      fontSize: 21,
-                      cursor: 'pointer',
-                      float: 'right',
-                      marginTop: 23,
-                      marginRight: 12
-                    }}
-                  />
-                </Tooltip>
-              </Popover>
+              {
+                this.props.history.location.pathname === `/project-kanban/${project.id}`
+                  ? (<>
+                    <Popover
+                      placement='bottom'
+                      title='Setting'
+                      trigger='click'
+                      visible={this.state.popOverSettingVisible}
+                      onVisibleChange={this.handlePopOverSettingVisibleChange}
+                      content={
+                        // Get setting menu item from main menu in side bar
+                        <Menu onClick={this.handleSettingKanban}>
+                          {
+                            this.MENUS[0].children.find(x => x.key === 'setting') &&
+                            this.MENUS[0].children.find(x => x.key === 'setting').children.map((item) => (
+                              <MenuItem key={item.key}>
+                                {item.title}
+                              </MenuItem>
+                            ))
+                          }
+                        </Menu>
+                      }
+                    >
+                      <Tooltip placement='bottom' title='Setting'>
+                        <Icon
+                          className='kanban-settings'
+                          type='setting'
+                          style={{
+                            fontSize: 21,
+                            cursor: 'pointer',
+                            float: 'right',
+                            marginLeft: 20
+                          }}
+                        />
+                      </Tooltip>
+                    </Popover>
+                  </>
+                  ) : null
+              }
             </div>
           </Col>
           <Col
@@ -229,10 +233,10 @@ class MenuPage extends React.Component {
               borderRight: '2px solid #e8e8e8'
             }}
           >
-            <Row type='flex' justify='center' align='middle'>
+            <Row type='flex' justify='start' align='middle'>
               {
                 project.Users.slice(0, 2).map((user) => (
-                  <Col span={6} key={user.id}>
+                  <Col span={6} key={user.id} style={{ display: 'flex' }}>
                     <Tooltip placement='bottom' title={user.name}>
                       <img
                         alt=''
@@ -242,7 +246,8 @@ class MenuPage extends React.Component {
                           width: 40,
                           height: 40,
                           backgroundColor: '#64CCBD',
-                          borderRadius: '50%'
+                          borderRadius: '50%',
+                          margin: 'auto'
                         }}
                       />
                     </Tooltip>
@@ -250,11 +255,37 @@ class MenuPage extends React.Component {
                 ))
               }
               {
+                project.Users.length > 2
+                  ? (
+                    <Col span={6} key='more' style={{ display: 'flex' }}>
+                      <div
+                        alt=''
+                        src={user.photo_location || require('./../../assets/images/landingpage/user/avatar2.png')}
+                        className='user-project'
+                        style={{
+                          textAlign: 'center',
+                          width: 40,
+                          height: 40,
+                          lineHeight: '40px',
+                          color: '#ffff',
+                          fontSize: 15,
+                          backgroundColor: 'rgba(68, 68, 68,0.7)',
+                          borderRadius: '50%',
+                          margin: 'auto'
+                        }}
+                      >
+                        + {project.Users.length - 2}
+                      </div>
+                    </Col>
+                  ) : null
+              }
+
+              {
                 user.id && user.role === 'Admin'
                   ? (
-                    <Col span={6} key={project.Users.length}>
+                    <Col span={6} key={project.Users.length} style={{ display: 'flex' }}>
                       {/* <Link to='/setting-members'> */}
-                      <div>
+                      <div style={{ margin: 'auto' }}>
                         <Popover
                           style={{ height: 500 }}
                           placement='bottom'
@@ -268,7 +299,7 @@ class MenuPage extends React.Component {
                               style={{
                                 width: 40,
                                 height: 40,
-                                backgroundColor: '#64CCBD',
+                                backgroundColor: 'rgba(68, 68, 68,0.3)',
                                 borderRadius: '50%',
                                 verticalAlign: 'middle',
                                 fontSize: 20,
@@ -297,6 +328,8 @@ class MenuPage extends React.Component {
     if (kanban.user && kanban.user.id) {
       switch (kanban.user.role) {
         case 'Admin':
+        case 'Leader':
+        case 'Member':
           this.setMenus('1', kanban.project)
           break
         default:
@@ -488,11 +521,22 @@ class MenuPage extends React.Component {
         </Sider>
         <Layout style={{ marginLeft: breakpoint ? 0 : sidebarWidth, transition: 'all 0.2s' }}>
           <Header className='menuBar' style={{ width: breakpoint ? '100%' : 'calc(100% - ' + sidebarWidth + 'px)', padding: 0, position: 'fixed', zIndex: 10, transition: 'all 0.2s', boxShadow: '0 3px 8px -6px rgba(0,0,0,0.44)' }}>
-            <Row type='flex' justify='center' align='middle'>
+            <Row type='flex' justify='end' align='middle'>
               <Col xs={{ span: 0 }} lg={{ span: 12, offset: 1 }} xl={{ span: 12, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
                 {this.setHeader(kanban.project, kanban.user)}
               </Col>
-              <Col xs={{ span: 2 }} lg={{ span: 1, offset: 5 }} xl={{ span: 1, offset: 6 }} xxl={{ span: 1, offset: 9 }} className='right-menu-item'>
+              <Col xs={{ span: 4 }} lg={{ span: 0 }} className='right-menu-item'>
+                <Popover
+                  style={{ height: 500 }}
+                  placement='bottom'
+                  title='Invite To Board'
+                  content={<ContentPopover history={this.props.history} />}
+                  trigger='click'
+                >
+                  <Icon type='user-add' className='btn-notice' style={{ fontSize: 20 }} />
+                </Popover>
+              </Col>
+              <Col xs={{ span: 4 }} lg={{ span: 1, offset: 5 }} xl={{ span: 1, offset: 6 }} xxl={{ span: 1, offset: 9 }} className='right-menu-item'>
                 <Popover
                   trigger='click' placement='bottom'
                 >
@@ -501,7 +545,7 @@ class MenuPage extends React.Component {
                   </Badge>
                 </Popover>
               </Col>
-              <Col xs={{ span: 10 }} lg={{ span: 5 }} xl={{ span: 4 }} xxl={{ span: 3 }} className='right-menu-item' style={{ float: 'left' }}>
+              <Col xs={{ span: 16 }} md={{ span: 10 }} lg={{ span: 5 }} xl={{ span: 4 }} xxl={{ span: 3 }} className='right-menu-item' style={{ float: 'left' }}>
                 <Dropdown
                   overlay={
                     <Menu onClick={this.handleOnSelectMenuItem}>

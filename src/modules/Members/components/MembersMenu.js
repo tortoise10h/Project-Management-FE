@@ -142,7 +142,7 @@ class MembersMenu extends React.Component {
               <Select
                 value={text}
                 style={{ width: 120, marginLeft: 15 }}
-                onSelect={(e) => this.handleChangeRoleMember(record.id, e)}
+                onChange={(e) => this.handleChangeRoleMember(record.id, e)}
               >
                 <Option value='Leader'>Leader</Option>
                 <Option value='Member'>Member</Option>

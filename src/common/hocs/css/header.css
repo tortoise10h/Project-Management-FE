@@ -67,6 +67,7 @@
   }
   .menuBar .right-menu-item
   {
+    text-align: center;
     cursor: pointer;
   }
   
