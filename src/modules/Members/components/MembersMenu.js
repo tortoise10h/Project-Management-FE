@@ -148,10 +148,15 @@ class MembersMenu extends React.Component {
                 <Option value='Member'>Member</Option>
               </Select>
             )
-          ) : null
+          ) : ((
+            <Text style={{ marginLeft: 20 }}>{text}</Text>
+          )
+          )
         )
-      },
-      {
+      }
+    ]
+    if (id === owner) {
+      const action = {
         title: 'Action',
         dataIndex: 'action',
         render: (text, record) => (
@@ -162,7 +167,8 @@ class MembersMenu extends React.Component {
           ) : null
         )
       }
-    ]
+      columns.push(action)
+    }
     return (
       <div>
         <Table
