@@ -10,6 +10,7 @@ import BananaTrelloLaneForm from './BananaTrelloLaneForm'
 import BananaTrelloAddCard from './BananaTrelloAddCard'
 import BananaTrelloLaneSection from './BananaTrelloLaneSection'
 import CheckError from '../../../libraries/CheckError'
+import BananaTrelloLaneHeader from './BananaTrelloLaneHeader'
 
 class Kanban extends React.Component {
   constructor (props) {
@@ -217,6 +218,7 @@ class Kanban extends React.Component {
             canAddLanes
             editable
             components={{
+              LaneHeader: BananaTrelloLaneHeader,
               NewLaneForm: BananaTrelloLaneForm,
               NewLaneSection: BananaTrelloLaneSection,
               NewCardForm: BananaTrelloCardForm,

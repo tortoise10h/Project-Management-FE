@@ -196,6 +196,7 @@ class MenuPage extends React.Component {
                         // Get setting menu item from main menu in side bar
                         <Menu onClick={this.handleSettingKanban}>
                           {
+                            this.MENUS[0] &&
                             this.MENUS[0].children.find(x => x.key === 'setting') &&
                             this.MENUS[0].children.find(x => x.key === 'setting').children.map((item) => (
                               <MenuItem key={item.key}>
