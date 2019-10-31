@@ -165,5 +165,31 @@ export default (dispatch, props) => ({
     } catch (error) {
       return { success: false, message: 'Server Error' }
     }
+  },
+  getMembersInTask: async (taskId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getMembersInTask(taskId)}`,
+        method: 'GET'
+      })
+      return result
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  removeMemberInTask: async (taskId, userId, isInTask) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.removeMemberInTask(taskId)}`,
+        method: 'delete',
+        data: {
+          user_id: userId,
+          is_in_task: isInTask
+        }
+      })
+      return result
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
   }
 })

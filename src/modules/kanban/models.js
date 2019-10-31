@@ -12,7 +12,9 @@ export const ENDPOINTS = {
   addTask: (columnId) => `${DEFAULT_URL}/column/${columnId}/task`,
   updateTask: (taskId) => `${DEFAULT_URL}/task/${taskId}`,
   updateTaskIndex: `${DEFAULT_URL}/task/updateIndex`,
-  updateColumn: (columnId) => `${DEFAULT_URL}/column/${columnId}`
+  updateColumn: (columnId) => `${DEFAULT_URL}/column/${columnId}`,
+  getMembersInTask: (taskId) => `${DEFAULT_URL}/task/${taskId}/user`,
+  removeMemberInTask: (taskId) => `${DEFAULT_URL}/task/${taskId}/user`
 }
 
 export const LIMIT = 20

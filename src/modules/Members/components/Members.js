@@ -43,7 +43,6 @@ class Members extends React.Component {
         placement: 'topRight'
       })
       const rs = await getProjectInfo(id)
-      console.log('=========> TuLinh Debug: >: Members -> handleInvite -> rs', rs)
     }
   }
   /* end Add member for project */
@@ -59,7 +58,6 @@ class Members extends React.Component {
 
   /* get userIds of members when select change */
   handleChange (value) {
-    console.log(`select ${value}`)
     this.setState({
       userIds: value
     })

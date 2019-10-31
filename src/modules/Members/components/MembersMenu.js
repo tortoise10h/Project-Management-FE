@@ -53,7 +53,6 @@ class MembersMenu extends React.Component {
 
   /* Remove Member Project */
   async handleRemoveMember (user_id) {
-    console.log('run remove')
     const { removeMemberProject, project: { id } } = this.props
     const userId = user_id
     const result = await removeMemberProject(id, userId)

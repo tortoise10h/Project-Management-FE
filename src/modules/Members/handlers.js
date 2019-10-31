@@ -6,35 +6,28 @@ import { setProjectInfo, setUserRole } from '../Members/actions'
 export default (dispatch, props) => ({
   getMembers: async () => {
     try {
-      console.log('Run getMembers')
       const result = await fetchAuthLoading({
         url: ENDPOINTS.getMembers,
         method: 'GET'
       })
-      console.log('======== Tu Linh debug :>: result', result)
       return result
     } catch (error) {
-      console.log('======== Tu Linh debug :>: error', error)
       return { success: false, message: 'Server Error' }
     }
   },
   getMembersNotInProject: async (projectId) => {
     try {
-      console.log('Run getMembers')
       const result = await fetchAuthLoading({
         url: ENDPOINTS.getMembersNotInProject(projectId),
         method: 'GET'
       })
-      console.log('======== Tu Linh debug :>: result', result)
       return result
     } catch (error) {
-      console.log('======== Tu Linh debug :>: error', error)
       return { success: false, message: 'Server Error' }
     }
   },
   addMembers: async (projectId, userIds, inviationMessage) => {
     try {
-      console.log('Run addMembers')
       const result = await fetchAuthLoading({
         url: ENDPOINTS.addMembers(projectId),
         method: 'POST',
