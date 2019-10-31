@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Row, Col, Icon, Popconfirm, Modal, Input, Tooltip } from 'antd'
+import { Row, Col, Icon, Popconfirm, Modal, Input, Tooltip, notification } from 'antd'
 import TaskModal from './TaskModal'
 import moment from 'moment'
+import checkError from '../../../libraries/CheckError'
 class MyCard extends Component {
   constructor (props) {
     super(props)
@@ -9,6 +10,7 @@ class MyCard extends Component {
       visible: false,
       isEdit: false,
       taskTitle: 'Title',
+      MembersInTask: [],
       labels: [],
       data: [],
       isChange: false
@@ -28,6 +30,9 @@ class MyCard extends Component {
     this.handleUpdateTitle = this.handleUpdateTitle.bind(this)
     this.handleUpdateDueDate = this.handleUpdateDueDate.bind(this)
     this.handleUpdateDescription = this.handleUpdateDescription.bind(this)
+
+    this.getMembersInTask = this.getMembersInTask.bind(this)
+    this.handleRemoveMemberInTask = this.handleRemoveMemberInTask.bind(this)
   }
 
   async getTaskInfo () {
@@ -141,9 +146,36 @@ class MyCard extends Component {
     })
   }
 
+  /* ============================ GET LIST MEMBERS  ============================ */
+  async getMembersInTask () {
+    const { getMembersInTask, id } = this.props
+    const result = await getMembersInTask(id)
+    this.setState({
+      MembersInTask: result.data
+    })
+  }
+  /* ============================ END GET LIST MEMBERS  ============================ */
+
+  /* ============================ REMOVE MEMBER IN TASK  ============================ */
+  async handleRemoveMemberInTask (userId) {
+    const { removeMemberInTask, id } = this.props
+    const result = await removeMemberInTask(id, userId, false)
+    if (result.error) {
+      const errors = result.error
+      checkError(errors.error)
+    } else {
+      this.getMembersInTask()
+      notification.success({
+        message: 'Remove Members Success',
+        placement: 'topRight'
+      })
+    }
+  }
+
   componentDidMount () {
     const { id } = this.props
     this.getTaskInfo(id)
+    this.getMembersInTask()
     this.handleGetLabelListInTask()
   }
 
@@ -186,7 +218,7 @@ class MyCard extends Component {
 
   render () {
     const { id, onDelete, projectId } = this.props
-    const { visible, isEdit, taskTitle, labels, data } = this.state
+    const { visible, isEdit, taskTitle, labels, data, MembersInTask } = this.state
     return (
       <>
         <div className='trello-card'>
@@ -223,22 +255,22 @@ class MyCard extends Component {
             }
             <div className='trello-card--members'>
               <ul>
-                <li>
-                  <div className='trello-card--member'>
-                    <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} />
-                  </div>
-                </li>
-                <li>
-                  <div className='trello-card--member'>
-                    <img src={require('./../../../assets/images/landingpage/user/avatar2.png')} />>
-                  </div>
-                </li>
+                {
+                  MembersInTask && MembersInTask.length > 0 && MembersInTask.map((member) => (
+                    member.is_in_task ? (
+                      <li>
+                        <div className='trello-card--member'>
+                          <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} />
+                        </div>
+                      </li>
+                    ) : null
+                  ))
+                }
               </ul>
             </div>
           </div>
         </div>
         <Modal
-          maskClosable={false}
           className='task-modal'
           visible={visible}
           footer={null}
@@ -271,6 +303,10 @@ class MyCard extends Component {
             labels={labels}
             onChange={this.handleChangeTask}
             onUpdateLabels={this.handleGetLabelListInTask}
+            // SETTING MEMBER IN TASK
+            onRemoveMemberInTask={this.handleRemoveMemberInTask}
+            getMembersInTask={this.getMembersInTask}
+            MembersInTask={MembersInTask}
             projectId={projectId}
             onUpdateDuaDate={this.handleUpdateDueDate}
             onUpdateDescription={this.handleUpdateDescription}

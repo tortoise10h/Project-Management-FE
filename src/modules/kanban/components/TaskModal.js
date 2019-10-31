@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress } from 'antd'
-import SpentTimeModal from './SpentTimeModal'
 import LabelsInTask from './LabelsInTask'
 import LabelListModal from '../../labels/containers/LabelListModal'
+import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress, Tooltip } from 'antd'
+import SpentTimeModal from './SpentTimeModal'
 import moment from 'moment'
 import TaskDescription from './TaskDescription'
+import ContentPopover from '../../MembersTask/containers/MembersTask'
 
 const { Text } = Typography
 
@@ -15,7 +16,10 @@ export default class TaskModal extends Component {
     super(props)
     this.state = {
       visible: false,
-      checkProgress: 0
+      checkProgress: 0,
+
+      updateLabel: true,
+      isInTask: false
     }
     this.listLabelInTask = <LabelListModal inTask taskId={props.taskId} onUpdateLabelInTask={props.onUpdateLabels} labels={props.labels} />
     this.AddToCards = {}
@@ -24,6 +28,12 @@ export default class TaskModal extends Component {
     this.handleOnCheck = this.handleOnCheck.bind(this)
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleCloseModal = this.handleCloseModal.bind(this)
+    this.listMembersInTask =
+      <ContentPopover
+        taskId={props.taskId}
+        getMembersInTask={props.getMembersInTask}
+        MembersInTask={props.MembersInTask}
+      />
   }
 
   setAddToCard () {
@@ -32,7 +42,7 @@ export default class TaskModal extends Component {
         key: 'members',
         icon: 'user',
         title: 'Members',
-        popoverContent: ''
+        popoverContent: this.listMembersInTask
       },
       {
         key: 'labels',
@@ -149,7 +159,7 @@ export default class TaskModal extends Component {
   }
 
   render () {
-    const { taskId, labels, onUpdateLabels, onUpdateDescription, onChange, data } = this.props
+    const { taskId, labels, getMembersInTask, onUpdateLabels, onUpdateDescription, onChange, data, MembersInTask, onRemoveMemberInTask } = this.props
     const { checkProgress } = this.state
     return (
       <div className='task-modal'>
@@ -162,95 +172,75 @@ export default class TaskModal extends Component {
                 <Text strong>MEMBERS</Text>
                 <div className='task-content'>
                   <Row>
-                    <Col md={{ span: 2 }} lg={{ span: 4 }}>
-                      <Popover
-                        trigger='click'
-                        placement='bottomLeft'
-                        title={
-                          <Row>
-                            <Col span={10}>
-                              <div
-                                style={{
-                                  width: 60,
-                                  height: 60,
-                                  borderRadius: '50%',
-                                  backgroundColor: 'rgba(9,30,66,.04)'
-                                }}
-                              >
-                                <img
-                                  style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    textAlign: 'center',
-                                    objectFit: 'cover'
-                                  }}
-                                  src={require('./../../../assets/images/landingpage/user/avatar1.png')}
-                                />
+                    {
+                      MembersInTask.map(member => (
+                        member.is_in_task === true ? (
+                          <Col md={{ span: 2 }} lg={{ span: 4 }}>
+                            <Popover
+                              trigger='click'
+                              placement='bottom'
+                              title={
+                                <Row>
+                                  <Col span={7}>
+                                    <div
+                                      style={{
+                                        width: 60,
+                                        height: 60,
+                                        borderRadius: '50%',
+                                        backgroundColor: 'rgba(9,30,66,.04)'
+                                      }}
+                                    >
+                                      <img
+                                        style={{
+                                          width: '100%',
+                                          height: '100%',
+                                          textAlign: 'center',
+                                          objectFit: 'cover'
+                                        }}
+                                        src={require('./../../../assets/images/landingpage/user/avatar1.png')}
+                                      />
+                                    </div>
+                                  </Col>
+                                  <Col span={17}>
+                                    <h3>{member.name}</h3>
+                                    <Text>{member.email}</Text>
+                                  </Col>
+                                </Row>
+                              }
+                              content={
+                                <div onClick={() => onRemoveMemberInTask(member.id)} className='button-remove--member'>
+                                  Remove from task
+                                </div>
+                              }
+                            >
+                              <div className='trello-card--member'>
+                                <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} />
                               </div>
-                            </Col>
-                            <Col span={14}>
-                              <h3>User name</h3>
-                              <Text>user email</Text>
-                            </Col>
-                          </Row>
-                        }
-                        content={
-                          <div className='button-remove--member'>
-                            Remove from task
-                          </div>
-                        }
-                      >
-                        <div className='trello-card--member'>
-                          <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} />
-                        </div>
-                      </Popover>
-                    </Col>
-                    <Col md={{ span: 2 }} lg={{ span: 4 }}>
-                      <Popover
-                        trigger='click'
-                        placement='bottomLeft'
-                        title={
-                          <Row>
-                            <Col span={10}>
-                              <div
-                                style={{
-                                  width: 60,
-                                  height: 60,
-                                  borderRadius: '50%',
-                                  backgroundColor: 'rgba(9,30,66,.04)'
-                                }}
-                              >
-                                <img
-                                  style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    textAlign: 'center',
-                                    objectFit: 'cover'
-                                  }}
-                                  src={require('./../../../assets/images/landingpage/user/avatar1.png')}
-                                />
-                              </div>
-                            </Col>
-                            <Col span={14}>
-                              <h3>User name</h3>
-                              <Text>user email</Text>
-                            </Col>
-                          </Row>
-                        }
-                        content={
-                          <div className='button-remove--member'>
-                            Remove from task
-                          </div>
-                        }
-                      >
-                        <div className='trello-card--member'>
-                          <img src={require('./../../../assets/images/landingpage/user/avatar2.png')} />>
-                        </div>
-                      </Popover>
-                    </Col>
+                            </Popover>
+                          </Col>
+                        ) : null
+                      ))
+                    }
                     <Col md={{ span: 2 }} lg={{ span: 4 }}>
                       <div className='trello-card--member' style={{ textAlign: 'center', lineHeight: '32px', color: '#ffff' }}>
-                        <Icon type='plus' />
+                        <Popover
+                          placement='right'
+                          title='Add Members'
+                          content={
+                            <ContentPopover
+                              taskId={taskId}
+                              getMembersInTask={getMembersInTask}
+                              MembersInTask={MembersInTask}
+                            />
+                          }
+                          trigger='click'
+                        >
+                          <Tooltip placement='bottom' title='Add member'>
+                            <Icon
+                              type='plus'
+                            />
+                          </Tooltip>
+                        </Popover>
                       </div>
                     </Col>
                   </Row>
@@ -361,7 +351,7 @@ export default class TaskModal extends Component {
                   <Popover
                     onVisibleChange={AddToCard.handle || onUpdateLabels}
                     overlayStyle={{
-                      width: 300
+                      width: 350
                     }}
                     placement='leftTop'
                     trigger='click'
