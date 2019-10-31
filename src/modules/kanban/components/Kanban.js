@@ -199,7 +199,6 @@ class Kanban extends React.Component {
       columnInfo.cards = tasksInfo
       return columnInfo
     })
-
     this.setState({ data: allColumnsInfo })
   }
 

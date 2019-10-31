@@ -7,6 +7,7 @@ export const ENDPOINTS = {
   getKanbanInfo: (projectId) => `${DEFAULT_URL}/project/${projectId}/kanban`,
   getUserRole: (projectId, userId) => `${DEFAULT_URL}/project/${projectId}/user-in-project`,
   getProjectInfo: (projectId, userId) => `${DEFAULT_URL}/project/${projectId}`,
+  getLabelListInTask: (taskId) => `${DEFAULT_URL}/task/${taskId}/label`,
   addTask: (columnId) => `${DEFAULT_URL}/column/${columnId}/task`,
   updateTask: (taskId) => `${DEFAULT_URL}/task/${taskId}`,
   updateTaskIndex: `${DEFAULT_URL}/task/updateIndex`,

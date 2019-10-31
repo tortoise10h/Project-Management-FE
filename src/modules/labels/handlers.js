@@ -1,8 +1,5 @@
 import { fetchAuthLoading } from '../../common/effects'
 import { ENDPOINTS, LIMIT } from './models'
-import {
-  
-} from './actions'
 
 export default (dispatch, props) => ({
   addLabel: async (projectId, color, title) => {
@@ -39,6 +36,25 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
+  updateLabelInTask: async (taskId, labelId, isInTask) => {
+    try {
+      console.count()
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.updateLabelInTask(taskId)}`,
+        method: 'POST',
+        data: {
+          label_id: labelId,
+          is_in_task: isInTask
+        }
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      console.log('======== Bao Minh: error', error)
+      return { success: false, message: 'Server Error' }
+    }
+  },
   getLabel: async (labelId) => {
     try {
       const result = await fetchAuthLoading({
@@ -56,6 +72,19 @@ export default (dispatch, props) => ({
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.getLabelList(projectId)}`,
+        method: 'GET'
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  getLabelListInTask: async (taskId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getLabelListInTask(taskId)}`,
         method: 'GET'
       })
       if (result) {

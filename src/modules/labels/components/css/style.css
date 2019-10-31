@@ -1,3 +1,4 @@
+/* ================ STYLE LABEL MODAL START ========================== */
 .label {
   width: 100%;
   height: 40px;
@@ -8,6 +9,8 @@
 }
 
 .label .label-box {
+  display: flex;
+  align-items: center;
   height: 100%;
   cursor: pointer;
   border-radius: 5px;
@@ -26,21 +29,34 @@
   -webkit-transition: all 0.3s ease 0s; 
   z-index: 1;
 }
-.label .label-box:hover p{
+.label .label-box:hover span:nth-child(1){
   margin-left: 15px;
 }
 .label .label-box:hover:after{
   width: 5px;
 }
 
-.label .label-box p {
-  float: left;
+/* Title of label */
+.label .label-box span:nth-child(1) { 
+  width: 75%;
+  margin-right: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: left;
+  text-overflow: ellipsis;
+  display: inline-block;
   margin-left: 10px;
   color: #fff;
   font-size: 12px;
   font-weight: 600;
   line-height: 40px;
   transition: 0.2s ease 0s;
+}
+/* Icon of label */
+.label .label-box .anticon {
+  color: #ffff;
+  text-align: center;
+  line-height: 40px;
 }
 
 .label .label-btn {
@@ -52,6 +68,7 @@
 .label .label-btn:hover {
   background: rgba(9,30,66,.08);
 }
+/* ================ STYLE LABEL MODAL END ========================== */
 
 .add-label {
   margin-top: 20px;

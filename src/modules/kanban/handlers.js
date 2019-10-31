@@ -139,5 +139,18 @@ export default (dispatch, props) => ({
     } catch (error) {
       return { success: false, message: 'Server Error' }
     }
+  },
+  getLabelListInTask: async (taskId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getLabelListInTask(taskId)}`,
+        method: 'GET'
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
   }
 })
