@@ -85,6 +85,19 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
+  getTaskInfo: async (taskId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getTaskInfo(taskId)}`,
+        method: 'GET'
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
   addTask: async (columnId, data) => {
     try {
       const propNames = Object.getOwnPropertyNames(data)

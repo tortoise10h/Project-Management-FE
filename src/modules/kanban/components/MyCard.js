@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Row, Col, Icon, Popconfirm, Modal, Input, Tooltip } from 'antd'
 import TaskModal from './TaskModal'
+import moment from 'moment'
 class MyCard extends Component {
   constructor (props) {
     super(props)
@@ -9,17 +10,32 @@ class MyCard extends Component {
       isEdit: false,
       taskTitle: '',
       labels: [],
+      data: [],
       isChange: false
     }
+
+    this.setDueDate = this.setDueDate.bind(this)
+
+    this.getTaskInfo = this.getTaskInfo.bind(this)
 
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleCloseModal = this.handleCloseModal.bind(this)
     this.setTitle = this.setTitle.bind(this)
     this.handleEditTaskTitle = this.handleEditTaskTitle.bind(this)
-    this.handleUpdateTitle = this.handleUpdateTitle.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
     this.handleGetLabelListInTask = this.handleGetLabelListInTask.bind(this)
     this.handleChangeTask = this.handleChangeTask.bind(this)
+    this.handleUpdateTitle = this.handleUpdateTitle.bind(this)
+    this.handleUpdateDueDate = this.handleUpdateDueDate.bind(this)
+  }
+
+  async getTaskInfo () {
+    const { id, getTaskInfo } = this.props
+    const result = await getTaskInfo(id)
+    this.setState({
+      taskTitle: result.title,
+      data: result
+    })
   }
 
   // When Something change in Task
@@ -59,6 +75,7 @@ class MyCard extends Component {
     })
   }
 
+  // WHEN CLICK TO EDIT TITLE
   handleEditTaskTitle () {
     this.setState({
       isEdit: true
@@ -73,6 +90,7 @@ class MyCard extends Component {
     })
   }
 
+  // GET ALL LABELS IN TASK
   async handleGetLabelListInTask () {
     const { getLabelListInTask, id } = this.props
     const result = await getLabelListInTask(id)
@@ -81,29 +99,78 @@ class MyCard extends Component {
     })
   }
 
+  // WHEN CHANGE TASK TITLE
   handleUpdateTitle () {
-    const { id, updateTask, getKanbanInfo, projetcId } = this.props
+    const { id, updateTask } = this.props
     const { taskTitle: title } = this.state
     updateTask(id, { title })
-    getKanbanInfo(projetcId)
     this.setState({
-      isEdit: false
+      isEdit: false,
+      isChange: true
+    })
+  }
+
+  // CHANGE DUE DATE
+  handleUpdateDueDate (value) {
+    const { id, updateTask } = this.props
+    this.setState({
+      data: {
+        ...this.state.data,
+        due_date: value
+      }
+    })
+    updateTask(id, { due_date: value })
+    this.setState({
+      isChange: true
     })
   }
 
   componentDidMount () {
-    const { title } = this.props
-    this.setState({
-      taskTitle: title
-    })
+    const { id } = this.props
+    this.getTaskInfo(id)
     this.handleGetLabelListInTask()
+  }
+
+  setDueDate (day, minutes) {
+    let color = ''
+    let title = ''
+    if (day === 0) {
+      if (minutes > 60) {
+        color = '#61bd50'
+        title = `In ${Math.floor(minutes / 60)} hours`
+      } else {
+        color = '#61bd50'
+        title = `In ${minutes} min`
+      }
+    } else if (day > 0) {
+      color = '#61bd50'
+      title = `In ${day} day`
+    } else {
+      color = '#f5222e'
+      title = `${-day} day ago`
+    }
+    return (
+      <Row className='trello-card--badges'>
+        <Col
+          className='trello-card--badges-item'
+          style={{
+            backgroundColor: color
+          }}
+        >
+          <span>
+            <Icon type='clock-circle' style={{ marginRight: 5, fontSize: 18 }} />
+          </span>
+          <span>
+            {title}
+          </span>
+        </Col>
+      </Row>
+    )
   }
 
   render () {
     const { id, onDelete, projectId } = this.props
-    // const LaneInfo = kanbanInfo.find(lane => lane.id === laneId)
-    // const TaskInfo = LaneInfo.Tasks.find(task => task.id === id)
-    const { visible, isEdit, taskTitle, labels } = this.state
+    const { visible, isEdit, taskTitle, labels, data } = this.state
     return (
       <>
         <div className='trello-card'>
@@ -132,21 +199,12 @@ class MyCard extends Component {
             <div className='trello-card--title'>
               {taskTitle || 'Title'}
             </div>
-            <Row className='trello-card--badges'>
-              <Col
-                className='trello-card--badges-item'
-                style={{
-                  backgroundColor: '#f5222e'
-                }}
-              >
-                <span>
-                  <Icon type='clock-circle' style={{ marginRight: 5, fontSize: 18 }} />
-                </span>
-                <span>
-                  Due Date
-                </span>
-              </Col>
-            </Row>
+            {
+              data && data.due_date
+                ? (
+                  this.setDueDate(moment(data.due_date).diff(moment(), 'days'), moment(data.due_date).diff(moment(), 'minutes'))
+                ) : null
+            }
             <div className='trello-card--members'>
               <ul>
                 <li>
@@ -192,11 +250,13 @@ class MyCard extends Component {
           }
         >
           <TaskModal
+            data={data}
             taskId={id}
             labels={labels}
             onChange={this.handleChangeTask}
             onUpdateLabels={this.handleGetLabelListInTask}
             projectId={projectId}
+            onUpdateDuaDate={this.handleUpdateDueDate}
           />
         </Modal>
       </>
