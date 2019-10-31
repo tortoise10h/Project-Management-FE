@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Icon, Popconfirm, Modal } from 'antd'
-import TaskModal from './TaskModal'
+import TaskModal from '../containers/TaskModal'
 class MyCard extends Component {
   constructor (props) {
     super(props)
@@ -24,7 +24,7 @@ class MyCard extends Component {
   }
 
   render () {
-    const { title, onDelete } = this.props
+    const { title, id, onDelete } = this.props
     const { visible } = this.state
     return (
       <>
@@ -80,6 +80,7 @@ class MyCard extends Component {
           </div>
         </div>
         <Modal
+          maskClosable={false}
           className='task-modal'
           title={title}
           visible={visible}
@@ -87,7 +88,7 @@ class MyCard extends Component {
           onCancel={this.handleCloseModal}
           width='60%'
         >
-          <TaskModal />
+          <TaskModal taskId={id} />
         </Modal>
       </>
     )

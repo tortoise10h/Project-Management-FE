@@ -51,18 +51,26 @@ export default class DrawerLayout extends Component {
   render () {
     const { visible, title } = this.state
     return (
-      <Drawer
-        title={title}
-        placement='right'
-        width='20%'
-        onClose={() => this.handleOnClose()}
-        visible={visible}
-        bodyStyle={{
-          height: '80%'
-        }}
-      >
-        {this.CONTENT}
-      </Drawer>
+      <>
+        {
+          visible
+            ? (<>
+              <Drawer
+                title={title}
+                placement='right'
+                width='20%'
+                onClose={() => this.handleOnClose()}
+                visible={visible}
+                bodyStyle={{
+                  height: '80%'
+                }}
+              >
+                {this.CONTENT}
+              </Drawer>
+            </>
+            ) : null
+        }
+      </>
     )
   }
 }

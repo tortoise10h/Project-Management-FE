@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress, Input, Select } from 'antd'
+import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
 import moment from 'moment'
 import SpentTimeModal from './SpentTimeModal'
+import LabelsInTask from './LabelsInTask'
+import LabelListModal from '../../labels/containers/LabelListModal'
 
 const { Text } = Typography
-const { Option } = Select
 
 const checkboxs = ['Create modal', 'Style modal', 'Animation', 'Fetch API', 'ABC', 'Lol Khoa']
 
@@ -14,10 +15,13 @@ export default class TaskModal extends Component {
     super(props)
     this.state = {
       visible: false,
+      updateLabel: true,
       checkProgress: 0
     }
+    this.listLabelInTask = <LabelListModal inTask taskId={props.taskId} isUpdateLabel={this.state.updateLabel} />
     this.AddToCards = {}
     this.setAddToCard()
+    this.handleUpdateLabel = this.handleUpdateLabel.bind(this)
     this.handleOnCheck = this.handleOnCheck.bind(this)
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleCloseModal = this.handleCloseModal.bind(this)
@@ -28,34 +32,50 @@ export default class TaskModal extends Component {
       {
         key: 'members',
         icon: 'user',
-        title: 'Members'
+        title: 'Members',
+        popoverContent: ''
       },
       {
         key: 'labels',
         icon: 'tag',
-        title: 'Labels'
+        title: 'Labels',
+        popoverContent: this.listLabelInTask
       },
       {
         key: 'description',
         icon: 'check-square',
-        title: 'Description'
+        title: 'Description',
+        popoverContent: ''
       },
       {
         key: 'checkbox',
         icon: 'check-square',
-        title: 'Checklist'
+        title: 'Checklist',
+        popoverContent: ''
       },
       {
         key: 'due date',
         icon: 'clock-circle',
-        title: 'Due Date'
+        title: 'Due Date',
+        popoverContent: ''
       },
       {
         key: 'attachment',
         icon: 'paper-clip',
-        title: 'Attachment'
+        title: 'Attachment',
+        popoverContent: ''
       }
     ]
+  }
+
+  handleUpdateLabel () {
+    let updateLabel = this.state.updateLabel
+    updateLabel = !updateLabel
+    this.listLabelInTask = <LabelListModal inTask taskId={this.props.taskId} isUpdateLabel={updateLabel} />
+    this.setState({
+      updateLabel: updateLabel
+    })
+    this.setAddToCard()
   }
 
   handleOnCheck (e) {
@@ -77,7 +97,8 @@ export default class TaskModal extends Component {
   };
 
   render () {
-    const { checkProgress } = this.state
+    const { taskId, getLabelListInTask } = this.props
+    const { checkProgress, updateLabel } = this.state
     return (
       <div className='task-modal'>
         <Row>
@@ -187,18 +208,13 @@ export default class TaskModal extends Component {
               <Col lg={{ span: 24 }} xl={{ span: 12 }}>
                 <Text strong>LABELS</Text>
                 <div className='task-content trello-card--labels'>
-                  <span className='trello-card--labels-text modal' style={{ backgroundColor: '#f17014' }}>
-                    test
-                  </span>
-                  <span className='trello-card--labels-text modal' style={{ backgroundColor: '#f17014' }}>
-                    test
-                  </span>
-                  <span className='trello-card--labels-text modal' style={{ backgroundColor: '#f17014' }}>
-                    test
-                  </span>
-                  <span className='trello-card--labels modal add'>
-                    <Icon type='plus' />
-                  </span>
+                  <LabelsInTask
+                    taskId={taskId}
+                    listLabelInTask={this.listLabelInTask}
+                    onUpdateLabel={this.handleUpdateLabel}
+                    getLabelListInTask={getLabelListInTask}
+                    updateLabel={updateLabel}
+                  />
                 </div>
               </Col>
             </Row>
@@ -283,13 +299,30 @@ export default class TaskModal extends Component {
             <Text strong>ADD TO CARD</Text>
             {
               this.AddToCards.map((AddToCard) => (
-                <div key={AddToCard.key} className='button-add-to-card'>
-                  <span style={{ marginRight: 10 }}>
-                    <Icon type={AddToCard.icon} />
-                  </span>
-                  <span>
-                    {AddToCard.title}
-                  </span>
+                <div key={AddToCard.key}>
+                  <Popover
+                    onVisibleChange={this.handleUpdateLabel}
+                    overlayStyle={{
+                      width: 300
+                    }}
+                    placement='leftTop'
+                    trigger='click'
+                    title={
+                      <>
+                        <span>{AddToCard.title}</span>
+                      </>
+                    }
+                    content={AddToCard.popoverContent || 'Content'}
+                  >
+                    <div className='button-add-to-card'>
+                      <span style={{ marginRight: 10 }}>
+                        <Icon type={AddToCard.icon} />
+                      </span>
+                      <span>
+                        {AddToCard.title}
+                      </span>
+                    </div>
+                  </Popover>
                 </div>
               ))
             }

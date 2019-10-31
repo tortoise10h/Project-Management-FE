@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { TwitterPicker } from 'react-color'
-import { Icon, Row, Col, Input, Popover, Button } from 'antd'
+import { Icon, Row, Col, Input, Popover, Button, Tooltip } from 'antd'
 import './css/style.css'
 
 class LabelModal extends Component {
@@ -114,9 +114,6 @@ class LabelModal extends Component {
                 <Col span={12}>
                   <Button type='danger' onClick={this.handleCancel}>Cancel</Button>
                 </Col>
-                {/* <Col span={12}>
-                  <Button type='primary' onClick={this.handleDelete}>Delete</Button>
-                </Col> */}
               </Row>
             </div>
           }
@@ -134,7 +131,15 @@ class LabelModal extends Component {
               }}
               onClick={this.handleClick}
             >
-              <p>{title}</p>
+              {
+                title.length > 21
+                  ? (
+                    <Tooltip placement='bottom' title={title}>
+                      <span>{title}</span>
+                    </Tooltip>
+                  )
+                  : (<span>{title}</span>)
+              }
             </Col>
             <Col span={4} offset={1} className='label-btn' onClick={this.handleClick}>
               <Icon
