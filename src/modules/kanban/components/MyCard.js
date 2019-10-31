@@ -28,7 +28,7 @@ class MyCard extends Component {
     const { visible } = this.state
     return (
       <>
-        <div className='trello-card' onClick={this.handleShowModal}>
+        <div className='trello-card'>
           <Popconfirm
             title='Are you sure delete this task?'
             onConfirm={onDelete}
@@ -39,7 +39,7 @@ class MyCard extends Component {
               <Icon type='close' />
             </div>
           </Popconfirm>
-          <div className='trello-card--content'>
+          <div className='trello-card--content' onClick={this.handleShowModal}>
             <div className='trello-card--labels'>
               <span className='trello-card--labels-text' style={{ backgroundColor: '#f17014' }}>
                 test
