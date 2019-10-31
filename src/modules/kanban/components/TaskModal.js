@@ -15,10 +15,9 @@ export default class TaskModal extends Component {
     super(props)
     this.state = {
       visible: false,
-      updateLabel: true,
       checkProgress: 0
     }
-    this.listLabelInTask = <LabelListModal inTask taskId={props.taskId} isUpdateLabel={this.state.updateLabel} />
+    this.listLabelInTask = <LabelListModal inTask taskId={props.taskId} onUpdateLabelInTask={props.onUpdateLabels} labels={props.labels} />
     this.AddToCards = {}
     this.setAddToCard()
     this.handleUpdateLabel = this.handleUpdateLabel.bind(this)
@@ -68,13 +67,9 @@ export default class TaskModal extends Component {
     ]
   }
 
-  handleUpdateLabel () {
-    let updateLabel = this.state.updateLabel
-    updateLabel = !updateLabel
-    this.listLabelInTask = <LabelListModal inTask taskId={this.props.taskId} isUpdateLabel={updateLabel} />
-    this.setState({
-      updateLabel: updateLabel
-    })
+  handleUpdateLabel (value) {
+    const content = value || this.props
+    this.listLabelInTask = <LabelListModal inTask taskId={content.taskId} onUpdateLabelInTask={content.onUpdateLabels} labels={content.labels} />
     this.setAddToCard()
   }
 
@@ -88,17 +83,22 @@ export default class TaskModal extends Component {
     this.setState({
       visible: true
     })
-  };
+  }
 
   handleCloseModal () {
     this.setState({
       visible: false
     })
-  };
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.handleUpdateLabel(nextProps)
+    this.setAddToCard()
+  }
 
   render () {
-    const { taskId, getLabelListInTask } = this.props
-    const { checkProgress, updateLabel } = this.state
+    const { taskId, labels, onUpdateLabels, onChange } = this.props
+    const { checkProgress } = this.state
     return (
       <div className='task-modal'>
         <Row>
@@ -210,10 +210,10 @@ export default class TaskModal extends Component {
                 <div className='task-content trello-card--labels'>
                   <LabelsInTask
                     taskId={taskId}
+                    labels={labels}
                     listLabelInTask={this.listLabelInTask}
-                    onUpdateLabel={this.handleUpdateLabel}
-                    getLabelListInTask={getLabelListInTask}
-                    updateLabel={updateLabel}
+                    onUpdateLabels={onUpdateLabels}
+                    onChange={onChange}
                   />
                 </div>
               </Col>
@@ -301,7 +301,7 @@ export default class TaskModal extends Component {
               this.AddToCards.map((AddToCard) => (
                 <div key={AddToCard.key}>
                   <Popover
-                    onVisibleChange={this.handleUpdateLabel}
+                    onVisibleChange={onUpdateLabels}
                     overlayStyle={{
                       width: 300
                     }}
