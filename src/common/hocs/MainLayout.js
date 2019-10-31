@@ -39,6 +39,7 @@ class MenuPage extends React.Component {
     }
     this.MENUS = []
     if (props.kanban.user && props.kanban.user.id) {
+      props.history.push(`/project-kanban/${props.kanban.project.id}`)
       switch (props.kanban.user.role) {
         case 'Admin':
         case 'Leader':

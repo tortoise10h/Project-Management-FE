@@ -9,7 +9,8 @@ const mapDispatchToProps = (dispatch, props) => ({
 
 const mapStateToProps = (state, props) => {
   return {
-    user: state.user.user
+    user: state.user.user,
+    kanban: state.kanban
   }
 }
 

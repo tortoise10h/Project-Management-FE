@@ -21,7 +21,6 @@ class BananaTrelloLaneForm extends Component {
   render () {
     const { form, onCancel } = this.props
     const { getFieldDecorator } = form
-    console.log('======== Bao Minh: BananaTrelloCardForm -> render -> this.props', this.props)
     return (
       <Form
         className='react-trello-addCard'

@@ -22,19 +22,18 @@ class LabelListModal extends Component {
     })
   }
 
-  async getLabelListInTask () {
-    const { getLabelListInTask, taskId } = this.props
-    const result = await getLabelListInTask(taskId)
+  getLabelListInTask () {
+    const { labels } = this.props
     this.setState({
-      labels: result
+      labels: labels
     })
   }
 
   async addLabel (color, title) {
-    const { inTask, addLabel, project: { id } } = this.props
+    const { onUpdateLabelInTask, inTask, addLabel, project: { id } } = this.props
     const result = await addLabel(id, color, title)
     if (result.id) {
-      inTask ? this.getLabelListInTask() : this.getLabelList()
+      inTask ? onUpdateLabelInTask() : this.getLabelList()
     }
   }
 
@@ -46,9 +45,12 @@ class LabelListModal extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const { inTask, updateLabel } = nextProps
-    if (inTask && updateLabel) {
-      this.getLabelListInTask()
+    const { inTask, labels } = nextProps
+    if (inTask && labels) {
+      const { labels } = nextProps
+      this.setState({
+        labels: labels
+      })
     }
   }
 
