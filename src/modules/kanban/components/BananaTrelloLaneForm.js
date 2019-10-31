@@ -39,7 +39,7 @@ class BananaTrelloLaneForm extends Component {
           {getFieldDecorator('title', {
             rules: [{ required: true, message: 'Please input lane title' }]
           })(
-            <Input placeholder='Title' style={{ marginBottom: 8 }} />
+            <Input autoFocus placeholder='Title' style={{ marginBottom: 8 }} />
           )}
         </Form.Item>
         <div style={{ textAlign: 'left' }}>

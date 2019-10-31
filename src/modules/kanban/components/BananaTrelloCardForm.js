@@ -23,7 +23,6 @@ class BananaTrelloCardForm extends Component {
   render () {
     const { form, onCancel } = this.props
     const { getFieldDecorator } = form
-    console.log('======== Bao Minh: BananaTrelloCardForm -> render -> this.props', this.props)
     return (
       <Form
         className='react-trello-addCard'
@@ -38,7 +37,7 @@ class BananaTrelloCardForm extends Component {
           {getFieldDecorator('title', {
             rules: [{ required: true, message: 'Please input task title' }]
           })(
-            <Input placeholder='Title' style={{ marginBottom: 8 }} />
+            <Input autoFocus placeholder='Title' style={{ marginBottom: 8 }} />
           )}
         </Form.Item>
         <Form.Item style={{ marginBottom: 0 }}>
