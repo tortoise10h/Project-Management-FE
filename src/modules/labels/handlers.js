@@ -38,7 +38,6 @@ export default (dispatch, props) => ({
   },
   updateLabelInTask: async (taskId, labelId, isInTask) => {
     try {
-      console.count()
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.updateLabelInTask(taskId)}`,
         method: 'POST',

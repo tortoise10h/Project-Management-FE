@@ -5,41 +5,23 @@ export default class LabelsInTask extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      visible: false,
-      labels: []
+      visible: false
     }
     this.handleCloseLabelOption = this.handleCloseLabelOption.bind(this)
   }
 
   handleCloseLabelOption () {
-    const { onUpdateLabel } = this.props
+    const { onUpdateLabels, onChange } = this.props
     this.setState({
       visible: !this.state.visible
     })
-    onUpdateLabel()
-  }
-
-  async getLabelListInTask () {
-    const { getLabelListInTask, taskId } = this.props
-    const result = await getLabelListInTask(taskId)
-    this.setState({
-      labels: result
-    })
-  }
-
-  componentDidMount () {
-    this.getLabelListInTask()
-  }
-
-  componentWillReceiveProps (newProps) {
-    if (newProps.updateLabel) {
-      this.getLabelListInTask()
-    }
+    onUpdateLabels()
+    onChange()
   }
 
   render () {
-    const { listLabelInTask } = this.props
-    const { visible, labels } = this.state
+    const { labels, listLabelInTask } = this.props
+    const { visible } = this.state
     return (
       <>
         {
