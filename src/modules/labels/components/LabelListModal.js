@@ -67,7 +67,6 @@ class LabelListModal extends Component {
   render () {
     const { labels } = this.state
     const { updateLabel, getLabel, inTask, updateLabelInTask, taskId } = this.props
-    console.log('============> Huy Debugs :>: LabelListModal -> render -> this.props', this.props)
     return (
       <>
         <div className='list-label' style={{ maxHeight: '100%', height: 'auto', overflowY: 'auto' }}>

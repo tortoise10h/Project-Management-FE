@@ -68,6 +68,8 @@ class Kanban extends React.Component {
     * */
     newIndex++
 
+    let diffLane = false
+
     const { updateTask, updateTaskIndex, projectId, getKanbanInfo } = this.props
     const { data } = this.state
     const { lanes } = data
@@ -93,6 +95,7 @@ class Kanban extends React.Component {
           /** If current task index is lower than incoming task index then just keep its index */
           taskWithNewIndex.index = task.index
         }
+        diffLane = true
         return taskWithNewIndex
       })
 
@@ -144,7 +147,7 @@ class Kanban extends React.Component {
       await updateTaskIndex(tasksToUpdateIndex)
     }
     if (result) {
-      await getKanbanInfo(projectId)
+      if (diffLane) await getKanbanInfo(projectId)
     } else {
       notification.error({
         message: 'Move card error'
@@ -207,7 +210,7 @@ class Kanban extends React.Component {
   }
 
   componentWillReceiveProps (newProps) {
-    if (newProps.kanban !== this.props.kanban) {
+    if (newProps.kanban.kanbanInfo !== this.props.kanban.kanbanInfo) {
       const allColumnsInfo = {}
       allColumnsInfo.lanes = newProps.kanban.kanbanInfo.map((column) => {
         /** Get column info */

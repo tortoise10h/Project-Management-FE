@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress } from 'antd'
 import TextArea from 'antd/lib/input/TextArea'
-import moment from 'moment'
 import SpentTimeModal from './SpentTimeModal'
 import LabelsInTask from './LabelsInTask'
 import LabelListModal from '../../labels/containers/LabelListModal'
+import moment from 'moment'
 
 const { Text } = Typography
 
@@ -13,7 +13,6 @@ const checkboxs = ['Create modal', 'Style modal', 'Animation', 'Fetch API', 'ABC
 export default class TaskModal extends Component {
   constructor (props) {
     super(props)
-    console.log('============> Huy Debugs :>: TaskModal -> constructor -> props', props)
     this.state = {
       visible: false,
       checkProgress: 0
@@ -57,7 +56,17 @@ export default class TaskModal extends Component {
         key: 'due date',
         icon: 'clock-circle',
         title: 'Due Date',
-        popoverContent: ''
+        popoverContent: (
+          <DatePicker
+            allowClear={false}
+            format='YYYY-MM-DD HH:mm:ss'
+            defaultValue={this.props.data.due_date ? moment(this.props.data.due_date) : moment()}
+            showTime
+            onOk={(e) => (
+              this.props.onUpdateDuaDate(e)
+            )}
+          />
+        )
       },
       {
         key: 'attachment',
@@ -92,14 +101,55 @@ export default class TaskModal extends Component {
     })
   }
 
+  componentDidMount () {
+    const { data } = this.props
+    this.setState({
+      dueDate: data.due_date
+    })
+  }
+
   componentWillReceiveProps (nextProps) {
     this.handleUpdateLabel(nextProps)
     this.setAddToCard()
   }
 
+  setDueDateStatus (day, minutes) {
+    let color = ''
+    let title = ''
+    if (day === 0) {
+      if (minutes > 0) {
+        if (minutes > 60) {
+          color = '#61bd50'
+          title = `In ${Math.floor(minutes / 60)} hours`
+        } else {
+          color = '#61bd50'
+          title = `In ${minutes} min`
+        }
+      } else {
+        if (minutes > 60) {
+          color = '#61bd50'
+          title = `${Math.floor(minutes / 60)} hours ago`
+        } else {
+          color = '#61bd50'
+          title = `${minutes} min ago`
+        }
+      }
+    } else if (day > 0) {
+      color = '#61bd50'
+      title = `In ${day} day`
+    } else {
+      color = '#e8968b'
+      title = `${-day} day ago`
+    }
+    return (
+      <span className='detail-box' style={{ background: color, textTransform: 'uppercase' }}>
+        {title}
+      </span>
+    )
+  }
+
   render () {
-    const { taskId, labels, onUpdateLabels, onChange } = this.props
-    console.log('============> Huy Debugs :>: TaskModal -> render -> this.props', this.props)
+    const { taskId, labels, onUpdateLabels, onChange, data } = this.props
     const { checkProgress } = this.state
     return (
       <div className='task-modal'>
@@ -221,19 +271,25 @@ export default class TaskModal extends Component {
               </Col>
             </Row>
             {/* ============================ TASK DUE DATE ============================ */}
-            <Row>
-              <Text strong>DUE DATE</Text>
-              <div className='task-content due-date' style={{ marginLeft: 20 }}>
-                <Checkbox style={{ width: 30, height: 30 }} />
-                <DatePicker
-                  format='YYYY-MM-DD HH:mm:ss'
-                  showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss') }}
-                />
-                <span className='detail-box' style={{ background: '#e8968b' }}>
-                    OVER DUE
-                </span>
-              </div>
-            </Row>
+            {
+              data.due_date
+                ? (
+                  <Row>
+                    <Text strong>DUE DATE</Text>
+                    <div className='task-content due-date' style={{ marginLeft: 20 }}>
+                      <Checkbox style={{ width: 30, height: 30 }} />
+                      <DatePicker
+                        format='YYYY-MM-DD HH:mm:ss'
+                        defaultValue={data.due_date ? moment(data.due_date) : moment()}
+                        showTime
+                        onOk={(e) => this.props.onUpdateDuaDate(e)}
+                        allowClear={false}
+                      />
+                      {this.setDueDateStatus(moment(data.due_date).diff(moment(), 'days'), moment(data.due_date).diff(moment(), 'minutes'))}
+                    </div>
+                  </Row>
+                ) : null
+            }
             {/* ============================ TASK SPENT TIME ============================ */}
             <Row>
               <Text strong>SPENT TIME</Text>
@@ -303,7 +359,7 @@ export default class TaskModal extends Component {
               this.AddToCards.map((AddToCard) => (
                 <div key={AddToCard.key}>
                   <Popover
-                    onVisibleChange={onUpdateLabels}
+                    onVisibleChange={AddToCard.handle || onUpdateLabels}
                     overlayStyle={{
                       width: 300
                     }}
