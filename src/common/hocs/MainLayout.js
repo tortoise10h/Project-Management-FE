@@ -113,6 +113,17 @@ class MenuPage extends React.Component {
                         </span>
                       </span>
                     )
+                  },
+                  {
+                    key: 'setting-project',
+                    title: (
+                      <span>
+                        <Icon type='project' style={{ fontSize: 20 }} />
+                        <span>
+                          Edit Project
+                        </span>
+                      </span>
+                    )
                   }
                 ]
               }
@@ -539,7 +550,8 @@ class MenuPage extends React.Component {
               </Col>
               <Col xs={{ span: 4 }} lg={{ span: 1, offset: 5 }} xl={{ span: 1, offset: 6 }} xxl={{ span: 1, offset: 9 }} className='right-menu-item'>
                 <Popover
-                  trigger='click' placement='bottom'
+                  trigger='click'
+                  placement='bottom'
                 >
                   <Badge dot>
                     <Icon type='notification' className='btn-notice' style={{ fontSize: 20 }} />
