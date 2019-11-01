@@ -54,15 +54,12 @@ export default (dispatch, props) => ({
   },
   getProjects: async () => {
     try {
-      console.log('Run getProjects')
       const result = await fetchAuthLoading({
         url: ENDPOINTS.getProjects,
         method: 'GET'
       })
-      console.log('======== Tu Linh debug :>: result', result)
       return result
     } catch (error) {
-      console.log('======== Tu Linh debug :>: error', error)
       return { success: false, message: 'Server Error' }
     }
   }

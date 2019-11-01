@@ -57,16 +57,16 @@ export default class ProjectItem extends Component {
             New
           </div>
         break
-      case 'In processing':
+      case 'Processing':
         status =
           <div className='category arrow_box status-processing'>
             In processing
           </div>
         break
-      case 'Dead line':
+      case 'Cancel':
         status =
           <div className='category arrow_box status-deadline'>
-            Dead line
+            Cancel
           </div>
         break
       case 'Done':

@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { Drawer } from 'antd'
 import LabelListModal from '../../labels/containers/LabelListModal'
+import SettingProject from '../../settingProject/containers/SettingProject'
 
 export default class DrawerLayout extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      width: 0,
       visible: false,
       title: 'Label'
     }
@@ -19,17 +21,23 @@ export default class DrawerLayout extends Component {
   setDrawer (content) {
     switch (content) {
       case 'setting-label':
-        this.showDrawer()
+        this.showDrawer('Labels', 20)
         this.CONTENT = <LabelListModal />
+        break
+      case 'setting-project':
+        this.showDrawer('Project', 33)
+        this.CONTENT = <SettingProject />
         break
       default:
         break
     }
   }
 
-  showDrawer () {
+  showDrawer (value, width) {
     this.setState({
-      visible: true
+      visible: true,
+      title: value || 'Title',
+      width: width || 20
     })
   }
 
@@ -49,28 +57,20 @@ export default class DrawerLayout extends Component {
   }
 
   render () {
-    const { visible, title } = this.state
+    const { visible, title, width } = this.state
     return (
-      <>
-        {
-          visible
-            ? (<>
-              <Drawer
-                title={title}
-                placement='right'
-                width='20%'
-                onClose={() => this.handleOnClose()}
-                visible={visible}
-                bodyStyle={{
-                  height: '80%'
-                }}
-              >
-                {this.CONTENT}
-              </Drawer>
-            </>
-            ) : null
-        }
-      </>
+      <Drawer
+        title={title}
+        placement='right'
+        width={`${width}%`}
+        onClose={() => this.handleOnClose()}
+        visible={visible}
+        bodyStyle={{
+          height: '80%'
+        }}
+      >
+        {this.CONTENT}
+      </Drawer>
     )
   }
 }

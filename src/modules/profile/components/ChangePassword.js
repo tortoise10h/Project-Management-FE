@@ -65,7 +65,6 @@ class ChangePassword extends React.Component {
     const { form, setPasswordUserProfileInformation, email } = this.props
     form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('======== Tu Lan debug :>: Register -> handleOnSubmit -> values', values)
         const result = await setPasswordUserProfileInformation(values.oldPassword, values.newPassword, values.confirmPassword, email)
         if (result) {
           notification.success({

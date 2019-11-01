@@ -51,7 +51,6 @@ class Profile extends React.Component {
     const { updateLabel: label } = this.state
     const user = this.state.user
     const { labelProfileTitle, labelSummary, labelAddress } = this.state
-    console.log('=========> TuLinh Debug: >: Profile -> handleChange -> labelProfileTitle', labelProfileTitle)
     if (e !== user[label] && e !== labelProfileTitle && e !== labelSummary && e !== labelAddress) {
       user[label] = e
       this.setState({
@@ -73,7 +72,6 @@ class Profile extends React.Component {
     const { user, id } = this.state
 
     const result = await setUserProfileInformation(id, this.cleanObj(user))
-    console.log('=========> TuLinh Debug: >: Profile -> handleSave -> result', result)
     if (result) {
       const errors = result.error
       checkError(errors.error)
@@ -108,7 +106,6 @@ class Profile extends React.Component {
       id: userInfo.id,
       user
     })
-    console.log('=========> TuLinh Debug: >: Profile -> getUserProfileInformation -> this.state.user', this.state.user)
   }
 
   async getProjects () {
@@ -123,14 +120,13 @@ class Profile extends React.Component {
   async handleChangeDate (e, dateString) {
     // const { updateLabel: label } = this.state
     const user = this.state.user
-    if (dateString !== user.birthday) {
+    if (dateString !== user.birthday && dateString !== '') {
       user.birthday = dateString
       this.setState({
         isChange: true,
         user
       })
     }
-    console.log('=========> TuLinh Debug: >: Profile -> handleChangeDate -> this.state.user', this.state.user)
   }
 
   componentDidMount () {
@@ -267,17 +263,11 @@ class Profile extends React.Component {
                         type='gift'
                         theme='filled'
                       />
-                      {/* <Paragraph
-                        className='text-edit'
-                        editable={{
-                          onStart: (name = 'birthday') => this.handleOnStartUpdate(name),
-                          onChange: this.handleChange
-                        }}
-                      >
-                        {user.birthday}
-                      </Paragraph> */}
                       <div>
-                        <DatePicker value={moment(user.birthday, 'YYYY-MM-DD')} onChange={this.handleChangeDate} />
+                        <DatePicker
+                          value={user.birthday ? moment(user.birthday, 'YYYY-MM-DD') : ''}
+                          onChange={this.handleChangeDate}
+                        />
                       </div>
                     </div>
                   </Col>
