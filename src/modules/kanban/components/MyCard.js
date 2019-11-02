@@ -38,14 +38,14 @@ class MyCard extends Component {
   // On Close Modal
   handleCloseModal () {
     const { isChange } = this.state
-    const { getKanbanInfo, kanban: { project } } = this.props
+    const { getKanbanInfo, projetcId } = this.props
     // Check it is something change ??
     if (isChange) {
       this.setState({
         visible: false,
         isChange: false
       })
-      getKanbanInfo(project.id)
+      getKanbanInfo(projetcId)
     } else {
       this.setState({
         visible: false
@@ -82,10 +82,10 @@ class MyCard extends Component {
   }
 
   handleUpdateTitle () {
-    const { id, updateTask, getKanbanInfo, kanban: { project } } = this.props
+    const { id, updateTask, getKanbanInfo, projetcId } = this.props
     const { taskTitle: title } = this.state
     updateTask(id, { title })
-    getKanbanInfo(project.id)
+    getKanbanInfo(projetcId)
     this.setState({
       isEdit: false
     })

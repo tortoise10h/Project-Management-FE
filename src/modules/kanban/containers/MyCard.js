@@ -8,9 +8,7 @@ const mapDispatchToProps = (dispatch, props) => ({
 })
 
 const mapStateToProps = (state, props) => {
-  return {
-    kanban: state[MODULE_VIEW]
-  }
+  return {}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyCard)
