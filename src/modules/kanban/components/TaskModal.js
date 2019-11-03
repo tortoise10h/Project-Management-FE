@@ -13,6 +13,7 @@ const checkboxs = ['Create modal', 'Style modal', 'Animation', 'Fetch API', 'ABC
 export default class TaskModal extends Component {
   constructor (props) {
     super(props)
+    console.log('============> Huy Debugs :>: TaskModal -> constructor -> props', props)
     this.state = {
       visible: false,
       checkProgress: 0
@@ -69,7 +70,7 @@ export default class TaskModal extends Component {
 
   handleUpdateLabel (value) {
     const content = value || this.props
-    this.listLabelInTask = <LabelListModal inTask taskId={content.taskId} onUpdateLabelInTask={content.onUpdateLabels} labels={content.labels} />
+    this.listLabelInTask = <LabelListModal projectId={this.props.projectId} inTask taskId={content.taskId} onUpdateLabelInTask={content.onUpdateLabels} labels={content.labels} />
     this.setAddToCard()
   }
 
@@ -98,6 +99,7 @@ export default class TaskModal extends Component {
 
   render () {
     const { taskId, labels, onUpdateLabels, onChange } = this.props
+    console.log('============> Huy Debugs :>: TaskModal -> render -> this.props', this.props)
     const { checkProgress } = this.state
     return (
       <div className='task-modal'>

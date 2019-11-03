@@ -252,7 +252,7 @@ class Kanban extends React.Component {
               NewLaneSection: BananaTrelloLaneSection,
               NewCardForm: BananaTrelloCardForm,
               AddCardLink: BananaTrelloAddCard,
-              Card: (e) => <><MyCard {...e} projectId={projectId}/></>
+              Card: (e) => <><MyCard {...e} projectId={projectId} /></>
             }}
             customCardLayout
             tagStyle={{ fontSize: '1em' }}
