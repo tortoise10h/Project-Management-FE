@@ -8,7 +8,7 @@ class MyCard extends Component {
     this.state = {
       visible: false,
       isEdit: false,
-      taskTitle: '',
+      taskTitle: 'Title',
       labels: [],
       data: [],
       isChange: false
@@ -27,13 +27,14 @@ class MyCard extends Component {
     this.handleChangeTask = this.handleChangeTask.bind(this)
     this.handleUpdateTitle = this.handleUpdateTitle.bind(this)
     this.handleUpdateDueDate = this.handleUpdateDueDate.bind(this)
+    this.handleUpdateDescription = this.handleUpdateDescription.bind(this)
   }
 
   async getTaskInfo () {
     const { id, getTaskInfo } = this.props
     const result = await getTaskInfo(id)
     this.setState({
-      taskTitle: result.title,
+      taskTitle: result.title || 'Title',
       data: result
     })
   }
@@ -54,14 +55,14 @@ class MyCard extends Component {
   // On Close Modal
   handleCloseModal () {
     const { isChange } = this.state
-    const { getKanbanInfo, projetcId } = this.props
+    const { getKanbanInfo, projectId } = this.props
     // Check it is something change ??
     if (isChange) {
       this.setState({
         visible: false,
         isChange: false
       })
-      getKanbanInfo(projetcId)
+      getKanbanInfo(projectId)
     } else {
       this.setState({
         visible: false
@@ -120,6 +121,21 @@ class MyCard extends Component {
       }
     })
     updateTask(id, { due_date: value })
+    this.setState({
+      isChange: true
+    })
+  }
+
+  // CHANGE DESCRIPTION
+  handleUpdateDescription (desc) {
+    const { id, updateTask } = this.props
+    this.setState({
+      data: {
+        ...this.state.data,
+        description: desc
+      }
+    })
+    updateTask(id, { description: desc })
     this.setState({
       isChange: true
     })
@@ -189,7 +205,7 @@ class MyCard extends Component {
               {
                 labels.length > 0 && labels.map((label) => (
                   label.is_in_task ? (
-                    <span className='trello-card--labels-text' style={{ backgroundColor: label.color }}>
+                    <span key={label.id} className='trello-card--labels-text' style={{ backgroundColor: label.color }}>
                       {label.title}
                     </span>
                   ) : null
@@ -257,6 +273,7 @@ class MyCard extends Component {
             onUpdateLabels={this.handleGetLabelListInTask}
             projectId={projectId}
             onUpdateDuaDate={this.handleUpdateDueDate}
+            onUpdateDescription={this.handleUpdateDescription}
           />
         </Modal>
       </>
