@@ -15,8 +15,13 @@ class LabelListModal extends Component {
   }
 
   async getLabelList () {
-    const { getLabelList, project: { id } } = this.props
-    const result = await getLabelList(id)
+    const { getLabelList, projectId, project } = this.props
+    /** If project object exists that's mean this component was call by another team made component
+     * then get id of project from it
+     * else that's mean React-Trello called it than use projectId from generalize component
+     */
+    const idOfProject = project.id || projectId
+    const result = await getLabelList(idOfProject)
     this.setState({
       labels: result.data
     })
@@ -30,8 +35,13 @@ class LabelListModal extends Component {
   }
 
   async addLabel (color, title) {
-    const { onUpdateLabelInTask, inTask, addLabel, project: { id } } = this.props
-    const result = await addLabel(id, color, title)
+    const { onUpdateLabelInTask, inTask, addLabel, projectId, project } = this.props
+    /** If project object exists that's mean this component was call by another team made component
+     * then get id of project from it
+     * else that's mean React-Trello called it than use projectId from generalize component
+     */
+    const idOfProject = project.id || projectId
+    const result = await addLabel(idOfProject, color, title)
     if (result.id) {
       inTask ? onUpdateLabelInTask() : this.getLabelList()
     }
@@ -57,6 +67,7 @@ class LabelListModal extends Component {
   render () {
     const { labels } = this.state
     const { updateLabel, getLabel, inTask, updateLabelInTask, taskId } = this.props
+    console.log('============> Huy Debugs :>: LabelListModal -> render -> this.props', this.props)
     return (
       <>
         <div className='list-label' style={{ maxHeight: '100%', height: 'auto', overflowY: 'auto' }}>

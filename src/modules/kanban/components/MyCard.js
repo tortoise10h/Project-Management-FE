@@ -100,7 +100,7 @@ class MyCard extends Component {
   }
 
   render () {
-    const { id, onDelete } = this.props
+    const { id, onDelete, projectId } = this.props
     // const LaneInfo = kanbanInfo.find(lane => lane.id === laneId)
     // const TaskInfo = LaneInfo.Tasks.find(task => task.id === id)
     const { visible, isEdit, taskTitle, labels } = this.state
@@ -191,7 +191,13 @@ class MyCard extends Component {
             </span>
           }
         >
-          <TaskModal taskId={id} labels={labels} onChange={this.handleChangeTask} onUpdateLabels={this.handleGetLabelListInTask} />
+          <TaskModal
+            taskId={id}
+            labels={labels}
+            onChange={this.handleChangeTask}
+            onUpdateLabels={this.handleGetLabelListInTask}
+            projectId={projectId}
+          />
         </Modal>
       </>
     )
