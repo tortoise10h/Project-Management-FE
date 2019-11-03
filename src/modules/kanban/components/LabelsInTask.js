@@ -28,7 +28,7 @@ export default class LabelsInTask extends Component {
           labels && labels.map((label) => (
             label.is_in_task
               ? (
-                <span className='trello-card--labels-text modal' style={{ backgroundColor: label.color }}>
+                <span key={label.id} className='trello-card--labels-text modal' style={{ backgroundColor: label.color }}>
                   {label.title}
                 </span>
               ) : null

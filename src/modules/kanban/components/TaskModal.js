@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress } from 'antd'
-import TextArea from 'antd/lib/input/TextArea'
 import SpentTimeModal from './SpentTimeModal'
 import LabelsInTask from './LabelsInTask'
 import LabelListModal from '../../labels/containers/LabelListModal'
 import moment from 'moment'
+import TaskDescription from './TaskDescription'
 
 const { Text } = Typography
 
@@ -149,7 +149,7 @@ export default class TaskModal extends Component {
   }
 
   render () {
-    const { taskId, labels, onUpdateLabels, onChange, data } = this.props
+    const { taskId, labels, onUpdateLabels, onUpdateDescription, onChange, data } = this.props
     const { checkProgress } = this.state
     return (
       <div className='task-modal'>
@@ -306,7 +306,7 @@ export default class TaskModal extends Component {
                 <span style={{ fontWeight: 600 }}>Description</span>
               </div>
               <div className='task-content' style={{ marginLeft: 20 }}>
-                <TextArea rows={5} />
+                <TaskDescription description={data.description} onUpdateDescription={onUpdateDescription} />
               </div>
             </Row>
             {/* ============================ TASK CHECK BOX ============================ */}
