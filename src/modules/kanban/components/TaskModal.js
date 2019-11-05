@@ -1,22 +1,22 @@
 import React, { Component } from 'react'
 import LabelsInTask from './LabelsInTask'
 import LabelListModal from '../../labels/containers/LabelListModal'
-import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress, Tooltip } from 'antd'
+import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress, Tooltip, Input } from 'antd'
 import SpentTimeModal from './SpentTimeModal'
 import moment from 'moment'
 import TaskDescription from './TaskDescription'
 import ContentPopover from '../../MembersTask/containers/MembersTask'
+import TaskCheckList from './TaskCheckList'
+import { thisExpression } from '@babel/types'
 
 const { Text } = Typography
-
-const checkboxs = ['Create modal', 'Style modal', 'Animation', 'Fetch API', 'ABC', 'Lol Khoa']
 
 export default class TaskModal extends Component {
   constructor (props) {
     super(props)
     this.state = {
       visible: false,
-      checkProgress: 0,
+      newTodoTitle: '',
 
       updateLabel: true,
       isInTask: false
@@ -25,15 +25,21 @@ export default class TaskModal extends Component {
     this.AddToCards = {}
     this.setAddToCard()
     this.handleUpdateLabel = this.handleUpdateLabel.bind(this)
-    this.handleOnCheck = this.handleOnCheck.bind(this)
     this.handleShowModal = this.handleShowModal.bind(this)
     this.handleCloseModal = this.handleCloseModal.bind(this)
+    this.handleChangeNewTodoTitle = this.handleChangeNewTodoTitle.bind(this)
     this.listMembersInTask =
       <ContentPopover
         taskId={props.taskId}
         getMembersInTask={props.getMembersInTask}
         MembersInTask={props.MembersInTask}
       />
+  }
+
+  handleChangeNewTodoTitle (e) {
+    this.setState({
+      newTodoTitle: e.target.value
+    })
   }
 
   setAddToCard () {
@@ -51,16 +57,21 @@ export default class TaskModal extends Component {
         popoverContent: this.listLabelInTask
       },
       {
-        key: 'description',
-        icon: 'check-square',
-        title: 'Description',
-        popoverContent: ''
-      },
-      {
         key: 'checkbox',
         icon: 'check-square',
         title: 'Checklist',
-        popoverContent: ''
+        popoverContent: (
+          <>
+            <Input
+              autoFocus
+              placeholder='Add another todo...'
+              style={{ marginBottom: 7 }}
+              onChange={this.handleChangeNewTodoTitle}
+              onPressEnter={() => this.props.onAddTodoInModal(this.state.newTodoTitle)}
+            />
+            <Button onClick={() => this.props.onAddTodoInModal(this.state.newTodoTitle)}>Add</Button>
+          </>
+        )
       },
       {
         key: 'due date',
@@ -91,12 +102,6 @@ export default class TaskModal extends Component {
     const content = value || this.props
     this.listLabelInTask = <LabelListModal projectId={this.props.projectId} inTask taskId={content.taskId} onUpdateLabelInTask={content.onUpdateLabels} labels={content.labels} />
     this.setAddToCard()
-  }
-
-  handleOnCheck (e) {
-    this.setState({
-      checkProgress: Math.floor((e.length / checkboxs.length) * 100)
-    })
   }
 
   handleShowModal () {
@@ -159,8 +164,22 @@ export default class TaskModal extends Component {
   }
 
   render () {
-    const { taskId, labels, getMembersInTask, onUpdateLabels, onUpdateDescription, onChange, data, MembersInTask, onRemoveMemberInTask } = this.props
-    const { checkProgress } = this.state
+    const {
+      taskId,
+      labels,
+      getMembersInTask,
+      onUpdateLabels,
+      onUpdateDescription,
+      onAddTodo,
+      onCheckTodos,
+      onDeleteTodo,
+      onSetTodo,
+      onChange,
+      data,
+      MembersInTask,
+      onRemoveMemberInTask,
+      getTaskInfo
+    } = this.props
     return (
       <div className='task-modal'>
         <Row>
@@ -300,47 +319,28 @@ export default class TaskModal extends Component {
               </div>
             </Row>
             {/* ============================ TASK CHECK BOX ============================ */}
-            <Row>
-              <div>
-                <Icon type='check-square' style={{ marginRight: 5 }} />
-                <span style={{ fontWeight: 600 }}>Checklist</span>
-              </div>
-              <div className='task-content' style={{ marginLeft: 20 }}>
-                <Progress percent={checkProgress} style={{ marginBottom: 10 }} />
-                <Checkbox.Group style={{ width: '100%', marginBottom: 15 }} onChange={this.handleOnCheck}>
-                  {
-                    checkboxs && checkboxs.map((checkbox) => (
-                      <div key={checkbox} className='checklist-content'>
-                        <Checkbox
-                          value={checkbox}
-                          style={{ marginLeft: 10, width: 'calc(100% - 38px)' }}
-                        >
-                          {checkbox}
-                        </Checkbox>
-                        <Popover
-                          placement='right'
-                          trigger='click'
-                          title='Item Actions'
-                          content={
-                            <>
-                              <div className='button-remove--member'>
-                                Edit
-                              </div>
-                              <div className='button-remove--member'>
-                                Delete
-                              </div>
-                            </>
-                          }
-                        >
-                          <span className='button-edit-checklist' onClick={() => console.count()}><Icon type='ellipsis' /></span>
-                        </Popover>
-                      </div>
-                    ))
-                  }
-                </Checkbox.Group>
-                <Button>Add an item</Button>
-              </div>
-            </Row>
+            {
+              data.Todos && data.Todos[0]
+                ? (
+                  <Row>
+                    <div>
+                      <Icon type='check-square' style={{ marginRight: 5 }} />
+                      <span style={{ fontWeight: 600 }}>Checklist</span>
+                    </div>
+                    <div className='task-content' style={{ marginLeft: 20 }}>
+                      <TaskCheckList
+                        taskId={taskId}
+                        checkboxs={data.Todos}
+                        onAddTodo={onAddTodo}
+                        onCheckTodos={onCheckTodos}
+                        onSetTodo={onSetTodo}
+                        onDeleteTodo={onDeleteTodo}
+                        getTaskInfo={getTaskInfo}
+                      />
+                    </div>
+                  </Row>
+                ) : null
+            }
           </Col>
           {/* ============================ TASK OPTION  ============================ */}
           <Col md={{ span: 24 }} lg={{ span: 8, offset: 1 }} xl={{ span: 5, offset: 1 }}>

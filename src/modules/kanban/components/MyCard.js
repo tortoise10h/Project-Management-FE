@@ -30,6 +30,7 @@ class MyCard extends Component {
     this.handleUpdateTitle = this.handleUpdateTitle.bind(this)
     this.handleUpdateDueDate = this.handleUpdateDueDate.bind(this)
     this.handleUpdateDescription = this.handleUpdateDescription.bind(this)
+    this.handleAddTodoInModal = this.handleAddTodoInModal.bind(this)
 
     this.getMembersInTask = this.getMembersInTask.bind(this)
     this.handleRemoveMemberInTask = this.handleRemoveMemberInTask.bind(this)
@@ -172,6 +173,17 @@ class MyCard extends Component {
     }
   }
 
+  async handleAddTodoInModal (value) {
+    console.log('======== Bao Minh: MyCard -> handleAddTodoInModal -> value', value)
+    const { addTodo, id } = this.props
+    const result = await addTodo(id, value)
+    if (result.error) {
+      checkError(result.error.error)
+    } else {
+      this.getTaskInfo()
+    }
+  }
+
   componentDidMount () {
     const { id } = this.props
     this.getTaskInfo(id)
@@ -217,10 +229,10 @@ class MyCard extends Component {
   }
 
   render () {
-    const { id, onDelete, projectId } = this.props
+    const { id, onDelete, projectId, addTodo, checkTodos, deleteTodo, setTodo } = this.props
     const { visible, isEdit, taskTitle, labels, data, MembersInTask } = this.state
     return (
-      <>
+      <div key='id'>
         <div className='trello-card'>
           <Popconfirm
             title='Are you sure delete this task?'
@@ -258,7 +270,7 @@ class MyCard extends Component {
                 {
                   MembersInTask && MembersInTask.length > 0 && MembersInTask.map((member) => (
                     member.is_in_task ? (
-                      <li>
+                      <li key={member.id}>
                         <div className='trello-card--member'>
                           <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} />
                         </div>
@@ -310,9 +322,17 @@ class MyCard extends Component {
             projectId={projectId}
             onUpdateDuaDate={this.handleUpdateDueDate}
             onUpdateDescription={this.handleUpdateDescription}
+            // SETTING TODO IN TASK
+            onAddTodoInModal={this.handleAddTodoInModal}
+            onAddTodo={addTodo}
+            onCheckTodos={checkTodos}
+            onSetTodo={setTodo}
+            onDeleteTodo={deleteTodo}
+
+            getTaskInfo={this.getTaskInfo}
           />
         </Modal>
-      </>
+      </div>
     )
   }
 }
