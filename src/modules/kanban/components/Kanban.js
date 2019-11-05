@@ -236,7 +236,7 @@ class Kanban extends React.Component {
   }
 
   render () {
-    const { projectId } = this.props
+    const { projectId, kanban: { user, kanbanInfo, created_by } } = this.props
     return (
       <div>
         <div className='kanban'>
@@ -252,7 +252,7 @@ class Kanban extends React.Component {
               NewLaneSection: BananaTrelloLaneSection,
               NewCardForm: BananaTrelloCardForm,
               AddCardLink: BananaTrelloAddCard,
-              Card: (e) => <><MyCard {...e} projectId={projectId} /></>
+              Card: (e) => <><MyCard {...e} projectId={projectId} user={user} /></>
             }}
             customCardLayout
             tagStyle={{ fontSize: '1em' }}
