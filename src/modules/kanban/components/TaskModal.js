@@ -178,7 +178,9 @@ export default class TaskModal extends Component {
       data,
       MembersInTask,
       onRemoveMemberInTask,
-      getTaskInfo
+      getTaskInfo,
+      onUpdateEstimatedTime,
+      user
     } = this.props
     return (
       <div className='task-modal'>
@@ -304,7 +306,17 @@ export default class TaskModal extends Component {
               <Text strong>SPENT TIME</Text>
               <div className='task-content due-date' style={{ marginLeft: 20 }}>
                 <span>
-                  <SpentTimeModal />
+                  <SpentTimeModal
+                    estimated_time={data.estimated_time}
+                    estimated_time_unit={data.estimated_time_unit}
+                    spent_time={data.spent_time}
+                    spent_time_unit={data.spent_time_unit}
+                    onUpdateEstimatedTime={onUpdateEstimatedTime}
+                    getMembersInTask={getMembersInTask}
+                    MembersInTask={MembersInTask}
+                    user={user}
+                    created_by={data.created_by}
+                  />
                 </span>
               </div>
             </Row>

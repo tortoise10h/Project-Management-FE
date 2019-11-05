@@ -34,6 +34,8 @@ class MyCard extends Component {
 
     this.getMembersInTask = this.getMembersInTask.bind(this)
     this.handleRemoveMemberInTask = this.handleRemoveMemberInTask.bind(this)
+
+    this.handleUpdateEstimateTime = this.handleUpdateEstimateTime.bind(this)
   }
 
   async getTaskInfo () {
@@ -147,6 +149,30 @@ class MyCard extends Component {
     })
   }
 
+  // CHANGE EstimateTime
+  handleUpdateEstimateTime (values) {
+    const { estimated, spent } = values
+    const { id, updateTask } = this.props
+    this.setState({
+      data: {
+        ...this.state.data,
+        estimated_time: estimated.time,
+        estimated_time_unit: estimated.unitsTime,
+        spent_time: spent.time,
+        spent_time_unit: spent.unitsTime
+      }
+    })
+    updateTask(id, {
+      estimated_time: estimated.time,
+      estimated_time_unit: estimated.unitsTime,
+      spent_time: spent.time,
+      spent_time_unit: spent.unitsTime
+    })
+    this.setState({
+      isChange: true
+    })
+  }
+
   /* ============================ GET LIST MEMBERS  ============================ */
   async getMembersInTask () {
     const { getMembersInTask, id } = this.props
@@ -155,6 +181,7 @@ class MyCard extends Component {
       MembersInTask: result.data
     })
   }
+
   /* ============================ END GET LIST MEMBERS  ============================ */
 
   /* ============================ REMOVE MEMBER IN TASK  ============================ */
@@ -229,7 +256,7 @@ class MyCard extends Component {
   }
 
   render () {
-    const { id, onDelete, projectId, addTodo, checkTodos, deleteTodo, setTodo } = this.props
+    const { id, onDelete, projectId, addTodo, checkTodos, deleteTodo, setTodo, user } = this.props
     const { visible, isEdit, taskTitle, labels, data, MembersInTask } = this.state
     return (
       <div key='id'>
@@ -330,6 +357,8 @@ class MyCard extends Component {
             onDeleteTodo={deleteTodo}
 
             getTaskInfo={this.getTaskInfo}
+            onUpdateEstimatedTime={this.handleUpdateEstimateTime}
+            user={user}
           />
         </Modal>
       </div>

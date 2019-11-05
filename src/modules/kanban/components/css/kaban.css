@@ -208,7 +208,7 @@
 
 .task-modal .ant-typography {
   font-size: 12px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 
 .task-modal .task-content.due-date .detail-box {
@@ -292,3 +292,13 @@
   padding: 10px 0
 }
 /* ====================== TASK MODAL STYLE END ===========================*/
+@media (max-width: 1200px) {
+  .spenttime {
+    margin-left: 0px !important
+  }
+}
+@media (max-width: 992px) {
+  .spenttime {
+    margin-left: 0px !important
+  }
+}
