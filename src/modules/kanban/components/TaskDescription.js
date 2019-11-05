@@ -70,7 +70,7 @@ class TaskDescription extends Component {
                         rows={5}
                         placeholder='Add a more detailed description...'
                       />
-                    )}            
+                    )}
                   </Form.Item>
                   <Form.Item style={{ textAlign: 'left' }}>
                     <Button type='primary' htmlType='submit' style={{ marginRight: 13 }}>Add</Button>

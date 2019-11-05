@@ -98,6 +98,7 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
+  // ================== Handle Task =====================
   addTask: async (columnId, data) => {
     try {
       const propNames = Object.getOwnPropertyNames(data)
@@ -166,6 +167,7 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
+  // ======= Handle Member ===============
   getMembersInTask: async (taskId) => {
     try {
       const result = await fetchAuthLoading({
@@ -188,6 +190,75 @@ export default (dispatch, props) => ({
         }
       })
       return result
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  // ======= Handle Todos ===============
+  addTodo: async (taskId, title) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.addTodo(taskId)}`,
+        method: 'POST',
+        data: {
+          title: title
+        }
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
+    }
+  },
+  setTodo: async (taskId, data) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.setTodo(taskId)}`,
+        method: 'PUT',
+        data: { ...data }
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
+    }
+  },
+  deleteTodo: async (todoId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.deleteTodo(todoId)}`,
+        method: 'DELETE'
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
+    }
+  },
+  checkTodos: async (taskId, todoIds) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.checkTodos(taskId)}`,
+        method: 'POST',
+        data: {
+          todo_ids: todoIds
+        }
+      })
+      if (result) {
+        return result.data
+      }
     } catch (error) {
       return { success: false, message: 'Server Error' }
     }
