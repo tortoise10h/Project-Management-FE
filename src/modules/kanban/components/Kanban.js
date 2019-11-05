@@ -63,6 +63,8 @@ class Kanban extends React.Component {
   }
 
   async moveTask (fromLaneId, toLaneId, taskId, newIndex) {
+    console.log('============> Huy Debugs :>: Kanban -> moveTask -> taskId', taskId)
+    console.log('============> Huy Debugs :>: Kanban -> moveTask -> newIndex', newIndex)
     /** because min value of card is 0 but sequelize cant't sort 0 value
      * so change min value to 1 by newIndex++
     * */
@@ -157,6 +159,9 @@ class Kanban extends React.Component {
 
   async addNewTask (columnId, taskData) {
     const { addTask, projectId, getKanbanInfo } = this.props
+    const { data } = this.state
+    const columnOfNewTaskPosition = data.lanes.findIndex(column => column.id === columnId)
+    const columnOfNewTask = data.lanes[columnOfNewTaskPosition]
     const result = await addTask(columnId, {
       title: taskData.title,
       description: taskData.description
@@ -165,7 +170,15 @@ class Kanban extends React.Component {
       notification.success({
         message: 'Add new column successfully'
       })
-      await getKanbanInfo(projectId)
+      columnOfNewTask.cards.push({
+        id: result.id,
+        title: result.title,
+        description: result.description,
+        index: result.index
+      })
+      data.lanes[columnOfNewTaskPosition] = columnOfNewTask
+      // this.setState({ data })
+      // await getKanbanInfo(projectId)
     } else {
       notification.error({
         message: 'Server error'
@@ -206,40 +219,42 @@ class Kanban extends React.Component {
   }
 
   componentDidMount () {
+    console.log('did mount run')
     this.getKanbanData()
   }
 
-  componentWillReceiveProps (newProps) {
-    if (newProps.kanban.kanbanInfo !== this.props.kanban.kanbanInfo) {
-      const allColumnsInfo = {}
-      allColumnsInfo.lanes = newProps.kanban.kanbanInfo.map((column) => {
-        /** Get column info */
-        const columnInfo = {
-          id: column.id,
-          title: column.title,
-          label: column.Tasks.length,
-          style: {
-            width: 280
-          }
-        }
-        /** Get tasks of column */
-        const tasksInfo = column.Tasks.map(task => (
-          {
-            id: task.id,
-            title: task.title,
-            description: task.description,
-            index: task.index
-          }
-        ))
-        columnInfo.cards = tasksInfo
-        return columnInfo
-      })
-      this.setState({ data: allColumnsInfo })
-    }
-  }
+  // componentWillReceiveProps (newProps) {
+  //   if (newProps.kanban.kanbanInfo !== this.props.kanban.kanbanInfo) {
+  //     const allColumnsInfo = {}
+  //     allColumnsInfo.lanes = newProps.kanban.kanbanInfo.map((column) => {
+  //       /** Get column info */
+  //       const columnInfo = {
+  //         id: column.id,
+  //         title: column.title,
+  //         label: column.Tasks.length,
+  //         style: {
+  //           width: 280
+  //         }
+  //       }
+  //       /** Get tasks of column */
+  //       const tasksInfo = column.Tasks.map(task => (
+  //         {
+  //           id: task.id,
+  //           title: task.title,
+  //           description: task.description,
+  //           index: task.index
+  //         }
+  //       ))
+  //       columnInfo.cards = tasksInfo
+  //       return columnInfo
+  //     })
+  //     this.setState({ data: allColumnsInfo })
+  //   }
+  // }
 
   render () {
     const { projectId } = this.props
+    console.log('============> Huy Debugs :>: Kanban -> render -> this.state.data', this.state.data)
     return (
       <div>
         <div className='kanban'>
