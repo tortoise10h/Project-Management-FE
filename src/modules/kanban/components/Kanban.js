@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { memo } from 'react'
 import {
   notification
 } from 'antd'
 import Board from 'react-trello'
 import './css/kaban.css'
 import MyCard from '../containers/MyCard'
-import BananaTrelloCardForm from './BananaTrelloCardForm'
+import BananaTrelloCardForm from '../containers/BananaTrelloCardForm'
 import BananaTrelloLaneForm from './BananaTrelloLaneForm'
 import BananaTrelloAddCard from './BananaTrelloAddCard'
 import BananaTrelloLaneSection from './BananaTrelloLaneSection'
@@ -25,7 +25,7 @@ class Kanban extends React.Component {
     })
     this.getKanbanData = this.getKanbanData.bind(this)
     this.addNewColumn = this.addNewColumn.bind(this)
-    this.addNewTask = this.addNewTask.bind(this)
+    // this.addNewTask = this.addNewTask.bind(this)
     this.moveTask = this.moveTask.bind(this)
     this.updateColumn = this.updateColumn.bind(this)
   }
@@ -42,7 +42,7 @@ class Kanban extends React.Component {
     } else {
       CheckError(result.error.error)
     }
-    await getKanbanInfo(projectId)
+    // await getKanbanInfo(projectId)
   }
 
   async updateColumn (columnId, params) {
@@ -144,7 +144,7 @@ class Kanban extends React.Component {
       await updateTaskIndex(tasksToUpdateIndex)
     }
     if (result) {
-      await getKanbanInfo(projectId)
+      // if (diffLane) await getKanbanInfo(projectId)
     } else {
       notification.error({
         message: 'Move card error'
@@ -152,23 +152,23 @@ class Kanban extends React.Component {
     }
   }
 
-  async addNewTask (columnId, taskData) {
-    const { addTask, projectId, getKanbanInfo } = this.props
-    const result = await addTask(columnId, {
-      title: taskData.title,
-      description: taskData.description
-    })
-    if (result) {
-      notification.success({
-        message: 'Add new column successfully'
-      })
-      await getKanbanInfo(projectId)
-    } else {
-      notification.error({
-        message: 'Server error'
-      })
-    }
-  }
+  // async addNewTask (columnId, taskData) {
+  //   const { addTask, projectId, getKanbanInfo } = this.props
+  //   const result = await addTask(columnId, {
+  //     title: taskData.title,
+  //     description: taskData.description
+  //   })
+  //   if (result) {
+  //     notification.success({
+  //       message: 'Add new column successfully'
+  //     })
+  //     await getKanbanInfo(projectId)
+  //   } else {
+  //     notification.error({
+  //       message: 'Server error'
+  //     })
+  //   }
+  // }
 
   async getKanbanData () {
     const { getKanbanInfo, getUserRole, getProjectInfo, projectId } = this.props
@@ -206,37 +206,39 @@ class Kanban extends React.Component {
     this.getKanbanData()
   }
 
-  componentWillReceiveProps (newProps) {
-    if (newProps.kanban.kanbanInfo !== this.props.kanban.kanbanInfo) {
-      const allColumnsInfo = {}
-      allColumnsInfo.lanes = newProps.kanban.kanbanInfo.map((column) => {
-        /** Get column info */
-        const columnInfo = {
-          id: column.id,
-          title: column.title,
-          label: column.Tasks.length,
-          style: {
-            width: 280
-          }
-        }
-        /** Get tasks of column */
-        const tasksInfo = column.Tasks.map(task => (
-          {
-            id: task.id,
-            title: task.title,
-            description: task.description,
-            index: task.index
-          }
-        ))
-        columnInfo.cards = tasksInfo
-        return columnInfo
-      })
-      this.setState({ data: allColumnsInfo })
-    }
-  }
+  // componentWillReceiveProps (newProps) {
+  //   if (newProps.kanban.kanbanInfo !== this.props.kanban.kanbanInfo) {
+  //     const allColumnsInfo = {}
+  //     allColumnsInfo.lanes = newProps.kanban.kanbanInfo.map((column) => {
+  //       /** Get column info */
+  //       const columnInfo = {
+  //         id: column.id,
+  //         title: column.title,
+  //         label: column.Tasks.length,
+  //         style: {
+  //           width: 280
+  //         }
+  //       }
+  //       /** Get tasks of column */
+  //       const tasksInfo = column.Tasks.map(task => (
+  //         {
+  //           id: task.id,
+  //           title: task.title,
+  //           description: task.description,
+  //           index: task.index
+  //         }
+  //       ))
+  //       columnInfo.cards = tasksInfo
+  //       return columnInfo
+  //     })
+  //     this.setState({ data: allColumnsInfo })
+  //   }
+  // }
 
   render () {
-    const { projectId, kanban: { user, kanbanInfo, created_by } } = this.props
+    const { projectId, kanban } = this.props
+    console.log('======== Bao Minh: Kanban -> render -> this.state.data', this.state.data)
+    // const CustomCard = new MyCard(projectId)
     return (
       <div>
         <div className='kanban'>
@@ -252,12 +254,11 @@ class Kanban extends React.Component {
               NewLaneSection: BananaTrelloLaneSection,
               NewCardForm: BananaTrelloCardForm,
               AddCardLink: BananaTrelloAddCard,
-              Card: (e) => <><MyCard {...e} projectId={projectId} user={user} /></>
+              Card: (e) => <MyCard {...e} projectId={projectId} user={kanban.user} />
             }}
             customCardLayout
             tagStyle={{ fontSize: '1em' }}
             onLaneAdd={(params) => this.addNewColumn(params)}
-            onCardAdd={(card, laneId) => this.addNewTask(laneId, card)}
             onCardMoveAcrossLanes={(fromLaneId, toLaneId, cardId, index) => this.moveTask(fromLaneId, toLaneId, cardId, index)}
             onLaneUpdate={(laneId, data) => this.updateColumn(laneId, data)}
           />

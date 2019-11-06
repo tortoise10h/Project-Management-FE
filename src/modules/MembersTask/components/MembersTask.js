@@ -35,7 +35,7 @@ class MembersTask extends React.Component {
     this.setState({
       loading: true
     })
-    const { addMembersInTask, taskId, getMembersInTask } = this.props
+    const { addMembersInTask, taskId, onGetMembersInTask } = this.props
     const { userIds } = this.state
     const result = await addMembersInTask(taskId, userIds)
     if (result.error) {
@@ -49,7 +49,7 @@ class MembersTask extends React.Component {
         loading: false,
         userIds: []
       })
-      getMembersInTask()
+      onGetMembersInTask()
       notification.success({
         message: 'Add Members Success',
         placement: 'topRight'

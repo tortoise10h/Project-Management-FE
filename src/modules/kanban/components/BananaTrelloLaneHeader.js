@@ -51,7 +51,7 @@ class BananaTrelloLaneHeader extends Component {
   }
 
   render () {
-    const { label, onDelete } = this.props
+    const { cards, onDelete } = this.props
     const { laneTitle, isEdit } = this.state
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -74,7 +74,7 @@ class BananaTrelloLaneHeader extends Component {
           }
         </span>
         <span style={{ display: 'inline-block', width: '20%' }}>
-          {label}
+          {cards.length}
         </span>
         <Popconfirm
           trigger='click'

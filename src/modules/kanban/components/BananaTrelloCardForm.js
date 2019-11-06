@@ -10,18 +10,25 @@ class BananaTrelloCardForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  handleSubmit (e) {
+  async handleSubmit (e) {
     e.preventDefault()
-    const { form, onAdd } = this.props
+    const { form, onAdd, laneId, addTask } = this.props
     form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        onAdd(values)
+        const task = await addTask(laneId, values)
+        onAdd({
+          id: task.id,
+          title: task.title,
+          description: task.description,
+          index: task.index
+        })
       }
     })
   }
 
   render () {
     const { form, onCancel } = this.props
+    console.log('======== Bao Minh: BananaTrelloCardForm -> render -> this.props', this.props)
     const { getFieldDecorator } = form
     return (
       <Form
