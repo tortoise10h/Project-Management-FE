@@ -31,7 +31,7 @@ export default class TaskModal extends Component {
     this.listMembersInTask =
       <ContentPopover
         taskId={props.taskId}
-        getMembersInTask={props.getMembersInTask}
+        onGetMembersInTask={props.onGetMembersInTask}
         MembersInTask={props.MembersInTask}
       />
   }
@@ -167,7 +167,7 @@ export default class TaskModal extends Component {
     const {
       taskId,
       labels,
-      getMembersInTask,
+      onGetMembersInTask,
       onUpdateLabels,
       onUpdateDescription,
       onAddTodo,
@@ -182,6 +182,7 @@ export default class TaskModal extends Component {
       onUpdateEstimatedTime,
       user
     } = this.props
+    console.log('======== Bao Minh: TaskModal -> render -> this.props', this.props)
     return (
       <div className='task-modal'>
         <Row>
@@ -250,7 +251,7 @@ export default class TaskModal extends Component {
                           content={
                             <ContentPopover
                               taskId={taskId}
-                              getMembersInTask={getMembersInTask}
+                              onGetMembersInTask={onGetMembersInTask}
                               MembersInTask={MembersInTask}
                             />
                           }
@@ -312,7 +313,7 @@ export default class TaskModal extends Component {
                     spent_time={data.spent_time}
                     spent_time_unit={data.spent_time_unit}
                     onUpdateEstimatedTime={onUpdateEstimatedTime}
-                    getMembersInTask={getMembersInTask}
+                    getMembersInTask={onGetMembersInTask}
                     MembersInTask={MembersInTask}
                     user={user}
                     created_by={data.created_by}
