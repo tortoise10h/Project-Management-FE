@@ -20,7 +20,8 @@ export const ENDPOINTS = {
   updateTaskIndex: `${DEFAULT_URL}/task/updateIndex`,
   updateColumn: (columnId) => `${DEFAULT_URL}/column/${columnId}`,
   getMembersInTask: (taskId) => `${DEFAULT_URL}/task/${taskId}/user`,
-  removeMemberInTask: (taskId) => `${DEFAULT_URL}/task/${taskId}/user`
+  removeMemberInTask: (taskId) => `${DEFAULT_URL}/task/${taskId}/user`,
+  getLogOfProject: (projectId) => `${DEFAULT_URL}/project/${projectId}/log`
 }
 
 export const LIMIT = 20
