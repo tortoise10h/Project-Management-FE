@@ -1,11 +1,6 @@
 import { fetchAuthLoading } from '../../common/effects'
 import { ENDPOINTS, LIMIT } from './models'
-import {
-  setTasks,
-  setKanbanInfo,
-  setUserRole,
-  setProjectInfo
-} from './actions'
+import { setKanbanInfo, setUserRole, setProjectInfo } from './actions'
 
 export default (dispatch, props) => ({
   addColumn: async (projectId, data) => {
@@ -59,7 +54,7 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
-  getKanbanInfo: async (projectId) => {
+  getKanbanInfo: async projectId => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.getKanbanInfo(projectId)}`,
@@ -73,7 +68,7 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
-  getUserRole: async (projectId) => {
+  getUserRole: async projectId => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.getUserRole(projectId)}`,
@@ -87,7 +82,7 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
-  getProjectInfo: async (projectId) => {
+  getProjectInfo: async projectId => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.getProjectInfo(projectId)}`,
@@ -101,7 +96,7 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
-  getTaskInfo: async (taskId) => {
+  getTaskInfo: async taskId => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.getTaskInfo(taskId)}`,
@@ -120,7 +115,11 @@ export default (dispatch, props) => ({
       const propNames = Object.getOwnPropertyNames(data)
       for (let i = 0; i < propNames.length; i++) {
         const propName = propNames[i]
-        if (data[propName] === null || data[propName] === undefined || data[propName] === '') {
+        if (
+          data[propName] === null ||
+          data[propName] === undefined ||
+          data[propName] === ''
+        ) {
           delete data[propName]
         }
       }
@@ -138,7 +137,7 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
-  deleteTask: async (taskId) => {
+  deleteTask: async taskId => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.deleteTask(taskId)}`,
@@ -170,7 +169,7 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
-  updateTaskIndex: async (tasks) => {
+  updateTaskIndex: async tasks => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.updateTaskIndex}`,
@@ -186,7 +185,7 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
-  getLabelListInTask: async (taskId) => {
+  getLabelListInTask: async taskId => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.getLabelListInTask(taskId)}`,
@@ -200,7 +199,7 @@ export default (dispatch, props) => ({
     }
   },
   // ======= Handle Member ===============
-  getMembersInTask: async (taskId) => {
+  getMembersInTask: async taskId => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.getMembersInTask(taskId)}`,
@@ -263,7 +262,7 @@ export default (dispatch, props) => ({
       return { success: false, error: { message: 'Server error' } }
     }
   },
-  deleteTodo: async (todoId) => {
+  deleteTodo: async todoId => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.deleteTodo(todoId)}`,
@@ -291,6 +290,26 @@ export default (dispatch, props) => ({
       if (result) {
         return result.data
       }
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
+
+  // ======= Handle Log ===============
+  getLogOfProject: async (projectId, page, params = {}) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: ENDPOINTS.getLogOfProject(projectId),
+        method: 'GET',
+        params: {
+          page,
+          sort: 'createdAt',
+          direction: 'desc',
+          offset: LIMIT,
+          ...params
+        }
+      })
+      return result.data
     } catch (error) {
       return { success: false, message: 'Server Error' }
     }

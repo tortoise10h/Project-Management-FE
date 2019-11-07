@@ -10,6 +10,7 @@ import ConfirmEmail from './../pages/ConfirmEmail'
 import ConfirmSuccess from './../pages/ConfirmSuccess'
 import KanbanPage from './../pages/KanbanPage'
 import MembersMenu from './../modules/Members/containers/MembersMenu'
+import LogPage from './../pages/LogPage'
 
 export default class Routes extends Component {
   constructor (props) {
@@ -41,6 +42,7 @@ export default class Routes extends Component {
             <Route key='' path='/project-kanban/:id' exact component={KanbanPage} />
             <Route key='' path='/profile/:id' exact component={UserProfile} />
             <Route key='' path='/setting-members' exact component={MembersMenu} />
+            <Route key='' path='/project-log' exact component={LogPage} />
             <Route component={UnderContruct} />
           </Switch>
         </MainLayout>
