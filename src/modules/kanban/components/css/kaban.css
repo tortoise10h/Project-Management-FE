@@ -208,7 +208,7 @@
 
 .task-modal .ant-typography {
   font-size: 12px;
-  /* text-transform: uppercase; */
+  text-transform: uppercase;
 }
 
 .task-modal .task-content.due-date .detail-box {
@@ -302,3 +302,19 @@
     margin-left: 0px !important
   }
 }
+/* ====================== STYLE ATTACHMENT START ========================= */
+.task-content .media {
+  display: flex;
+  align-items: center;
+  min-height: 100px;
+  cursor: pointer;
+  border-radius: 5;
+  background: rgba(9,30,66,.04);
+}
+
+.task-content .media:hover {
+  background: rgba(9,30,66,.04);
+}
+
+
+/* ====================== STYLE ATTACHMENT END ========================= */

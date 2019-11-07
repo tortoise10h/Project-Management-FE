@@ -13,7 +13,8 @@ class MyCard extends Component {
       MembersInTask: [],
       labels: [],
       data: [],
-      isChange: false
+      isChange: false,
+      listMedia: []
     }
 
     this.setDueDate = this.setDueDate.bind(this)
@@ -37,6 +38,9 @@ class MyCard extends Component {
     this.handleRemoveMemberInTask = this.handleRemoveMemberInTask.bind(this)
 
     this.handleUpdateEstimateTime = this.handleUpdateEstimateTime.bind(this)
+    this.handleAddMedia = this.handleAddMedia.bind(this)
+    this.handleGetListMedia = this.handleGetListMedia.bind(this)
+    this.handleRemoveMediaInTask = this.handleRemoveMediaInTask.bind(this)
   }
 
   async getTaskInfo () {
@@ -173,6 +177,52 @@ class MyCard extends Component {
     })
   }
 
+  /* ============================ ADD MEDIA TO TASK ============================ */
+  async handleAddMedia (values) {
+    const { id, addMedia } = this.props
+    const result = await addMedia(id, values)
+    if (result.error) {
+      const errors = result.error
+      checkError(errors.error)
+    } else {
+      this.handleGetListMedia()
+      this.setState({
+        isChange: true
+      })
+      notification.success({
+        message: 'Add Media Success',
+        placement: 'topRight'
+      })
+    }
+  }
+  /* ============================END ADD MEDIA TO TASK ============================ */
+
+  /* ============================ GET LIST MEDIA TO TASK ============================ */
+  async handleGetListMedia () {
+    const { id, getListMedia } = this.props
+    const result = await getListMedia(id)
+    this.setState({
+      listMedia: result.data.data
+    })
+  }
+  /* ============================GET LIST MEDIA TO TASK ============================ */
+
+  /* ============================ REMOVE MEDIA IN TASK  ============================ */
+  async handleRemoveMediaInTask (mediaId) {
+    const { deleteMediaInTask } = this.props
+    const result = await deleteMediaInTask(mediaId)
+    if (result.error) {
+      const errors = result.error
+      checkError(errors.error)
+    } else {
+      this.handleGetListMedia()
+      notification.success({
+        message: 'Remove Media Success',
+        placement: 'topRight'
+      })
+    }
+  }
+
   /* ============================ GET LIST MEMBERS  ============================ */
   async handleGetMembersInTask () {
     const { getMembersInTask, id } = this.props
@@ -215,6 +265,7 @@ class MyCard extends Component {
     this.getTaskInfo(id)
     this.handleGetMembersInTask()
     this.handleGetLabelListInTask()
+    this.handleGetListMedia()
   }
 
   async onDelete () {
@@ -270,7 +321,7 @@ class MyCard extends Component {
 
   render () {
     const { id, projectId, addTodo, checkTodos, deleteTodo, setTodo, user } = this.props
-    const { visible, isEdit, taskTitle, labels, data, MembersInTask } = this.state
+    const { visible, isEdit, taskTitle, labels, data, MembersInTask, listMedia } = this.state
     return (
       <div key='id'>
         <div className='trello-card'>
@@ -372,6 +423,10 @@ class MyCard extends Component {
             getTaskInfo={this.getTaskInfo}
             onUpdateEstimatedTime={this.handleUpdateEstimateTime}
             user={user}
+            onAddMedia={this.handleAddMedia}
+            onGetListMedia={this.handleGetListMedia}
+            listMedia={listMedia}
+            onRemoveMediaInTask={this.handleRemoveMediaInTask}
           />
         </Modal>
       </div>

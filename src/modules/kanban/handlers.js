@@ -1,6 +1,11 @@
-import { fetchAuthLoading } from '../../common/effects'
+import { fetchAuthLoading, loading } from '../../common/effects'
 import { ENDPOINTS, LIMIT } from './models'
-import { setKanbanInfo, setUserRole, setProjectInfo } from './actions'
+import {
+  setKanbanInfo,
+  setUserRole,
+  setProjectInfo
+} from './actions'
+import { async } from 'q'
 
 export default (dispatch, props) => ({
   addColumn: async (projectId, data) => {
@@ -312,6 +317,69 @@ export default (dispatch, props) => ({
       return result.data
     } catch (error) {
       return { success: false, message: 'Server Error' }
+    }
+  },
+  addMedia: async (taskId, data) => {
+    try {
+      const result = await loading(async () => {
+        const fields = {
+          ...data
+        }
+
+        const form = new FormData()
+
+        if (data.media && data.media.length) {
+          form.append('media', data.media[0].originFileObj)
+        }
+
+        delete fields.media
+
+        Object.keys(fields).forEach(key => {
+          fields[key] && form.append(key, fields[key])
+        })
+
+        const url = ENDPOINTS.addMedia(taskId)
+
+        const result = await fetchAuthLoading({
+          url,
+          method: 'POST',
+          data: form,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        if (result.data && result.data.success) {
+        }
+        return { success: true }
+      })
+      return result
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
+    }
+  },
+  getListMedia: async (taskId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getListMedia(taskId)}`,
+        method: 'GET'
+      })
+      return result
+    } catch (error) {
+      return { success: false, error: { message: 'Server error' } }
+    }
+  },
+  deleteMediaInTask: async (mediaId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.deleteMediaInTask(mediaId)}`,
+        method: 'DELETE'
+      })
+      return result
+    } catch (error) {
+      return { success: false, error: { message: 'Server error' } }
     }
   }
 })

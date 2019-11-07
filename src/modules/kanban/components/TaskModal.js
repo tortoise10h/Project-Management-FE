@@ -3,6 +3,7 @@ import LabelsInTask from './LabelsInTask'
 import LabelListModal from '../../labels/containers/LabelListModal'
 import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress, Tooltip, Input } from 'antd'
 import SpentTimeModal from './SpentTimeModal'
+import TaskMedia from './TaskMedia'
 import moment from 'moment'
 import TaskDescription from './TaskDescription'
 import ContentPopover from '../../MembersTask/containers/MembersTask'
@@ -33,6 +34,13 @@ export default class TaskModal extends Component {
         taskId={props.taskId}
         onGetMembersInTask={props.onGetMembersInTask}
         MembersInTask={props.MembersInTask}
+      />
+    this.addMedia =
+      <TaskMedia
+        taskId={props.taskId}
+        onAddMedia={props.onAddMedia}
+        onGetListMedia={props.onGetListMedia}
+        listMedia={props.listMedia}
       />
   }
 
@@ -93,7 +101,7 @@ export default class TaskModal extends Component {
         key: 'attachment',
         icon: 'paper-clip',
         title: 'Attachment',
-        popoverContent: ''
+        popoverContent: this.addMedia
       }
     ]
   }
@@ -180,9 +188,10 @@ export default class TaskModal extends Component {
       onRemoveMemberInTask,
       getTaskInfo,
       onUpdateEstimatedTime,
-      user
+      user,
+      listMedia,
+      onRemoveMediaInTask
     } = this.props
-    console.log('======== Bao Minh: TaskModal -> render -> this.props', this.props)
     return (
       <div className='task-modal'>
         <Row>
@@ -321,6 +330,8 @@ export default class TaskModal extends Component {
                 </span>
               </div>
             </Row>
+            {/* ============================ TASK SPENT TIME ============================ */}
+
             {/* ============================ TASK DESCRIPTION ============================ */}
             <Row>
               <div>
@@ -331,6 +342,35 @@ export default class TaskModal extends Component {
                 <TaskDescription description={data.description} onUpdateDescription={onUpdateDescription} />
               </div>
             </Row>
+            {/* ============================ TASK DESCRIPTION ============================ */}
+
+            {/* ============================ TASK Attachment ============================ */}
+            {
+              listMedia.length >= 1 ? (
+                <Row>
+                  <div>
+                    <Icon type='paper-clip' style={{ marginRight: 5 }} />
+                    <span style={{ fontWeight: 600 }}>Attachment</span>
+                  </div>
+                  <div className='task-content' style={{ marginLeft: 20 }}>
+                    {
+                      listMedia.map(media => (
+                        <div key={media.task_id} className='media' style={{ marginTop: 10 }}>
+                          <img src={`http://localhost:5000/${media.media_location}`} width={100} height={100} />
+                          <span style={{ marginLeft: 10, display: 'inline-block' }}>
+                            <p style={{ fontWeight: 600 }}>{media.title}</p>
+                            <p style={{ fontSize: 12 }}>Created by: {media.created_by}</p>
+                          </span>
+                          <Icon style={{ marginLeft: 500, position: 'absolute' }} onClick={() => onRemoveMediaInTask(media.id)} type='delete' />
+                        </div>
+                      ))
+                    }
+                  </div>
+                </Row>
+              ) : null
+            }
+            {/* ============================ TASK Attachment ============================ */}
+
             {/* ============================ TASK CHECK BOX ============================ */}
             {
               data.Todos && data.Todos[0]
