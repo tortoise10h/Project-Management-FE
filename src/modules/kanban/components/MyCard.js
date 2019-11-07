@@ -17,6 +17,7 @@ class MyCard extends Component {
     }
 
     this.setDueDate = this.setDueDate.bind(this)
+    this.onDelete = this.onDelete.bind(this)
 
     this.getTaskInfo = this.getTaskInfo.bind(this)
 
@@ -218,6 +219,15 @@ class MyCard extends Component {
     this.handleGetLabelListInTask()
   }
 
+  async onDelete () {
+    const { onDelete, deleteTask, id } = this.props
+    const result = await deleteTask(id)
+    console.log('======== Bao Minh: MyCard -> onDelete -> result', result)
+    if (result.error) {
+      checkError(result.error.error)
+    } else { onDelete() }
+  }
+
   setDueDate (day, minutes) {
     let color = ''
     let title = ''
@@ -256,14 +266,14 @@ class MyCard extends Component {
   }
 
   render () {
-    const { id, onDelete, projectId, addTodo, checkTodos, deleteTodo, setTodo, user } = this.props
+    const { id, projectId, addTodo, checkTodos, deleteTodo, setTodo, user } = this.props
     const { visible, isEdit, taskTitle, labels, data, MembersInTask } = this.state
     return (
       <div key='id'>
         <div className='trello-card'>
           <Popconfirm
             title='Are you sure delete this task?'
-            onConfirm={onDelete}
+            onConfirm={this.onDelete}
             okText='Yes'
             cancelText='No'
           >
