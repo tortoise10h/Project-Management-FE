@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Input, Button, Form, Icon } from 'antd'
+import { Input, Button, Form, Icon, notification } from 'antd'
+import checkError from '../../../libraries/CheckError'
 
 class BananaTrelloLaneForm extends Component {
   constructor (props) {
@@ -9,11 +10,21 @@ class BananaTrelloLaneForm extends Component {
   }
 
   handleSubmit (e) {
+    const { addColumn, projectId } = this.props
     e.preventDefault()
     const { form, onAdd } = this.props
     form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        onAdd(values)
+        const result = await addColumn(projectId, values)
+        if (result.success !== false) {
+          notification.success({
+            placement: 'topRight',
+            message: 'Add new column successfully'
+          })
+          onAdd({ ...result })
+        } else {
+          checkError(result.error.error)
+        }
       }
     })
   }

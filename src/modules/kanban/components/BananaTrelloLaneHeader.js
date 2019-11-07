@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Icon, Popconfirm, Input, Tooltip } from 'antd'
+import { Icon, Popconfirm, Input, Tooltip, notification } from 'antd'
+import checkError from '../../../libraries/CheckError'
 
 class BananaTrelloLaneHeader extends Component {
   constructor (props) {
@@ -11,6 +12,7 @@ class BananaTrelloLaneHeader extends Component {
     this.setTitle = this.setTitle.bind(this)
     this.handleEditLaneTitle = this.handleEditLaneTitle.bind(this)
     this.handleUpdateTitle = this.handleUpdateTitle.bind(this)
+    this.handleOnDelete = this.handleOnDelete.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
   }
 
@@ -50,8 +52,23 @@ class BananaTrelloLaneHeader extends Component {
     })
   }
 
+  async handleOnDelete () {
+    const { onDelete, deleteColumn, id } = this.props
+    const result = await deleteColumn(id)
+    console.log('======== Bao Minh: BananaTrelloLaneHeader -> handleOnDelete -> result', result)
+    if (result.error) {
+      checkError(result.error.error)
+    } else {
+      onDelete()
+      notification.success({
+        placement: 'topRight',
+        message: 'Delete lane success'
+      })
+    }
+  }
+
   render () {
-    const { cards, onDelete } = this.props
+    const { cards } = this.props
     const { laneTitle, isEdit } = this.state
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -80,7 +97,7 @@ class BananaTrelloLaneHeader extends Component {
           trigger='click'
           placement='bottom'
           title='Are you sure delete this lane?'
-          onConfirm={onDelete}
+          onConfirm={this.handleOnDelete}
           okText='Yes'
           cancelText='No'
         >

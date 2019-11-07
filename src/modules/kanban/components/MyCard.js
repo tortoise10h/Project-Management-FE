@@ -33,7 +33,7 @@ class MyCard extends Component {
     this.handleUpdateDescription = this.handleUpdateDescription.bind(this)
     this.handleAddTodoInModal = this.handleAddTodoInModal.bind(this)
 
-    this.getMembersInTask = this.getMembersInTask.bind(this)
+    this.handleGetMembersInTask = this.handleGetMembersInTask.bind(this)
     this.handleRemoveMemberInTask = this.handleRemoveMemberInTask.bind(this)
 
     this.handleUpdateEstimateTime = this.handleUpdateEstimateTime.bind(this)
@@ -64,14 +64,13 @@ class MyCard extends Component {
   // On Close Modal
   handleCloseModal () {
     const { isChange } = this.state
-    const { getKanbanInfo, projectId } = this.props
     // Check it is something change ??
     if (isChange) {
       this.setState({
         visible: false,
         isChange: false
       })
-      getKanbanInfo(projectId)
+      // getKanbanInfo(projectId)
     } else {
       this.setState({
         visible: false
@@ -175,7 +174,7 @@ class MyCard extends Component {
   }
 
   /* ============================ GET LIST MEMBERS  ============================ */
-  async getMembersInTask () {
+  async handleGetMembersInTask () {
     const { getMembersInTask, id } = this.props
     const result = await getMembersInTask(id)
     this.setState({
@@ -193,7 +192,7 @@ class MyCard extends Component {
       const errors = result.error
       checkError(errors.error)
     } else {
-      this.getMembersInTask()
+      this.handleGetMembersInTask()
       notification.success({
         message: 'Remove Members Success',
         placement: 'topRight'
@@ -202,7 +201,6 @@ class MyCard extends Component {
   }
 
   async handleAddTodoInModal (value) {
-    console.log('======== Bao Minh: MyCard -> handleAddTodoInModal -> value', value)
     const { addTodo, id } = this.props
     const result = await addTodo(id, value)
     if (result.error) {
@@ -215,17 +213,22 @@ class MyCard extends Component {
   componentDidMount () {
     const { id } = this.props
     this.getTaskInfo(id)
-    this.getMembersInTask()
+    this.handleGetMembersInTask()
     this.handleGetLabelListInTask()
   }
 
   async onDelete () {
     const { onDelete, deleteTask, id } = this.props
     const result = await deleteTask(id)
-    console.log('======== Bao Minh: MyCard -> onDelete -> result', result)
     if (result.error) {
       checkError(result.error.error)
-    } else { onDelete() }
+    } else {
+      onDelete()
+      notification.success({
+        placement: 'topRight',
+        message: 'Delete task success'
+      })
+    }
   }
 
   setDueDate (day, minutes) {
@@ -354,7 +357,7 @@ class MyCard extends Component {
             onUpdateLabels={this.handleGetLabelListInTask}
             // SETTING MEMBER IN TASK
             onRemoveMemberInTask={this.handleRemoveMemberInTask}
-            getMembersInTask={this.getMembersInTask}
+            onGetMembersInTask={this.handleGetMembersInTask}
             MembersInTask={MembersInTask}
             projectId={projectId}
             onUpdateDuaDate={this.handleUpdateDueDate}

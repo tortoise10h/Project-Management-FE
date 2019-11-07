@@ -6,11 +6,11 @@ import Board from 'react-trello'
 import './css/kaban.css'
 import MyCard from '../containers/MyCard'
 import BananaTrelloCardForm from '../containers/BananaTrelloCardForm'
-import BananaTrelloLaneForm from './BananaTrelloLaneForm'
+import BananaTrelloLaneForm from '../containers/BananaTrelloLaneForm'
 import BananaTrelloAddCard from './BananaTrelloAddCard'
 import BananaTrelloLaneSection from './BananaTrelloLaneSection'
 import CheckError from '../../../libraries/CheckError'
-import BananaTrelloLaneHeader from './BananaTrelloLaneHeader'
+import BananaTrelloLaneHeader from '../containers/BananaTrelloLaneHeader'
 
 class Kanban extends React.Component {
   constructor (props) {
@@ -31,7 +31,7 @@ class Kanban extends React.Component {
   }
 
   async addNewColumn (params) {
-    const { addColumn, projectId, getKanbanInfo } = this.props
+    const { addColumn, projectId } = this.props
     const result = await addColumn(projectId, {
       title: params.title
     })
@@ -41,8 +41,8 @@ class Kanban extends React.Component {
       })
     } else {
       CheckError(result.error.error)
+      await this.getKanbanData(projectId)
     }
-    // await getKanbanInfo(projectId)
   }
 
   async updateColumn (columnId, params) {
@@ -54,11 +54,11 @@ class Kanban extends React.Component {
       notification.success({
         message: 'Update column successfully'
       })
-      await getKanbanInfo(projectId)
     } else {
       notification.error({
         message: 'Server error'
       })
+      await getKanbanInfo(projectId)
     }
   }
 
@@ -237,7 +237,6 @@ class Kanban extends React.Component {
 
   render () {
     const { projectId, kanban } = this.props
-    console.log('======== Bao Minh: Kanban -> render -> this.state.data', this.state.data)
     // const CustomCard = new MyCard(projectId)
     return (
       <div>
@@ -250,7 +249,7 @@ class Kanban extends React.Component {
             editable
             components={{
               LaneHeader: BananaTrelloLaneHeader,
-              NewLaneForm: BananaTrelloLaneForm,
+              NewLaneForm: (e) => <BananaTrelloLaneForm {...e} projectId={projectId} />,
               NewLaneSection: BananaTrelloLaneSection,
               NewCardForm: BananaTrelloCardForm,
               AddCardLink: BananaTrelloAddCard,
@@ -258,7 +257,7 @@ class Kanban extends React.Component {
             }}
             customCardLayout
             tagStyle={{ fontSize: '1em' }}
-            onLaneAdd={(params) => this.addNewColumn(params)}
+            // onLaneAdd={(params) => this.addNewColumn(params)}
             onCardMoveAcrossLanes={(fromLaneId, toLaneId, cardId, index) => this.moveTask(fromLaneId, toLaneId, cardId, index)}
             onLaneUpdate={(laneId, data) => this.updateColumn(laneId, data)}
           />

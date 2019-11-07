@@ -36,6 +36,7 @@ class MembersTask extends React.Component {
       loading: true
     })
     const { addMembersInTask, taskId, onGetMembersInTask } = this.props
+    console.log('======== Bao Minh: MembersTask -> handleAddMembers -> this.props', this.props)
     const { userIds } = this.state
     const result = await addMembersInTask(taskId, userIds)
     if (result.error) {
