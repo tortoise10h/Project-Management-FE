@@ -27,6 +27,22 @@ export default (dispatch, props) => ({
       return { success: false, error: { message: 'Server error' } }
     }
   },
+  deleteColumn: async (columnId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.deleteColumn(columnId)}`,
+        method: 'delete'
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
+    }
+  },
   updateColumn: async (columnId, data) => {
     try {
       const result = await fetchAuthLoading({

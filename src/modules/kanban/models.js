@@ -4,6 +4,7 @@ export const MODULE_NAME = 'kanban'
 export const ENDPOINTS = {
   getTasks: `${DEFAULT_URL}/task`,
   addColumn: (projectId) => `${DEFAULT_URL}/project/${projectId}/column`,
+  deleteColumn: (columnId) => `${DEFAULT_URL}/column/${columnId}`,
   getKanbanInfo: (projectId) => `${DEFAULT_URL}/project/${projectId}/kanban`,
   getUserRole: (projectId) => `${DEFAULT_URL}/project/${projectId}/user-in-project`,
   getProjectInfo: (projectId) => `${DEFAULT_URL}/project/${projectId}`,

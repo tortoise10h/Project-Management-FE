@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Input, Button, Form, Icon } from 'antd'
+import { Input, Button, Form, Icon, notification } from 'antd'
+import checkError from '../../../libraries/CheckError'
 
 const { TextArea } = Input
 
@@ -15,13 +16,16 @@ class BananaTrelloCardForm extends Component {
     const { form, onAdd, laneId, addTask } = this.props
     form.validateFieldsAndScroll(async (err, values) => {
       if (!err) {
-        const task = await addTask(laneId, values)
-        onAdd({
-          id: task.id,
-          title: task.title,
-          description: task.description,
-          index: task.index
-        })
+        const result = await addTask(laneId, values)
+        if (result.success !== false) {
+          notification.success({
+            placement: 'topRight',
+            message: 'Add new column successfully'
+          })
+          onAdd({ ...result })
+        } else {
+          checkError(result.error.error)
+        }
       }
     })
   }
