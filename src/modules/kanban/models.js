@@ -21,7 +21,10 @@ export const ENDPOINTS = {
   updateColumn: (columnId) => `${DEFAULT_URL}/column/${columnId}`,
   getMembersInTask: (taskId) => `${DEFAULT_URL}/task/${taskId}/user`,
   removeMemberInTask: (taskId) => `${DEFAULT_URL}/task/${taskId}/user`,
-  getLogOfProject: (projectId) => `${DEFAULT_URL}/project/${projectId}/log`
+  getLogOfProject: (projectId) => `${DEFAULT_URL}/project/${projectId}/log`,
+  addMedia: (taskId) => `${DEFAULT_URL}/task/${taskId}/media`,
+  getListMedia: (taskId) => `${DEFAULT_URL}/task/${taskId}/media`,
+  deleteMediaInTask: (mediaId) => `${DEFAULT_URL}/media/${mediaId}`
 }
 
 export const LIMIT = 20

@@ -215,11 +215,11 @@ class Members extends React.Component {
           {
             owner === id ? (
               <TextArea
-                style={{ marginLeft: 15, width: 380 }}
+                style={{ width: 400, marginTop: 5 }}
                 value={project.description}
                 onChange={this.handleChangeDescription}
                 placeholder='Add a more detailed description for project...'
-                autoSize={{ minRows: 3, maxRows: 5 }}
+                rows={4}
               />
             ) : (
               project.description ? (
@@ -295,7 +295,7 @@ class Members extends React.Component {
           }
         </div>
         <br />
-        <div style={{ float: 'left' }}>
+        <div style={{ float: 'left', width: '100%' }}>
           <Text style={{ fontSize: 14, fontWeight: 'bold' }}>End Date:</Text>
           {
             owner === id ? (
@@ -324,23 +324,25 @@ class Members extends React.Component {
           }
         </div>
         <br />
-        {
-          owner === this.props.user.id ? (
-            isChange
-              ? <div style={{ float: 'left', marginTop: 20 }}>
-                <Title style={{ textAlign: 'left', marginTop: 10 }} level={4}>
-                  Change{' '}
-                </Title>
-                <Button type='primary' style={{ marginLeft: 3 }} onClick={this.handleSave}>
-                  Save
-                </Button>
-                <Button type='danger' style={{ marginLeft: 10, marginTop: 3 }} onClick={this.handleCancel}>
-                Cancel
-                </Button>
-              </div>
-              : <></>
-          ) : null
-        }
+        <div>
+          {
+            owner === this.props.user.id ? (
+              isChange
+                ? <div style={{ float: 'left', marginTop: 20 }}>
+                  <Title style={{ textAlign: 'left', marginTop: 10 }} level={4}>
+                    Change{' '}
+                  </Title>
+                  <Button type='primary' style={{ marginLeft: 3 }} onClick={this.handleSave}>
+                    Save
+                  </Button>
+                  <Button type='danger' style={{ marginLeft: 10, marginTop: 3 }} onClick={this.handleCancel}>
+                  Cancel
+                  </Button>
+                </div>
+                : <></>
+            ) : null
+          }
+        </div>
       </div>
     )
   }

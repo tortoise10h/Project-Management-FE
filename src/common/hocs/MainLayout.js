@@ -407,7 +407,6 @@ class MenuPage extends React.Component {
         history.push(`/${value.key}`)
         break
     }
-    console.log('=========> TuLinh Debug: >: MenuPage -> handleOnSelectMenuItem -> breakpoint', breakpoint)
     if (breakpoint === true) {
       this.setState({
         collapsed: true

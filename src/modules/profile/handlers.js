@@ -32,7 +32,7 @@ export default (dispatch, props) => ({
       return { success: false, error: { message: 'Server error' } }
     }
   },
-  setPasswordUserProfileInformation: async (oldPassword, newPassword, confirmPassword, email) => {
+  setPasswordUserProfileInformation: async (oldPassword, newPassword, confirmPassword, email, token) => {
     try {
       const result = await fetchAuthLoading({
         url: ENDPOINTS.setPasswordUserProfileInformation,
@@ -41,7 +41,8 @@ export default (dispatch, props) => ({
           oldPassword,
           newPassword,
           confirmPassword,
-          email
+          email,
+          token
         }
       })
       return result

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal, Button, Form, Input, Switch, Typography, notification } from 'antd'
+import checkError from '../../../libraries/CheckError'
 
 const { Title } = Typography
 class ChangePassword extends React.Component {
@@ -33,6 +34,7 @@ class ChangePassword extends React.Component {
 
   handleCancel (e) {
     console.log(e)
+    this.props.form.resetFields()
     this.setState({
       visible: false
     })
@@ -62,19 +64,34 @@ class ChangePassword extends React.Component {
 
   handleSubmit (e) {
     e.preventDefault()
-    const { form, setPasswordUserProfileInformation, email } = this.props
+    const {
+      form,
+      setPasswordUserProfileInformation,
+      email,
+      token,
+      getUserProfileInformation,
+      userId
+    } = this.props
     form.validateFields(async (err, values) => {
       if (!err) {
-        const result = await setPasswordUserProfileInformation(values.oldPassword, values.newPassword, values.confirmPassword, email)
-        if (result) {
+        const result = await setPasswordUserProfileInformation(
+          values.oldPassword,
+          values.newPassword,
+          values.confirmPasword,
+          email,
+          token
+        )
+        if (result.error) {
+          const errors = result.error
+          checkError(errors.error)
+        } else {
+          getUserProfileInformation(userId)
           notification.success({
-            message: ' successfully'
+            message: 'Save success',
+            placement: 'topRight'
           })
           this.setState({ visible: false })
-        } else {
-          notification.error({
-            message: ' error'
-          })
+          this.props.form.resetFields()
         }
       }
     })

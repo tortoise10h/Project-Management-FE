@@ -89,7 +89,7 @@ class Profile extends React.Component {
   }
 
   async getUserProfileInformation () {
-    const { getUserProfileInformation, id } = this.props
+    const { getUserProfileInformation, user: { id } } = this.props
     const userInfo = await getUserProfileInformation(id)
     const user = {
       name: userInfo.name,
@@ -135,7 +135,7 @@ class Profile extends React.Component {
   }
 
   render () {
-    const { setPasswordUserProfileInformation } = this.props
+    const { setPasswordUserProfileInformation, token: { token }, getUserProfileInformation } = this.props
     const { projects, totalRecord, user, isChange } = this.state
     return (
       <div class='container-profile'>
@@ -327,7 +327,13 @@ class Profile extends React.Component {
                       <Title style={{ textAlign: 'left' }} level={4}>
                         Setting Account{' '}
                       </Title>
-                      <ChangePassword setPasswordUserProfileInformation={setPasswordUserProfileInformation} email={user.email} />
+                      <ChangePassword
+                        setPasswordUserProfileInformation={setPasswordUserProfileInformation}
+                        email={user.email}
+                        token={token}
+                        getUserProfileInformation={getUserProfileInformation}
+                        userId={this.state.id}
+                      />
                       {
                         isChange
                           ? <div>
