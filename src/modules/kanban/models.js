@@ -10,6 +10,7 @@ export const ENDPOINTS = {
   getTaskInfo: (taskId) => `${DEFAULT_URL}/task/${taskId}`,
   getLabelListInTask: (taskId) => `${DEFAULT_URL}/task/${taskId}/label`,
   addTask: (columnId) => `${DEFAULT_URL}/column/${columnId}/task`,
+  deleteTask: (taskId) => `${DEFAULT_URL}/task/${taskId}`,
   updateTask: (taskId) => `${DEFAULT_URL}/task/${taskId}`,
   addTodo: (taskId) => `${DEFAULT_URL}/task/${taskId}/todo`,
   setTodo: (taskId) => `${DEFAULT_URL}/todo/${taskId}`,

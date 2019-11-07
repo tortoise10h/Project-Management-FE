@@ -122,6 +122,22 @@ export default (dispatch, props) => ({
       return { success: false, message: 'Server Error' }
     }
   },
+  deleteTask: async (taskId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.deleteTask(taskId)}`,
+        method: 'delete'
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
+    }
+  },
   updateTask: async (taskId, data) => {
     try {
       const result = await fetchAuthLoading({
