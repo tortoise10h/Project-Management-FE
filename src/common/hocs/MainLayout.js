@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { Link } from 'react-router-dom'
 import './css/style.css'
 import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip } from 'antd'
 import storeAccessible from '../utils/storeAccessible'
@@ -187,7 +186,7 @@ class MenuPage extends React.Component {
               }
               {
                 this.props.history.location.pathname === `/project-kanban/${project.id}`
-                  ? (<>
+                  ? (
                     <Popover
                       placement='bottom'
                       title='Setting'
@@ -229,7 +228,6 @@ class MenuPage extends React.Component {
                         />
                       </Tooltip>
                     </Popover>
-                  </>
                   ) : null
               }
             </div>

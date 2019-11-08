@@ -15,6 +15,10 @@ class ProjectListModal extends Component {
     super(props)
     this.state = {
       view: true,
+      sortTitle: '',
+      sort: null,
+      direction: null,
+      isFavorite: null,
       projects: [],
       currentPage: 1,
       totalRecord: 0,
@@ -24,12 +28,13 @@ class ProjectListModal extends Component {
     this.handleView = this.handleView.bind(this)
     this.handleGetProjectList = this.handleGetProjectList.bind(this)
     this.handleToggleFavorite = this.handleToggleFavorite.bind(this)
+    this.handleFilter = this.handleFilter.bind(this)
   }
 
-  async handleGetProjectList (value) {
+  async handleGetProjectList (page, params) {
     const { getProjects } = this.props
-    const { offset } = this.state
-    const result = await getProjects(value, offset)
+    const { offset, sort, direction, isFavorite, sortTitle } = this.state
+    const result = await getProjects(page, offset, params || { title: sortTitle || null, sort, direction, is_favorite: isFavorite })
     this.setState({
       projects: result.data.data,
       totalRecord: result.data.totalRecord,
@@ -47,11 +52,11 @@ class ProjectListModal extends Component {
     this.handleGetProjectList(currentPage)
   }
 
-  handlePaging (value) {
+  handlePaging (page) {
     this.setState({
-      currentPage: value
+      currentPage: page
     })
-    this.handleGetProjectList(value)
+    this.handleGetProjectList(page)
   }
 
   handleView () {
@@ -62,23 +67,58 @@ class ProjectListModal extends Component {
     this.handleGetProjectList(currentPage)
   }
 
+  handleFilter (e) {
+    e.preventDefault()
+    const { form } = this.props
+    form.validateFieldsAndScroll(async (err, values) => {
+      if (!err) {
+        this.setFilter(values.search, values.option)
+      }
+    })
+  }
+
+  setFilter (title, option) {
+    this.setState({
+      sortTitle: title || null
+    })
+    switch (option) {
+      case 'favorite':
+        this.setState({
+          sort: null,
+          isFavorite: true,
+          direction: null
+        })
+        this.handleGetProjectList(1, { title: title || null, sort: null, is_favorite: true })
+        break
+      case 'status':
+        this.setState({
+          sort: 'status',
+          isFavorite: null,
+          direction: null
+        })
+        this.handleGetProjectList(1, { title: title || null, sort: 'status', is_favorite: null })
+        break
+      case 'recent':
+        this.setState({
+          sort: 'id',
+          isFavorite: null,
+          direction: 'DESC'
+        })
+        this.handleGetProjectList(1, { title: title || null, sort: 'id', is_favorite: null, direction: 'DESC' })
+        break
+      default:
+        this.setState({
+          sort: null,
+          isFavorite: null,
+          direction: null
+        })
+        this.handleGetProjectList(1, { title: title || null, sort: null, is_favorite: null })
+        break
+    }
+  }
+
   render () {
-    const searchInput = (
-      <span>
-        <Input
-          size='large'
-          prefix={<Icon type='search' style={{ color: 'rgba(0,0,0,.25)' }} />}
-          style={{ width: 'auto', border: '1px solid #d9d9d9', marginRight: 10, borderRadius: 4 }}
-          placeholder='Search ...'
-        />
-        <Select defaultValue='all' style={{ width: '100px', borderRadius: 'none' }} size='large'>
-          <Option value='all'>All</Option>
-          <Option value='favorite'>Favorite</Option>
-          <Option value='recent'>Recent</Option>
-        </Select>
-      </span>
-    )
-    const { createProject, history } = this.props
+    const { createProject, history, form: { getFieldDecorator } } = this.props
     const { currentPage, totalRecord, offset, view } = this.state
     const data = this.state.projects
     return (
@@ -88,9 +128,29 @@ class ProjectListModal extends Component {
             <Title level={2}>My Projects</Title>
           </Col>
           <Col xs={{ span: 24 }} lg={{ span: 20 }} xl={{ span: 17, offset: 1 }} xxl={{ span: 12, offset: 5 }}>
-            <Form layout='inline'>
+            <Form layout='inline' onSubmit={(e) => this.handleFilter(e)}>
               <Form.Item>
-                {searchInput}
+                {getFieldDecorator('search', {
+                })(
+                  <Input
+                    size='large'
+                    prefix={<Icon type='search' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                    style={{ width: 'auto', border: '1px solid #d9d9d9', marginRight: 10, borderRadius: 4 }}
+                    placeholder='Search ...'
+                  />
+                )}
+              </Form.Item>
+              <Form.Item>
+                {getFieldDecorator('option', {
+                  initialValue: 'all'
+                })(
+                  <Select style={{ width: '100px', borderRadius: 'none' }} size='large'>
+                    <Option value='all'>All</Option>
+                    <Option value='favorite'>Favorite</Option>
+                    <Option value='status'>Status</Option>
+                    <Option value='recent'>Recent</Option>
+                  </Select>
+                )}
               </Form.Item>
               <Form.Item>
                 <Button size='large' type='primary' htmlType='submit' icon='filter'>
@@ -111,38 +171,40 @@ class ProjectListModal extends Component {
             </ButtonGroup>
           </Col>
         </Row>
-        { view
-          ? <>
-            <Row gutter={50}>
-              <ProjectList
-                history={history}
-                onFavorite={this.handleToggleFavorite}
-                projects={data}
-                min={this.state.minValue}
-                max={this.state.maxValue}
+        {view
+          ? (
+            <>
+              <Row gutter={50}>
+                <ProjectList
+                  history={history}
+                  onFavorite={this.handleToggleFavorite}
+                  projects={data}
+                  min={this.state.minValue}
+                  max={this.state.maxValue}
+                />
+              </Row>
+              <Pagination
+                current={currentPage}
+                pageSize={offset}
+                onChange={this.handlePaging}
+                total={totalRecord}
               />
-            </Row>
-            <Pagination
-              current={currentPage}
-              pageSize={offset}
-              onChange={this.handlePaging}
-              total={totalRecord}
+            </>
+          ) : (
+            <TableMode
+              projects={data}
+              pagination={{
+                pageSize: offset,
+                total: totalRecord,
+                current: currentPage
+              }}
+              onFavorite={this.handleToggleFavorite}
+              onPaging={this.handlePaging}
             />
-          </>
-          : <TableMode
-            projects={data}
-            pagination={{
-              pageSize: offset,
-              total: totalRecord,
-              current: currentPage
-            }}
-            onFavorite={this.handleToggleFavorite}
-            onPaging={this.handlePaging}
-          />
-        }
+          )}
       </div>
     )
   }
 }
 
-export default ProjectListModal
+export default Form.create({ name: 'Filter_Project' })(ProjectListModal)

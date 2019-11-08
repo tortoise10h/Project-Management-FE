@@ -103,10 +103,12 @@ export default class LandingPage extends Component {
                   <p>Visualize product roadmaps, project plans, and reports for effective team collaboration and putting into action that impact </p>
                   <div className='get-start'>
                     <input type='text' placeholder='Email here ...' />
-                    <a className='button button-hero' href='#' style={{ marginTop: '1.5rem', textAlign: 'center' }}>Get Started</a>
+                    <Link to='/register-login'>
+                      <p className='button button-hero' style={{ marginTop: '1.5rem', textAlign: 'center' }}>Get Started</p>
+                    </Link>
                   </div>
                 </Col>
-                <Col md={{ span: 24 }} lg={{ span: 10, offset: 1 }} xl={{ span: 12, offset: 1 }}>
+                <Col md={{ span: 24 }} lg={{ span: 10, offset: 1 }} xl={{ span: 12, offset: 1 }} style={{ zIndex: 1 }}>
                   <img className='img-fluid' src={Banner} alt='' />
                 </Col>
               </Row>
@@ -187,7 +189,7 @@ export default class LandingPage extends Component {
                                 </div>
                                 <div className='card-users'>
                                   <div className='user'>
-                                    <img src={User1} />
+                                    <img src={User1} alt='' />
                                   </div>
                                 </div>
                               </div>
@@ -204,10 +206,10 @@ export default class LandingPage extends Component {
                                 </div>
                                 <div className='card-users'>
                                   <div className='user'>
-                                    <img src={User4} />
+                                    <img src={User4} alt='' />
                                   </div>
                                   <div className='user'>
-                                    <img src={User3} />
+                                    <img src={User3} alt='' />
                                   </div>
                                 </div>
                               </div>
@@ -224,7 +226,7 @@ export default class LandingPage extends Component {
                                 </div>
                                 <div className='card-users'>
                                   <div className='user'>
-                                    <img src={User2} />
+                                    <img src={User2} alt='' />
                                   </div>
                                 </div>
                               </div>
@@ -248,7 +250,7 @@ export default class LandingPage extends Component {
                                 </div>
                                 <div className='card-users'>
                                   <div className='user'>
-                                    <img src={User1} />
+                                    <img src={User1} alt='' />
                                   </div>
                                 </div>
                               </div>
@@ -265,10 +267,10 @@ export default class LandingPage extends Component {
                                 </div>
                                 <div className='card-users'>
                                   <div className='user'>
-                                    <img src={User1} />
+                                    <img src={User1} alt='' />
                                   </div>
                                   <div className='user'>
-                                    <img src={User3} />
+                                    <img src={User3} alt='' />
                                   </div>
                                 </div>
                               </div>
@@ -284,7 +286,9 @@ export default class LandingPage extends Component {
                 <Col className='about-content' xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 24 }} lg={{ span: 24 }} xl={{ span: 12 }} style={{ position: 'relative', alignSelf: 'center' }}>
                   <h2>Work with any team</h2>
                   <p>Whether it’s for work, a side project or even the next family vacation, Our helps your team stay organized.</p>
-                  <a className='button' href='#'>Start Doing   →</a>
+                  <Link to='/register-login'>
+                    <p className='button'>Start Doing   →</p>
+                  </Link>
                 </Col>
               </Row>
             </div>
@@ -439,10 +443,10 @@ export default class LandingPage extends Component {
                   {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
                 </Col>
                 <Col className='footer-social text-center text-lg-right' lg={{ span: 8 }} sm={{ span: 24 }}>
-                  <a href='#'><Icon type='facebook' /></a>
-                  <a href='#'><Icon type='twitter' /></a>
-                  <a href='#'><Icon type='dribbble' /></a>
-                  <a href='#'><Icon type='behance' /></a>
+                  <span><Icon type='facebook' />&nbsp;&nbsp;</span>
+                  <span><Icon type='twitter' />&nbsp;&nbsp;</span>
+                  <span><Icon type='dribbble' />&nbsp;&nbsp;</span>
+                  <span><Icon type='behance' />&nbsp;&nbsp;</span>
                 </Col>
               </Row>
             </div>

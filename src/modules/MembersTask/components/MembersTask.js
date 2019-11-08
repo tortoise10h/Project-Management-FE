@@ -106,6 +106,7 @@ class MembersTask extends React.Component {
         <img
           style={{ height: 300, width: 300 }}
           src={Banner}
+          alt=''
         />
         <br />
         <Button

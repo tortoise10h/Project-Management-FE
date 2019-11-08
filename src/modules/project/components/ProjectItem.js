@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Icon, Popover, Typography, Tooltip } from 'antd'
-import PropTypes from 'prop-types'
+import { Row, Col, Icon, Typography, Tooltip } from 'antd'
 
 const { Text, Paragraph } = Typography
 
@@ -130,18 +129,21 @@ export default class ProjectItem extends Component {
               {this.setStatus(status)}
               {
                 title.length > 22
-                  ? <Tooltip
-                    style={{ textAlign: 'center' }}
-                    placement='top'
-                    title={<Text strong style={{ color: '#fff' }}>{title}</Text>}
-                  >
+                  ? (
+                    <Tooltip
+                      style={{ textAlign: 'center' }}
+                      placement='top'
+                      title={<Text strong style={{ color: '#fff' }}>{title}</Text>}
+                    >
+                      <Paragraph ellipsis={{ row: 2, expandable: false }} className='title'>
+                        {title}
+                      </Paragraph>
+                    </Tooltip>
+                  ) : (
                     <Paragraph ellipsis={{ row: 2, expandable: false }} className='title'>
                       {title}
                     </Paragraph>
-                  </Tooltip>
-                  : <Paragraph ellipsis={{ row: 2, expandable: false }} className='title'>
-                    {title}
-                  </Paragraph>
+                  )
               }
               <Row className='sub_title' align='middle' type='flex' gutter={10}>
                 {
@@ -165,24 +167,25 @@ export default class ProjectItem extends Component {
                 }
                 {
                   Users && Users.length > 3
-                    ? <Col span={span}>
-                      <div
-                        className='user-project-more'
-                        style={{
-                          width: 50,
-                          height: 50,
-                          backgroundColor: '#444444',
-                          borderRadius: '50%',
-                          color: '#ffff',
-                          display: 'table-cell',
-                          textAlign: 'center',
-                          verticalAlign: 'middle'
-                        }}
-                      >
-                        + {Users.length - 3}
-                      </div>
-                    </Col>
-                    : null
+                    ? (
+                      <Col span={span}>
+                        <div
+                          className='user-project-more'
+                          style={{
+                            width: 50,
+                            height: 50,
+                            backgroundColor: '#444444',
+                            borderRadius: '50%',
+                            color: '#ffff',
+                            display: 'table-cell',
+                            textAlign: 'center',
+                            verticalAlign: 'middle'
+                          }}
+                        >
+                          + {Users.length - 3}
+                        </div>
+                      </Col>
+                    ) : null
                 }
               </Row>
               <div className='more-info' style={{ opacity: this.state.opacity, maxHeight: this.state.maxHeight, display: this.state.display, ...styles }}>
@@ -195,8 +198,7 @@ export default class ProjectItem extends Component {
                   <Icon type='clock-circle' /> 6 mins ago
                 </Col>
                 <Col className='comments' lg={{ span: 11 }}>
-                  <Icon type='message' />
-                  <a href='#'> 39 comments</a>
+                  <Icon type='message' /> 39 comments
                 </Col>
                 <Col className='favorite' lg={{ span: 2 }}>
                   <Icon

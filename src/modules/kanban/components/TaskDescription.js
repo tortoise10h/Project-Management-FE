@@ -67,6 +67,7 @@ class TaskDescription extends Component {
                       initialValue: `${description}`
                     })(
                       <TextArea
+                        autoFocus
                         rows={5}
                         placeholder='Add a more detailed description...'
                       />

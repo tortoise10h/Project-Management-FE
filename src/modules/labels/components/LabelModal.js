@@ -97,7 +97,7 @@ class LabelModal extends Component {
           onVisibleChange={this.handleVisible}
           content={
             <div>
-              <Input value={title} onChange={(e) => this.handleChangeTitle(e)} onPressEnter={this.handleSave} />
+              <Input autoFocus value={title} onChange={(e) => this.handleChangeTitle(e)} onPressEnter={this.handleSave} />
               <TwitterPicker
                 triangle='hide'
                 colors={this.COLORS}
