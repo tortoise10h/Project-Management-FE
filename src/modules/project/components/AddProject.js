@@ -93,7 +93,7 @@ class AddProject extends Component {
                     message: 'Please input the title of project!'
                   }
                 ]
-              })(<Input placeholder='Title here ...' />)}
+              })(<Input autoFocus placeholder='Title here ...' />)}
             </Form.Item>
             <Form.Item label='Decription'>
               {getFieldDecorator('description', {

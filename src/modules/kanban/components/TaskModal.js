@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import LabelsInTask from './LabelsInTask'
 import LabelListModal from '../../labels/containers/LabelListModal'
-import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Progress, Tooltip, Input } from 'antd'
+import { Button, DatePicker, Popover, Row, Col, Typography, Icon, Checkbox, Tooltip, Input } from 'antd'
 import SpentTimeModal from './SpentTimeModal'
 import TaskMedia from './TaskMedia'
 import moment from 'moment'
 import TaskDescription from './TaskDescription'
 import ContentPopover from '../../MembersTask/containers/MembersTask'
 import TaskCheckList from './TaskCheckList'
-import { thisExpression } from '@babel/types'
 
 const { Text } = Typography
 
@@ -150,11 +149,11 @@ export default class TaskModal extends Component {
         }
       } else {
         if (minutes > 60) {
-          color = '#61bd50'
+          color = '#e8968b'
           title = `${Math.floor(minutes / 60)} hours ago`
         } else {
-          color = '#61bd50'
-          title = `${minutes} min ago`
+          color = '#e8968b'
+          title = `${-minutes} min ago`
         }
       }
     } else if (day > 0) {
@@ -229,6 +228,7 @@ export default class TaskModal extends Component {
                                           objectFit: 'cover'
                                         }}
                                         src={require('./../../../assets/images/landingpage/user/avatar1.png')}
+                                        alt=''
                                       />
                                     </div>
                                   </Col>
@@ -245,7 +245,7 @@ export default class TaskModal extends Component {
                               }
                             >
                               <div className='trello-card--member'>
-                                <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} />
+                                <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} alt='' />
                               </div>
                             </Popover>
                           </Col>

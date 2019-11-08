@@ -1,7 +1,7 @@
-import { fetchAuthLoading, fetch } from '../../common/effects'
-import { ENDPOINTS, LIMIT } from './models'
+import { fetchAuthLoading } from '../../common/effects'
+import { ENDPOINTS } from './models'
 import {} from './actions'
-import { setProjectInfo, setUserRole } from '../settingProject/actions'
+import { setProjectInfo } from '../settingProject/actions'
 
 export default (dispatch, props) => ({
   updateProject: async (projectId, project) => {

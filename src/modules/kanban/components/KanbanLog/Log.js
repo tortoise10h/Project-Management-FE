@@ -156,92 +156,96 @@ class Log extends Component {
           style={{
             display: 'flex',
             justifyContent: 'flex-end',
-            flexWrap: 'wrap'
+            flexWrap: 'wrap',
+            marginBottom: 20
           }}
         >
-          <Form.Item>
-            {getFieldDecorator('action', {
-              initialValue: 'none'
-            })(
-              <Select
-                style={{
-                  width: 100
-                }}
-              >
-                <Option key='noaction' value='none'>
-                  Action
-                </Option>
-                <Option key='add' value='Add'>
-                  Add
-                </Option>
-                <Option key='update' value='Update'>
-                  Update
-                </Option>
-                <Option key='delete' value='Delete'>
-                  Delete
-                </Option>
-                <Option key='movetask' value='Move Task'>
-                  Move Task
-                </Option>
-              </Select>
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('user_id', {
-              initialValue: 'none'
-            })(
-              <Select
-                style={{
-                  width: 200
-                }}
-              >
-                <Option key='nouser' value='none'>
-                  User
-                </Option>
-                {project.Users.map(user => (
-                  <Option
-                    key={user.id}
-                    value={user.id}
-                  >
-                    {user.name}
+          <Form layout='inline'>
+            <Form.Item>
+              {getFieldDecorator('action', {
+                initialValue: 'none'
+              })(
+                <Select
+                  style={{
+                    width: 100
+                  }}
+                >
+                  <Option key='noaction' value='none'>
+                    Action
                   </Option>
-                ))}
-              </Select>
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('from_date', {
+                  <Option key='add' value='Add'>
+                    Add
+                  </Option>
+                  <Option key='update' value='Update'>
+                    Update
+                  </Option>
+                  <Option key='delete' value='Delete'>
+                    Delete
+                  </Option>
+                  <Option key='movetask' value='Move Task'>
+                    Move Task
+                  </Option>
+                </Select>
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('user_id', {
+                initialValue: 'none'
+              })(
+                <Select
+                  style={{
+                    width: 200
+                  }}
+                >
+                  <Option key='nouser' value='none'>
+                    User
+                  </Option>
+                  {project.Users.map(user => (
+                    <Option
+                      key={user.id}
+                      value={user.id}
+                    >
+                      {user.name}
+                    </Option>
+                  ))}
+                </Select>
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('from_date', {
 
-            })(
-              <DatePicker
-                placeholder='From Date'
-              />
-            )}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('to_date', {
+              })(
+                <DatePicker
+                  placeholder='From Date'
+                />
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator('to_date', {
 
-            })(
-              <DatePicker
-                placeholder='To Date'
-                showTime
-              />
-            )}
-          </Form.Item>
-          <div>
-            <Button
-              type='primary'
-              htmlType='submit'
-              onClick={this.handleSearchLog}
-            >
-              Search
-            </Button>
-          </div>
+              })(
+                <DatePicker
+                  placeholder='To Date'
+                  showTime
+                />
+              )}
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type='primary'
+                htmlType='submit'
+                onClick={this.handleSearchLog}
+              >
+                Search
+              </Button>
+            </Form.Item>
+          </Form>
         </div>
         <Table
           style={{
             cursor: 'pointer'
           }}
+          rowKey='id'
           columns={this.columns}
           dataSource={logs}
           scroll={{ x: true }}

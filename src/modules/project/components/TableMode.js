@@ -88,10 +88,11 @@ class TableMode extends Component {
                 ))}
                 {
                   Users && Users.length > 4
-                    ? <Tag>
-                        More
-                    </Tag>
-                    : null
+                    ? (
+                      <Tag>
+                          More
+                      </Tag>
+                    ) : null
                 }
               </span>
             )}

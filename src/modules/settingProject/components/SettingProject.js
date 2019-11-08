@@ -73,7 +73,7 @@ class Members extends React.Component {
       this.setState({ updateLabel: null })
       // this.props.getUserProfileInformation(id)
     } else {
-      const rs = await getProjectInfo(projectId)
+      await getProjectInfo(projectId)
       notification.success({
         message: 'Save success',
         placement: 'bottomLeft'
@@ -87,13 +87,13 @@ class Members extends React.Component {
 
   /* ============================ FUNCTION CANCEL UPDATE INFO PROJECT ============================ */
   handleCancel () {
-    const { project: { title, description, status, start_date, end_date } } = this.props
+    const { project: { title, description, status, start_date: startDate, end_date: endDate } } = this.props
     const project = {
       title: title,
       description: description,
       status: status,
-      start_date: start_date ? moment(start_date).format('YYYY-MM-DD') : null,
-      end_date: end_date ? moment(end_date).format('YYYY-MM-DD') : null
+      start_date: startDate ? moment(startDate).format('YYYY-MM-DD') : null,
+      end_date: endDate ? moment(endDate).format('YYYY-MM-DD') : null
     }
     this.setState({
       project,
@@ -154,13 +154,13 @@ class Members extends React.Component {
 
   /* ============================ GET INFO PROJECT WILL CHANGE FROM STORE ============================ */
   componentDidMount () {
-    const { project: { title, description, status, start_date, end_date } } = this.props
+    const { project: { title, description, status, start_date: startDate, end_date: endDate } } = this.props
     const project = {
       title: title,
       description: description,
       status: status,
-      start_date: start_date ? moment(start_date).format('YYYY-MM-DD') : null,
-      end_date: end_date ? moment(end_date).format('YYYY-MM-DD') : null
+      start_date: startDate ? moment(startDate).format('YYYY-MM-DD') : null,
+      end_date: endDate ? moment(endDate).format('YYYY-MM-DD') : null
     }
     this.setState({
       project
@@ -324,11 +324,11 @@ class Members extends React.Component {
           }
         </div>
         <br />
-        <div>
-          {
-            owner === this.props.user.id ? (
-              isChange
-                ? <div style={{ float: 'left', marginTop: 20 }}>
+        {
+          owner === this.props.user.id ? (
+            isChange
+              ? (
+                <div style={{ float: 'left', marginTop: 20 }}>
                   <Title style={{ textAlign: 'left', marginTop: 10 }} level={4}>
                     Change{' '}
                   </Title>
@@ -339,10 +339,9 @@ class Members extends React.Component {
                   Cancel
                   </Button>
                 </div>
-                : <></>
-            ) : null
-          }
-        </div>
+              ) : null
+          ) : null
+        }
       </div>
     )
   }

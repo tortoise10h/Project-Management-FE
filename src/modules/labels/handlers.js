@@ -1,5 +1,5 @@
 import { fetchAuthLoading } from '../../common/effects'
-import { ENDPOINTS, LIMIT } from './models'
+import { ENDPOINTS } from './models'
 
 export default (dispatch, props) => ({
   addLabel: async (projectId, color, title) => {

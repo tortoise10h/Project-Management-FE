@@ -42,7 +42,7 @@ class Members extends React.Component {
         message: 'Add Members Success',
         placement: 'topRight'
       })
-      const rs = await getProjectInfo(id)
+      await getProjectInfo(id)
     }
   }
   /* end Add member for project */
@@ -94,6 +94,7 @@ class Members extends React.Component {
     return (
       <div className='members' style={{ textAlign: 'center' }}>
         <Select
+          autoFocus
           mode='multiple'
           style={{ width: '300px' }}
           placeholder='Email address or name'

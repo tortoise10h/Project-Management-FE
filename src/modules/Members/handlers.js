@@ -1,7 +1,7 @@
-import { fetchAuthLoading, fetch } from '../../common/effects'
-import { ENDPOINTS, LIMIT } from './models'
+import { fetchAuthLoading } from '../../common/effects'
+import { ENDPOINTS } from './models'
 import {} from './actions'
-import { setProjectInfo, setUserRole } from '../Members/actions'
+import { setProjectInfo } from '../Members/actions'
 
 export default (dispatch, props) => ({
   getMembers: async () => {

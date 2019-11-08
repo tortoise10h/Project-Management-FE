@@ -62,7 +62,7 @@ class AddLabel extends Component {
           onVisibleChange={this.handleVisible}
           content={
             <div>
-              <Input value={title} onChange={(e) => this.handleChangeTitle(e)} onPressEnter={this.handleAddLabel} />
+              <Input autoFocus value={title} onChange={(e) => this.handleChangeTitle(e)} onPressEnter={this.handleAddLabel} />
               <TwitterPicker
                 triangle='hide'
                 colors={this.COLORS}

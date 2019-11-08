@@ -1,10 +1,5 @@
-import { fetchAuthLoading, fetch } from '../../common/effects'
-import { ENDPOINTS, LIMIT } from './models'
-import {
-  setUserToken,
-  setUserTokenExp,
-  setUserInformation
-} from './actions'
+import { fetch } from '../../common/effects'
+import { ENDPOINTS } from './models'
 
 export default (dispatch, props) => ({
   verifyEmail: async (token, email) => {

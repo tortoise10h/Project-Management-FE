@@ -74,7 +74,7 @@ class MyCard extends Component {
         visible: false,
         isChange: false
       })
-      // getKanbanInfo(projectId)
+      this.getTaskInfo()
     } else {
       this.setState({
         visible: false
@@ -289,9 +289,12 @@ class MyCard extends Component {
       if (minutes > 60) {
         color = '#61bd50'
         title = `In ${Math.floor(minutes / 60)} hours`
-      } else {
+      } else if (minutes > 0) {
         color = '#61bd50'
         title = `In ${minutes} min`
+      } else {
+        color = '#f5222e'
+        title = `${-minutes} min ago`
       }
     } else if (day > 0) {
       color = '#61bd50'
@@ -363,7 +366,7 @@ class MyCard extends Component {
                     member.is_in_task ? (
                       <li key={member.id}>
                         <div className='trello-card--member'>
-                          <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} />
+                          <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} alt='' />
                         </div>
                       </li>
                     ) : null

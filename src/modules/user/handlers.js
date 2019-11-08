@@ -1,5 +1,5 @@
-import { fetchAuthLoading, fetch } from '../../common/effects'
-import { ENDPOINTS, LIMIT } from './models'
+import { fetch } from '../../common/effects'
+import { ENDPOINTS } from './models'
 import {
   setUserToken,
   setUserTokenExp,

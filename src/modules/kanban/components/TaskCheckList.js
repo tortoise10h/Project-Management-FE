@@ -34,7 +34,7 @@ class TaskCheckList extends Component {
   }
 
   async handleSetTodo (e, todoId) {
-    const { onSetTodo } = this.props
+    const { onSetTodo, getTaskInfo } = this.props
     const { checkboxs } = this.state
     const newCheckboxs = checkboxs
     const changeIndex = newCheckboxs.findIndex(checkbox => checkbox.id === todoId)
@@ -42,17 +42,17 @@ class TaskCheckList extends Component {
     const result = await onSetTodo(todoId, { title: e.target.value })
     if (result.error) {
       checkError(result.error.error)
-    }
-    else {
+    } else {
       this.setState({
         checkboxs: newCheckboxs
       })
       this.handleEditCheckBoxOff()
+      getTaskInfo()
     }
   }
 
   async handleOnCheck (e) {
-    const { onCheckTodos, taskId } = this.props
+    const { onCheckTodos, taskId, getTaskInfo } = this.props
     const result = await onCheckTodos(taskId, e)
     const { checkboxs } = this.state
     if (result.success) {
@@ -60,6 +60,7 @@ class TaskCheckList extends Component {
         checkProgress: Math.floor((e.length / checkboxs.length) * 100),
         valueTodos: e
       })
+      getTaskInfo()
     }
   }
 
@@ -103,7 +104,7 @@ class TaskCheckList extends Component {
   }
 
   async handleAddTodo () {
-    const { onAddTodo, taskId } = this.props
+    const { onAddTodo, taskId, getTaskInfo } = this.props
     const { todoTitle, checkboxs } = this.state
     const result = await onAddTodo(taskId, todoTitle)
     if (result.id) {
@@ -121,6 +122,7 @@ class TaskCheckList extends Component {
     this.setState({
       todoTitle: ''
     })
+    getTaskInfo()
   }
 
   handleEditCheckBoxOn (todoId) {
@@ -150,6 +152,7 @@ class TaskCheckList extends Component {
         valueTodos: newValueTodos,
         checkProgress: newCheckboxs.length > 0 ? Math.floor((newValueTodos.length / newCheckboxs.length) * 100) : 0
       })
+      getTaskInfo()
     } else {
       checkError(result.error.error)
     }
