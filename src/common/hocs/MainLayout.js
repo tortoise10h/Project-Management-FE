@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
 import './css/style.css'
 import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip } from 'antd'
 import storeAccessible from '../utils/storeAccessible'
@@ -104,23 +105,12 @@ class MenuPage extends React.Component {
                     )
                   },
                   {
-                    key: 'setting-label',
+                    key: 'log',
                     title: (
                       <span>
-                        <Icon type='bars' style={{ fontSize: 20 }} />
+                        <Icon type='inbox' style={{ fontSize: 20 }} />
                         <span>
-                          Labels
-                        </span>
-                      </span>
-                    )
-                  },
-                  {
-                    key: 'setting-project',
-                    title: (
-                      <span>
-                        <Icon type='project' style={{ fontSize: 20 }} />
-                        <span>
-                          Edit Project
+                          Log
                         </span>
                       </span>
                     )
@@ -207,15 +197,22 @@ class MenuPage extends React.Component {
                       content={
                         // Get setting menu item from main menu in side bar
                         <Menu onClick={this.handleSettingKanban}>
-                          {
-                            this.MENUS[0] &&
-                            this.MENUS[0].children.find(x => x.key === 'setting') &&
-                            this.MENUS[0].children.find(x => x.key === 'setting').children.map((item) => (
-                              <MenuItem key={item.key}>
-                                {item.title}
-                              </MenuItem>
-                            ))
-                          }
+                          <MenuItem key='setting-label'>
+                            <span>
+                              <Icon type='bars' style={{ fontSize: 20 }} />
+                              <span>
+                                Labels
+                              </span>
+                            </span>
+                          </MenuItem>
+                          <MenuItem key='setting-project'>
+                            <span>
+                              <Icon type='project' style={{ fontSize: 20 }} />
+                              <span>
+                                Edit Project
+                              </span>
+                            </span>
+                          </MenuItem>
                         </Menu>
                       }
                     >
@@ -459,7 +456,7 @@ class MenuPage extends React.Component {
           }}
         >
           <div className='logo'>
-            <a id='logo' href='/' className={logoClass.join(' ')}>
+            <a id='logo' className={logoClass.join(' ')}>
               <img alt='logo' src={require('../../assets/images/logo.svg')} />
               <img alt='Banana' src={require('../../assets/images/BananaBoys.png')} style={{ fill: '#ffff' }} />
             </a>
