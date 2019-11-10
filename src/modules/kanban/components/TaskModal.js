@@ -182,7 +182,6 @@ export default class TaskModal extends Component {
       onUpdateEstimatedTime,
       user
     } = this.props
-    console.log('======== Bao Minh: TaskModal -> render -> this.props', this.props)
     return (
       <div className='task-modal'>
         <Row>

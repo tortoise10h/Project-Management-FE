@@ -291,6 +291,10 @@
 .task-modal-popover--member {
   padding: 10px 0
 }
+
+.task-modal .task-content .description .ql-snow .ql-picker {
+  height: 0;
+}
 /* ====================== TASK MODAL STYLE END ===========================*/
 @media (max-width: 1200px) {
   .spenttime {

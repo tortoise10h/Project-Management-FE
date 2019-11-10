@@ -1,5 +1,6 @@
 import React from 'react'
 // import 'antd/dist/antd.min.css'
+import 'react-quill/dist/quill.snow.css'
 import './assets/custom-antd.css'
 // import './common/hocs/css/style.css'
 import ReactDOM from 'react-dom'
