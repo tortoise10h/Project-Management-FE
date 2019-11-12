@@ -105,7 +105,7 @@ class MenuPage extends React.Component {
                     )
                   },
                   {
-                    key: 'log',
+                    key: 'project-log',
                     title: (
                       <span>
                         <Icon type='inbox' style={{ fontSize: 20 }} />
