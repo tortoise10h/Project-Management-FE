@@ -5,9 +5,24 @@ import {
   setUserRole,
   setProjectInfo
 } from './actions'
-import { async } from 'q'
 
 export default (dispatch, props) => ({
+  getColumn: async (columnId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getColumn(columnId)}`,
+        method: 'GET'
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
+    }
+  },
   addColumn: async (projectId, data) => {
     try {
       const result = await fetchAuthLoading({
@@ -56,7 +71,10 @@ export default (dispatch, props) => ({
         return result.data
       }
     } catch (error) {
-      return { success: false, message: 'Server Error' }
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
     }
   },
   getKanbanInfo: async projectId => {
@@ -171,7 +189,10 @@ export default (dispatch, props) => ({
         return result.data
       }
     } catch (error) {
-      return { success: false, message: 'Server Error' }
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
     }
   },
   updateTaskIndex: async tasks => {
@@ -187,7 +208,10 @@ export default (dispatch, props) => ({
         return result.data
       }
     } catch (error) {
-      return { success: false, message: 'Server Error' }
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, error: { message: 'Server error' } }
     }
   },
   getLabelListInTask: async taskId => {

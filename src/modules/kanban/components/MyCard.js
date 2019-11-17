@@ -9,7 +9,7 @@ class MyCard extends Component {
     this.state = {
       visible: false,
       isEdit: false,
-      taskTitle: 'Title',
+      taskTitle: props.title,
       MembersInTask: [],
       labels: [],
       data: [],
@@ -44,10 +44,10 @@ class MyCard extends Component {
   }
 
   async getTaskInfo () {
-    const { id, getTaskInfo } = this.props
+    const { id, getTaskInfo, title } = this.props
     const result = await getTaskInfo(id)
     this.setState({
-      taskTitle: result.title || 'Title',
+      taskTitle: result.title || title,
       data: result
     })
   }
