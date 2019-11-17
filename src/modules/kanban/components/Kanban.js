@@ -9,8 +9,8 @@ import BananaTrelloCardForm from '../containers/BananaTrelloCardForm'
 import BananaTrelloLaneForm from '../containers/BananaTrelloLaneForm'
 import BananaTrelloAddCard from './BananaTrelloAddCard'
 import BananaTrelloLaneSection from './BananaTrelloLaneSection'
-import CheckError from '../../../libraries/CheckError'
 import BananaTrelloLaneHeader from '../containers/BananaTrelloLaneHeader'
+import CheckError from '../../../libraries/CheckError'
 
 class Kanban extends React.Component {
   constructor (props) {
@@ -28,6 +28,41 @@ class Kanban extends React.Component {
     // this.addNewTask = this.addNewTask.bind(this)
     this.moveTask = this.moveTask.bind(this)
     this.updateColumn = this.updateColumn.bind(this)
+    this.handleLockLane = this.handleLockLane.bind(this)
+  }
+
+  async handleLockLane (columnId, isLocked) {
+    const { getKanbanInfo, projectId } = this.props
+    const kanbanInfo = await getKanbanInfo(projectId)
+    this.setData(kanbanInfo)
+  }
+
+  setData (newData) {
+    const allColumnsInfo = {}
+    allColumnsInfo.lanes = newData.map((column) => {
+      /** Get column info */
+      const columnInfo = {
+        id: column.id,
+        title: column.title,
+        label: column.Tasks.length,
+        style: {
+          width: 280
+        },
+        droppable: !column.is_locked
+      }
+      /** Get tasks of column */
+      const tasksInfo = column.Tasks.map(task => (
+        {
+          id: task.id,
+          title: task.title,
+          description: task.description,
+          index: task.index
+        }
+      ))
+      columnInfo.cards = tasksInfo
+      return columnInfo
+    })
+    this.setState({ data: allColumnsInfo })
   }
 
   async addNewColumn (params) {
@@ -68,7 +103,7 @@ class Kanban extends React.Component {
     * */
     newIndex++
 
-    const { updateTask, updateTaskIndex } = this.props
+    const { updateTask, updateTaskIndex, projectId, getKanbanInfo } = this.props
     const { data } = this.state
     const { lanes } = data
     const toColumnObject = lanes[lanes.findIndex(val => val.id === toLaneId)]
@@ -143,12 +178,11 @@ class Kanban extends React.Component {
       }
       await updateTaskIndex(tasksToUpdateIndex)
     }
-    if (result) {
-      // if (diffLane) await getKanbanInfo(projectId)
+    if (result.error) {
+      CheckError(result.error)
+      const data = await getKanbanInfo(projectId)
+      this.setData(data)
     } else {
-      notification.error({
-        message: 'Move card error'
-      })
     }
   }
 
@@ -157,31 +191,7 @@ class Kanban extends React.Component {
     const kanbanInfo = await getKanbanInfo(projectId)
     getUserRole(projectId)
     getProjectInfo(projectId)
-    /** Define allColumnsInfo as an object because react-trello takes lanes property to use */
-    const allColumnsInfo = {}
-    allColumnsInfo.lanes = kanbanInfo.map((column) => {
-      /** Get column info */
-      const columnInfo = {
-        id: column.id,
-        title: column.title,
-        label: column.Tasks.length,
-        style: {
-          width: 280
-        }
-      }
-      /** Get tasks of column */
-      const tasksInfo = column.Tasks.map(task => (
-        {
-          id: task.id,
-          title: task.title,
-          description: task.description,
-          index: task.index
-        }
-      ))
-      columnInfo.cards = tasksInfo
-      return columnInfo
-    })
-    this.setState({ data: allColumnsInfo })
+    this.setData(kanbanInfo)
   }
 
   componentDidMount () {
@@ -200,7 +210,7 @@ class Kanban extends React.Component {
             canAddLanes
             editable
             components={{
-              LaneHeader: BananaTrelloLaneHeader,
+              LaneHeader: (e) => <BananaTrelloLaneHeader {...e} onLockLane={this.handleLockLane} />,
               NewLaneForm: (e) => <BananaTrelloLaneForm {...e} projectId={projectId} />,
               NewLaneSection: BananaTrelloLaneSection,
               NewCardForm: BananaTrelloCardForm,

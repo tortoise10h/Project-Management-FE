@@ -68,6 +68,7 @@ class TaskDescription extends Component {
                     })(
                       <TextArea
                         autoFocus
+                        onBlur={this.handleCancel}
                         rows={5}
                         placeholder='Add a more detailed description...'
                       />

@@ -3,6 +3,7 @@ import { DEFAULT_URL } from '../../configs'
 export const MODULE_NAME = 'kanban'
 export const ENDPOINTS = {
   getTasks: `${DEFAULT_URL}/task`,
+  getColumn: (columnId) => `${DEFAULT_URL}/column/${columnId}`,
   addColumn: (projectId) => `${DEFAULT_URL}/project/${projectId}/column`,
   deleteColumn: (columnId) => `${DEFAULT_URL}/column/${columnId}`,
   getKanbanInfo: (projectId) => `${DEFAULT_URL}/project/${projectId}/kanban`,
