@@ -191,6 +191,7 @@ export default class TaskModal extends Component {
       listMedia,
       onRemoveMediaInTask
     } = this.props
+    console.log('=========> TuLinh Debug: >: TaskModal -> render -> MembersInTask', MembersInTask)
     return (
       <div className='task-modal'>
         <Row>
@@ -359,9 +360,30 @@ export default class TaskModal extends Component {
                           <img src={`http://localhost:5000/${media.media_location}`} width={100} height={100} />
                           <span style={{ marginLeft: 10, display: 'inline-block' }}>
                             <p style={{ fontWeight: 600 }}>{media.title}</p>
-                            <p style={{ fontSize: 12 }}>Created by: {media.created_by}</p>
+                            <p
+                              style={{ fontSize: 12 }}
+                            >Created by: {MembersInTask.map(member => (
+                                media.created_by === member.id ? (
+                                  member.name
+                                ) : null
+                              ))}
+                            </p>
                           </span>
-                          <Icon style={{ marginLeft: 500, position: 'absolute' }} onClick={() => onRemoveMediaInTask(media.id)} type='delete' />
+                          <Icon
+                            style={{ marginLeft: '92%', position: 'absolute' }}
+                            onClick={() => onRemoveMediaInTask(media.id)}
+                            type='delete'
+                          />
+                          <a
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            href={`http://localhost:5000/${media.media_location}`} download
+                            style={{ marginLeft: '87%', position: 'absolute', color: '#000' }}
+                          >
+                            <Icon
+                              type='download'
+                            />
+                          </a>
                         </div>
                       ))
                     }
