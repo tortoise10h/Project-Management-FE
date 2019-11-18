@@ -4,14 +4,29 @@ import * as actions from './actions'
 import { clearAll } from '../../common/actions/common'
 
 export const defaultState = {
-  todo: []
+  project: {},
+  user: {},
+  tasks: [],
+  kanbanInfo: []
 }
 
 const handlers = {
   [clearAll]: (state, action) => ({ ...defaultState }),
-  [actions.setTodoList]: (state, action) => ({
+  [actions.setTasks]: (state, action) => ({
     ...state,
-    todo: action.payload
+    tasks: action.payload
+  }),
+  [actions.setKanbanInfo]: (state, action) => ({
+    ...state,
+    kanbanInfo: action.payload
+  }),
+  [actions.setUserRole]: (state, action) => ({
+    ...state,
+    user: action.payload
+  }),
+  [actions.setProjectInfo]: (state, action) => ({
+    ...state,
+    project: action.payload
   })
 }
 

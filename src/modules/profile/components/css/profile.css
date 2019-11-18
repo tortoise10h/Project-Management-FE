@@ -34,6 +34,10 @@
   color: #ffffff;
   margin-top: 20px;
 }
+.btn-save {
+  background: #08A890;
+  color: #ffffff;
+}
 .container-profile .anticon {
   font-size: 17px;
   color: #64CCBD;

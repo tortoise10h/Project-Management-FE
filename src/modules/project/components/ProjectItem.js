@@ -152,7 +152,11 @@ export default class ProjectItem extends Component {
                       <Tooltip placement='top' title={user.name}>
                         <img
                           alt=''
-                          src={user.photo_location || require('./../../../assets/images/landingpage/user/avatar1.png')}
+                          src={user.photo_location !== null ? (
+                            `http://localhost:5000/${user.photo_location}`
+                          ) : (
+                            require('./../../../assets/images/landingpage/user/avatar1.png')
+                          )}
                           className='user-project'
                           style={{
                             width: 50,

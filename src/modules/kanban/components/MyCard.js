@@ -366,7 +366,13 @@ class MyCard extends Component {
                     member.is_in_task ? (
                       <li key={member.id}>
                         <div className='trello-card--member'>
-                          <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} alt='' />
+                          <img
+                            src={member.photo_location !== null ? (
+                              `http://localhost:5000/${member.photo_location}`
+                            ) : (
+                              require('./../../../assets/images/landingpage/user/avatar1.png')
+                            )}
+                          />
                         </div>
                       </li>
                     ) : null
