@@ -5,7 +5,6 @@ import {
   setUserRole,
   setProjectInfo
 } from './actions'
-import { async } from 'q'
 
 export default (dispatch, props) => ({
   addColumn: async (projectId, data) => {

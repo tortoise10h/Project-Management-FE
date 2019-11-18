@@ -247,7 +247,11 @@ class MenuPage extends React.Component {
                     <Tooltip placement='bottom' title={user.name}>
                       <img
                         alt=''
-                        src={user.photo_location || require('./../../assets/images/landingpage/user/avatar2.png')}
+                        src={user.photo_location !== null ? (
+                          `http://localhost:5000/${user.photo_location}`
+                        ) : (
+                          require('./../../assets/images/landingpage/user/avatar2.png')
+                        )}
                         className='user-project'
                         style={{
                           width: 40,

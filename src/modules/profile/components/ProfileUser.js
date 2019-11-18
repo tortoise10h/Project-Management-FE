@@ -1,5 +1,6 @@
 import React from 'react'
-import { Row, Col, Button, Icon, Typography, notification, DatePicker } from 'antd'
+import { Row, Col, Button, Icon, Typography, notification, DatePicker, Upload, Form } from 'antd'
+import { dummyRequest, beforeUpload } from '../../../common/utils/upload'
 import { Link } from 'react-router-dom'
 import ChangePassword from './ChangePassword'
 import * as moment from 'moment'
@@ -18,7 +19,12 @@ class Profile extends React.Component {
       totalRecord: 0,
       labelSummary: 'Add your summary here ...',
       labelProfileTitle: 'Add your profile title',
-      labelAddress: 'Add your address here ...'
+      labelAddress: 'Add your address here ...',
+      // change avatar //
+      media: [],
+      avatarLoading: false,
+      isAdd: false,
+      photoLocation: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleOnStartUpdate = this.handleOnStartUpdate.bind(this)
@@ -28,6 +34,12 @@ class Profile extends React.Component {
     this.handleCancel = this.handleCancel.bind(this)
     this.cleanObj = this.cleanObj.bind(this)
     this.handleChangeDate = this.handleChangeDate.bind(this)
+
+    // change avatar //
+    this.normFile = this.normFile.bind(this)
+    this.handleOnChangeAvatar = this.handleOnChangeAvatar.bind(this)
+    this.handleChangeAvatar = this.handleChangeAvatar.bind(this)
+    this.handleUpload = this.handleUpload.bind(this)
   }
 
   handleOnStartUpdate (e) {
@@ -89,6 +101,7 @@ class Profile extends React.Component {
   }
 
   async getUserProfileInformation () {
+    console.count()
     const { getUserProfileInformation, user: { id } } = this.props
     const userInfo = await getUserProfileInformation(id)
     const user = {
@@ -104,6 +117,7 @@ class Profile extends React.Component {
     this.setState({
       isChange: false,
       id: userInfo.id,
+      photoLocation: userInfo.photo_location,
       user
     })
   }
@@ -129,6 +143,79 @@ class Profile extends React.Component {
     }
   }
 
+  /* ----------------------CHANGE AVATAR------------------------------ */
+  normFile (e) {
+    if (Array.isArray(e)) {
+      return e
+    }
+    return e && e.fileList
+  }
+
+  /* -----------STATUS BUTTON UPLOAD--------------- */
+  handleChangeAvatar (info) {
+    if (info.file.state === 'uploading') {
+      this.setState({ avatarLoading: true })
+      return this.normFile(info)
+    }
+    if (info.file.status === 'done') {
+      this.setState({ avatarLoading: false })
+    }
+    return this.normFile(info)
+  }
+  /* -----------STATUS BUTTON UPLOAD--------------- */
+
+  /* ----------- ON CHANGE AVATAR--------------- */
+  handleOnChangeAvatar (e) {
+    const { changeAvatar, getProjectInfo, kanban: { project } } = this.props
+    const { id } = this.state
+    e.preventDefault()
+    this.props.form.validateFieldsAndScroll(async (err, values) => {
+      if (!err) {
+        const result = await changeAvatar(id, values)
+        if (result.error) {
+          const errors = result.error
+          checkError(errors.error)
+        } else {
+          const user = {
+            name: result.name,
+            phone: result.phone,
+            email: result.email,
+            summary: result.summary,
+            address: result.address,
+            profile_title: result.profile_title,
+            birthday: result.birthday ? moment(result.birthday).format('YYYY-MM-DD') : null
+            // birthday: result.birthday
+          }
+          this.setState({
+            isChange: false,
+            id: result.id,
+            photoLocation: result.photo_location,
+            user
+          })
+          const rs = await getProjectInfo(project.id)
+          console.log('=========> TuLinh Debug: >: Profile -> handleOnChangeAvatar -> rs', rs)
+          notification.success({
+            message: 'Change Avatar Success',
+            placement: 'topRight'
+          })
+        }
+        this.setState({
+          media: []
+        })
+      }
+    })
+  }
+  /* -----------ON CHANGE AVATAR--------------- */
+
+  /* -----------SET MEDIA BEFOR UPLOAD--------------- */
+  handleUpload (e) {
+    this.setState({
+      media: e.fileList
+    })
+  }
+  /* -----------SET MEDIA BEFOR UPLOAD--------------- */
+  /* ----------------------CHANGE AVATAR------------------------------ */
+
   componentDidMount () {
     this.getUserProfileInformation()
     this.getProjects()
@@ -136,7 +223,14 @@ class Profile extends React.Component {
 
   render () {
     const { setPasswordUserProfileInformation, token: { token }, getUserProfileInformation } = this.props
-    const { projects, totalRecord, user, isChange } = this.state
+    const { projects, totalRecord, user, isChange, photoLocation } = this.state
+    const { form: { getFieldDecorator } } = this.props
+    const media = this.state.media
+    const uploadProps = {
+      multiple: true,
+      name: 'avatar',
+      listType: 'picture'
+    }
     return (
       <div class='container-profile'>
         <Row class='row'>
@@ -157,12 +251,45 @@ class Profile extends React.Component {
                     sm={{ span: 12 }}
                   >
                     <img
-                      src='https://scontent.fsgn2-1.fna.fbcdn.net/v/t1.0-1/p160x160/52333431_897375050604803_8249361908973436928_n.jpg?_nc_cat=101&_nc_oc=AQnFJe1u2Pcb31sReUSuMcsowAMusrtrcDDKOJjxDheahVnn5LsDmOyys4bDv4L8fyQ&_nc_ht=scontent.fsgn2-1.fna&oh=9b0b236ee927952e48dd07224d94b4fd&oe=5E232EF5'
+                      src={`http://localhost:5000/${photoLocation}`}
                       alt=''
                       class='img-rounded img-responsive img-size'
                       style={{ height: 230, marginTop: 30 }}
                     />
-                    <Button className='btn-change'> Change Avatar </Button>
+
+                    <Form onSubmit={this.handleOnChangeAvatar}>
+                      <Form.Item label=''>
+                        {getFieldDecorator('avatar', {
+                          getValueFromEvent: this.handleChangeAvatar
+                        })(
+                          <Upload
+                            fileList={this.state.media}
+                            customRequest={dummyRequest}
+                            beforeUpload={beforeUpload}
+                            {...uploadProps}
+                            onChange={this.handleUpload}
+                            style={{ width: '100%' }}
+                          >
+                            {media.length <= 0
+                              ? (
+                                <Button className='btn-change'> Change Avatar </Button>
+                              ) : null}
+                          </Upload>
+                        )}
+                      </Form.Item>
+                      {
+                        media.length >= 1 ? (
+                          <Form.Item>
+                            <Button
+                              type='primary'
+                              htmlType='submit'
+                              className='btn-save'
+                            >Save
+                            </Button>
+                          </Form.Item>
+                        ) : null
+                      }
+                    </Form>
                   </Col>
                   <Col
                     xl={{ span: 24 }}
@@ -361,4 +488,4 @@ class Profile extends React.Component {
   }
 }
 
-export default Profile
+export default Form.create({ name: 'customized_form_controls' })(Profile)

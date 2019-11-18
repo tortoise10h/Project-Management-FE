@@ -223,13 +223,17 @@ export default class TaskModal extends Component {
                                     >
                                       <img
                                         style={{
+                                          borderRadius: '50%',
                                           width: '100%',
                                           height: '100%',
                                           textAlign: 'center',
                                           objectFit: 'cover'
                                         }}
-                                        src={require('./../../../assets/images/landingpage/user/avatar1.png')}
-                                        alt=''
+                                        src={member.photo_location !== null ? (
+                                          `http://localhost:5000/${member.photo_location}`
+                                        ) : (
+                                          require('./../../../assets/images/landingpage/user/avatar1.png')
+                                        )}
                                       />
                                     </div>
                                   </Col>
@@ -246,7 +250,12 @@ export default class TaskModal extends Component {
                               }
                             >
                               <div className='trello-card--member'>
-                                <img src={require('./../../../assets/images/landingpage/user/avatar1.png')} alt='' />
+                                <img src={member.photo_location !== null ? (
+                                          `http://localhost:5000/${member.photo_location}`
+                                ) : (
+                                  require('./../../../assets/images/landingpage/user/avatar1.png')
+                                )}
+                                />
                               </div>
                             </Popover>
                           </Col>

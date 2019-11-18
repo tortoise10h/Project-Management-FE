@@ -27,7 +27,11 @@ class Log extends Component {
             <>
               <Avatar
                 shape='square'
-                src={`${DEFAULT_URL}/${values.User.photo_location}`}
+                src={values.User.photo_location !== null ? (
+                  `http://localhost:5000/${values.User.photo_location}`
+                ) : (
+                  require('./../../../../assets/images/landingpage/user/avatar2.png')
+                )}
               />
             </>
           )
