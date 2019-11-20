@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import './css/style.css'
-import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip, Button } from 'antd'
+import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip } from 'antd'
 import storeAccessible from '../utils/storeAccessible'
 import { clearAll } from '../actions/common'
 import {
@@ -115,20 +115,6 @@ class MenuPage extends React.Component {
                         </span>
                       </span>
                     )
-                  },
-                  {
-                    key: 'dashboard',
-                    title: (
-                      <>
-                        {
-                          user.user_id === value.owner ? (
-                            <BtnDeleteProject />
-                          ) : (
-                            <BtnOutProject />
-                          )
-                        }
-                      </>
-                    )
                   }
                 ]
               }
@@ -227,6 +213,17 @@ class MenuPage extends React.Component {
                                 Edit Project
                               </span>
                             </span>
+                          </MenuItem>
+                          <MenuItem key='remove-project'>
+                            <>
+                              {
+                                user.user_id === project.owner ? (
+                                  <BtnDeleteProject history={this.props.history} />
+                                ) : (
+                                  <BtnOutProject history={this.props.history} />
+                                )
+                              }
+                            </>
                           </MenuItem>
                         </Menu>
                       }
