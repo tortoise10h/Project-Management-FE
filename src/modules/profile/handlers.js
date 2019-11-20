@@ -100,7 +100,6 @@ export default (dispatch, props) => ({
         }
         return result.data
       })
-      console.log('=========> TuLinh Debug: >: result', result)
       return result
     } catch (error) {
       if (error.response) {
@@ -117,7 +116,6 @@ export default (dispatch, props) => ({
       })
       if (result) {
         dispatch(setProjectInfo(result.data))
-        console.log('=========> TuLinh Debug: >: dispatch', dispatch)
         return result.data
       }
     } catch (error) {
