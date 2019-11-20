@@ -1,0 +1,6 @@
+.status-deadline {
+    background: linear-gradient(to left, #eb3349, #f45c43);
+}
+.status-deadline:hover {
+    background: linear-gradient(to right, #eb3349, #f45c43);
+}

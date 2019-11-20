@@ -166,7 +166,7 @@ class Profile extends React.Component {
 
   /* ----------- ON CHANGE AVATAR--------------- */
   handleOnChangeAvatar (e) {
-    const { changeAvatar, getProjectInfo, kanban: { project } } = this.props
+    const { changeAvatar, getProjectInfo, kanban: { project }, getUserProfileInformation } = this.props
     const { id } = this.state
     e.preventDefault()
     this.props.form.validateFieldsAndScroll(async (err, values) => {
@@ -193,7 +193,7 @@ class Profile extends React.Component {
             user
           })
           const rs = await getProjectInfo(project.id)
-          console.log('=========> TuLinh Debug: >: Profile -> handleOnChangeAvatar -> rs', rs)
+          const rsInfo = await getUserProfileInformation(id)
           notification.success({
             message: 'Change Avatar Success',
             placement: 'topRight'
@@ -251,7 +251,11 @@ class Profile extends React.Component {
                     sm={{ span: 12 }}
                   >
                     <img
-                      src={`http://localhost:5000/${photoLocation}`}
+                      src={photoLocation === null ? (
+                        require('../../../assets/images/logo.svg')
+                      ) : (
+                        `http://localhost:5000/${photoLocation}`
+                      )}
                       alt=''
                       class='img-rounded img-responsive img-size'
                       style={{ height: 230, marginTop: 30 }}

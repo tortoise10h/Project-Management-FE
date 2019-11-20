@@ -1,6 +1,6 @@
 import React from 'react'
 import loginImg from './../../../assets/images/login.svg'
-import { Form, Input, Icon, Checkbox, Button, Row, Col } from 'antd'
+import { Form, Input, Icon, Checkbox, Button } from 'antd'
 import checkError from '../../../libraries/CheckError'
 
 class Login extends React.Component {
@@ -77,29 +77,13 @@ class Login extends React.Component {
                 valuePropName: 'checked',
                 initialValue: true
               })(<Checkbox>Remember me</Checkbox>)}
-              <a className='login-form-forgot' href='' style={{ float: 'right' }}>
+              {/* <a className='login-form-forgot' href='' style={{ float: 'right' }}>
                 Forgot password
-              </a>
+              </a> */}
               <Button className='Login' type='primary' size='large' htmlType='submit' style={{ width: '100%' }}>Login</Button>
             </Form.Item>
           </Form>
         </div>
-        <h3 style={{ textAlign: 'center' }}>
-          OR
-        </h3>
-        <Row className='login-fb-gg'>
-          <Col lg={{ span: 12 }} sm={{ span: 24 }}>
-            <div className='loginBtn loginBtn--facebook'>
-              Login with Facebook
-            </div>
-          </Col>
-          <Col lg={{ span: 12 }} sm={{ span: 24 }}>
-            <div className='loginBtn loginBtn--google'>
-              Login with Google
-            </div>
-          </Col>
-        </Row>
-
       </div>
     )
   }

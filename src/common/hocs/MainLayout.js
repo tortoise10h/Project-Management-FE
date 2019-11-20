@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import './css/style.css'
-import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip } from 'antd'
+import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip, Button } from 'antd'
 import storeAccessible from '../utils/storeAccessible'
 import { clearAll } from '../actions/common'
 import {
@@ -10,6 +10,8 @@ import {
   setUserRole,
   setProjectInfo
 } from '../../modules/kanban/actions'
+import BtnDeleteProject from '../../modules/RemoveProject/containers/OutProject'
+import BtnOutProject from '../../modules/RemoveProject/containers/RemoveProject'
 import MenuItem from 'antd/lib/menu/MenuItem'
 import DrawerLayout from '../../modules/kanban/components/DrawerLayout'
 import ContentPopover from '../../modules/Members/containers/Members'
@@ -44,10 +46,10 @@ class MenuPage extends React.Component {
         case 'Admin':
         case 'Leader':
         case 'Member':
-          this.setMenus('1', props.kanban.project)
+          this.setMenus('1', props.kanban.project, props.kanban.user)
           break
         default:
-          this.setMenus('2', props.kanban.project)
+          this.setMenus('2', props.kanban.project, props.kanban.user)
       }
     } else {
       this.setMenus('10')
@@ -61,7 +63,7 @@ class MenuPage extends React.Component {
     this.handlePopOverSettingVisibleChange = this.handlePopOverSettingVisibleChange.bind(this)
   }
 
-  setMenus (mode, value) {
+  setMenus (mode, value, user) {
     switch (mode) {
       // When USER click to a project
       case '1':
@@ -112,6 +114,20 @@ class MenuPage extends React.Component {
                           Log
                         </span>
                       </span>
+                    )
+                  },
+                  {
+                    key: 'dashboard',
+                    title: (
+                      <>
+                        {
+                          user.user_id === value.owner ? (
+                            <BtnDeleteProject />
+                          ) : (
+                            <BtnOutProject />
+                          )
+                        }
+                      </>
                     )
                   }
                 ]
@@ -341,10 +357,10 @@ class MenuPage extends React.Component {
         case 'Admin':
         case 'Leader':
         case 'Member':
-          this.setMenus('1', kanban.project)
+          this.setMenus('1', kanban.project, kanban.user)
           break
         default:
-          this.setMenus('2', kanban.project)
+          this.setMenus('2', kanban.project, kanban.user)
       }
       this.handleToggle(true)
     } else {
@@ -578,7 +594,11 @@ class MenuPage extends React.Component {
                 >
                   <div className='circle-base user'>
                     <img
-                      src={require('../../assets/images/logo.svg')}
+                      src={user.photo_location !== null ? (
+                        `http://localhost:5000/${user.photo_location}`
+                      ) : (
+                        require('../../assets/images/logo.svg')
+                      )}
                       alt='user-img'
                       style={{
                         height: 40,
