@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import LabelsModal from './LabelModal'
 import LabelsModalInTask from './LabelModalInTask'
 import AddLabelModal from './AddLabelModal'
+import checkError from '../../../libraries/CheckError'
 
 class LabelListModal extends Component {
   constructor (props) {
@@ -12,6 +13,7 @@ class LabelListModal extends Component {
     this.getLabelListInTask = this.getLabelListInTask.bind(this)
     this.getLabelList = this.getLabelList.bind(this)
     this.addLabel = this.addLabel.bind(this)
+    this.deleteLabel = this.deleteLabel.bind(this)
   }
 
   async getLabelList () {
@@ -47,7 +49,20 @@ class LabelListModal extends Component {
     }
   }
 
-  async deleteLabel () {}
+  async deleteLabel (labelId) {
+    const { deleteLabel, inTask, getKanbanInfo, project } = this.props
+    const result = await deleteLabel(labelId)
+    if (result.error) {
+      checkError(result.error.error)
+    } else {
+      if (inTask) {
+        this.getLabelListInTask()
+      } else {
+        this.getLabelList()
+        getKanbanInfo(project.id)
+      }
+    }
+  }
 
   componentDidMount () {
     const { inTask } = this.props
@@ -74,7 +89,15 @@ class LabelListModal extends Component {
             labels && labels.map((label) => (
               inTask
                 ? (<LabelsModalInTask taskId={taskId} key={label.id} content={label} updateLabel={updateLabel} updateLabelInTask={updateLabelInTask} getLabel={getLabel} />)
-                : (<LabelsModal taskId={taskId} key={label.id} content={label} updateLabel={updateLabel} getLabel={getLabel} />)
+                : (
+                  <LabelsModal
+                    taskId={taskId}
+                    key={label.id}
+                    content={label}
+                    updateLabel={updateLabel}
+                    getLabel={getLabel}
+                    deleteLabel={this.deleteLabel}
+                  />)
             ))
           }
         </div>

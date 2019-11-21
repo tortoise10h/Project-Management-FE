@@ -1,5 +1,6 @@
 import { fetchAuthLoading } from '../../common/effects'
 import { ENDPOINTS } from './models'
+import { setKanbanInfo } from './actions'
 
 export default (dispatch, props) => ({
   addLabel: async (projectId, color, title) => {
@@ -13,6 +14,34 @@ export default (dispatch, props) => ({
         }
       })
       if (result) {
+        return result.data
+      }
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  deleteLabel: async (labelId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.deleteLabel(labelId)}`,
+        method: 'DELETE'
+      })
+      if (result) {
+        return result.data
+      }
+    } catch (error) {
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  getKanbanInfo: async (projectId) => {
+    console.count()
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.getKanbanInfo(projectId)}`,
+        method: 'GET'
+      })
+      if (result) {
+        dispatch(setKanbanInfo(result.data))
         return result.data
       }
     } catch (error) {

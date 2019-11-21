@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { TwitterPicker } from 'react-color'
 import { Icon, Row, Col, Input, Popover, Button, Tooltip } from 'antd'
 import './css/style.css'
+import checkError from '../../../libraries/CheckError'
 
 class LabelModal extends Component {
   constructor (props) {
@@ -28,6 +29,7 @@ class LabelModal extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleChangeTitle = this.handleChangeTitle.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
+    this.handleDelete = this.handleDelete.bind(this)
     this.handleSave = this.handleSave.bind(this)
     this.handleVisible = this.handleVisible.bind(this)
   }
@@ -45,7 +47,10 @@ class LabelModal extends Component {
     this.handleVisible(false)
   }
 
-  handleDelete () {}
+  handleDelete () {
+    const { deleteLabel, content: { id } } = this.props
+    deleteLabel(id)
+  }
 
   handleCancel () {
     this.getLabel()
@@ -108,11 +113,14 @@ class LabelModal extends Component {
                 }}
               />
               <Row type='flex' justify='center' align='middle' style={{ textAlign: 'center' }}>
-                <Col span={12}>
+                <Col span={7}>
                   <Button type='primary' onClick={this.handleSave}>Save</Button>
                 </Col>
-                <Col span={12}>
-                  <Button type='danger' onClick={this.handleCancel}>Cancel</Button>
+                <Col span={7}>
+                  <Button onClick={this.handleCancel}>Cancel</Button>
+                </Col>
+                <Col span={10}>
+                  <Button type='danger' icon='delete' onClick={this.handleDelete}>Delete</Button>
                 </Col>
               </Row>
             </div>

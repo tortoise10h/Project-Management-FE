@@ -198,6 +198,12 @@ class Kanban extends React.Component {
     this.getKanbanData()
   }
 
+  componentWillReceiveProps (newProps) {
+    if (newProps.kanban.kanbanInfo !== this.props.kanban.kanbanInfo) {
+      this.setData(newProps.kanban.kanbanInfo)
+    }
+  }
+
   render () {
     const { projectId, kanban } = this.props
     return (
