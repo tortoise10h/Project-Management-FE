@@ -191,7 +191,6 @@ export default class TaskModal extends Component {
       listMedia,
       onRemoveMediaInTask
     } = this.props
-    console.log('=========> TuLinh Debug: >: TaskModal -> render -> MembersInTask', MembersInTask)
     return (
       <div className='task-modal'>
         <Row>
