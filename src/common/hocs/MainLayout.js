@@ -50,6 +50,7 @@ class MenuPage extends React.Component {
           break
         default:
           this.setMenus('2', props.kanban.project, props.kanban.user)
+          break
       }
     } else {
       this.setMenus('10')
@@ -70,7 +71,23 @@ class MenuPage extends React.Component {
         this.MENUS = [
           {
             key: 'project',
-            title: value.title,
+            title: (value.title
+              ? (
+                value.title.length > 12
+                  ? (
+                    <Tooltip placement='bottom' title={value.title}>
+                      <span style={{ display: 'inline-block', width: '90%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Text>{value.title}</Text>
+                      </span>
+                    </Tooltip>
+                  )
+                  : (
+                    <span style={{ display: 'inline-block', width: '90%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <span>{value.title}</span>
+                    </span>
+                  )
+              ) : null
+            ),
             children: [
               {
                 key: `project-kanban/${value.id}`,
@@ -175,13 +192,13 @@ class MenuPage extends React.Component {
                 project.title.length > 12
                   ? (
                     <Tooltip placement='bottom' title={project.title}>
-                      <span style={{ display: 'inline-block', maxWidth: '150px', height: 40, lineHeight: '40px', fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                      <span style={{ display: 'inline-block', width: '60%', height: 40, lineHeight: '40px', fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         <Text>{project.title}</Text>
                       </span>
                     </Tooltip>
                   )
                   : (
-                    <span style={{ display: 'inline-block', maxWidth: '150px', height: 40, lineHeight: '40px', fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <span style={{ display: 'inline-block', width: '60%', height: 40, lineHeight: '40px', fontSize: 20, fontWeight: 'bold', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       <span>{project.title}</span>
                     </span>
                   )
@@ -231,7 +248,7 @@ class MenuPage extends React.Component {
                       <Tooltip placement='bottom' title='Setting'>
                         <Icon
                           className='kanban-settings'
-                          type='setting'
+                          type='tool'
                           style={{
                             fontSize: 21,
                             cursor: 'pointer',

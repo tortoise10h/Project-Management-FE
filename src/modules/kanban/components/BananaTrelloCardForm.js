@@ -20,7 +20,7 @@ class BananaTrelloCardForm extends Component {
         if (result.success !== false) {
           notification.success({
             placement: 'topRight',
-            message: 'Add new column successfully'
+            message: 'Add new task successfully'
           })
           onAdd({ ...result })
         } else {
@@ -32,7 +32,6 @@ class BananaTrelloCardForm extends Component {
 
   render () {
     const { form, onCancel } = this.props
-    console.log('======== Bao Minh: BananaTrelloCardForm -> render -> this.props', this.props)
     const { getFieldDecorator } = form
     return (
       <Form

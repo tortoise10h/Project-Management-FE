@@ -66,18 +66,8 @@ class Kanban extends React.Component {
   }
 
   async addNewColumn (params) {
-    const { addColumn, projectId } = this.props
-    const result = await addColumn(projectId, {
-      title: params.title
-    })
-    if (result.success !== false) {
-      notification.success({
-        message: 'Add new column successfully'
-      })
-    } else {
-      CheckError(result.error.error)
-      await this.getKanbanData(projectId)
-    }
+    const { projectId } = this.props
+    await this.getKanbanData(projectId)
   }
 
   async updateColumn (columnId, params) {
@@ -98,14 +88,17 @@ class Kanban extends React.Component {
   }
 
   async moveTask (fromLaneId, toLaneId, taskId, newIndex) {
+    console.log('======== Bao Minh: Kanban -> moveTask -> toLaneId', toLaneId)
+    console.log('======== Bao Minh: Kanban -> moveTask -> fromLaneId', fromLaneId)
     /** because min value of card is 0 but sequelize cant't sort 0 value
      * so change min value to 1 by newIndex++
-    * */
+     * */
     newIndex++
 
     const { updateTask, updateTaskIndex, projectId, getKanbanInfo } = this.props
     const { data } = this.state
     const { lanes } = data
+    console.log('======== Bao Minh: Kanban -> moveTask -> lanes', lanes)
     const toColumnObject = lanes[lanes.findIndex(val => val.id === toLaneId)]
     const fromColumnObject = lanes[lanes.findIndex(val => val.id === fromLaneId)]
 
@@ -225,7 +218,7 @@ class Kanban extends React.Component {
             }}
             customCardLayout
             tagStyle={{ fontSize: '1em' }}
-            // onLaneAdd={(params) => this.addNewColumn(params)}
+            onLaneAdd={(params) => this.addNewColumn(params)}
             onCardMoveAcrossLanes={(fromLaneId, toLaneId, cardId, index) => this.moveTask(fromLaneId, toLaneId, cardId, index)}
             onLaneUpdate={(laneId, data) => this.updateColumn(laneId, data)}
           />

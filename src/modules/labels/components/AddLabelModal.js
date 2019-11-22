@@ -34,6 +34,9 @@ class AddLabel extends Component {
     const { addLabel } = this.props
     this.handleVisible(false)
     addLabel(color, title)
+    this.setState({
+      title: ''
+    })
   }
 
   handleCancel () {
