@@ -52,10 +52,12 @@ class BananaTrelloLaneForm extends Component {
             <Input autoFocus placeholder='Title' style={{ marginBottom: 8 }} />
           )}
         </Form.Item>
-        <div style={{ textAlign: 'left' }}>
-          <Button type='primary' htmlType='submit' style={{ marginRight: 13 }}>Add</Button>
-          <Icon type='close' onClick={onCancel} />
-        </div>
+        <Form.Item>
+          <div style={{ textAlign: 'left' }}>
+            <Button type='primary' htmlType='submit' style={{ marginRight: 13 }}>Add</Button>
+            <Icon type='close' onClick={onCancel} />
+          </div>
+        </Form.Item>
       </Form>
     )
   }
