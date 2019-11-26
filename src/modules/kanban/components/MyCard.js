@@ -96,7 +96,7 @@ class MyCard extends Component {
   }
 
   handleCancel () {
-    const { title } = this.props
+    const { data: { title } } = this.state
     this.setState({
       taskTitle: title,
       isEdit: false
@@ -113,13 +113,14 @@ class MyCard extends Component {
   }
 
   // WHEN CHANGE TASK TITLE
-  handleUpdateTitle () {
+  async handleUpdateTitle () {
     const { id, updateTask } = this.props
     const { taskTitle: title } = this.state
-    updateTask(id, { title })
+    const rs = await updateTask(id, { title })
     this.setState({
       isEdit: false,
-      isChange: true
+      isChange: true,
+      data: rs
     })
   }
 
@@ -139,16 +140,11 @@ class MyCard extends Component {
   }
 
   // CHANGE DESCRIPTION
-  handleUpdateDescription (desc) {
+  async handleUpdateDescription (desc) {
     const { id, updateTask } = this.props
+    const rs = await updateTask(id, { description: desc })
     this.setState({
-      data: {
-        ...this.state.data,
-        description: desc
-      }
-    })
-    updateTask(id, { description: desc })
-    this.setState({
+      data: rs,
       isChange: true
     })
   }

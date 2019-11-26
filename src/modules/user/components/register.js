@@ -51,11 +51,15 @@ class Register extends React.Component {
   }
 
   validateToNextPassword (rule, value, callback) {
-    const { form } = this.props
-    if (value && this.state.confirmDirty) {
-      form.validateFields(['confirm'], { force: true })
+    if (value.length >= 8) {
+      const { form } = this.props
+      if (value && this.state.confirmDirty) {
+        form.validateFields(['confirm'], { force: true })
+      }
+      callback()
+    } else {
+      callback('Password must be at least 8 characters')
     }
-    callback()
   }
 
   render () {

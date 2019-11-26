@@ -137,6 +137,7 @@
   border-radius: 3px;
   clear: both;
   min-height: 20px;
+  max-width: 250px;
   padding: 6px 8px 6px;
   display: block;
   overflow: hidden;
