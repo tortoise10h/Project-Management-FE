@@ -22,7 +22,7 @@ class Login extends React.Component {
           onLoading()
           checkError(errors.error)
         } else {
-          history.push('/')
+          history.push('/project')
         }
       }
     })

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select, Input, Button, notification } from 'antd'
+import { Select, Input, Button, notification, Tag } from 'antd'
 import checkError from '../../../libraries/CheckError'
 
 const { Option } = Select
@@ -89,7 +89,14 @@ class Members extends React.Component {
   render () {
     const { Members, invitationMessage } = this.state
     const children = Members.map(member => (
-      <Option key={member.id} value={member.id} title={member.name}>{member.name}</Option>
+      <Option key={member.id} value={member.id} title={member.name}>
+        <div>
+          {member.name}
+        </div>
+        <small>
+          {member.email}
+        </small>
+      </Option>
     ))
     return (
       <div className='members' style={{ textAlign: 'center' }}>
