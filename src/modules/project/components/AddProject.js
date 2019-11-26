@@ -44,6 +44,7 @@ class AddProject extends Component {
             message: 'Create project successfully'
           })
           this.setState({ visible: false })
+          this.props.form.resetFields()
           this.props.onGetProjectList()
         } else {
           notification.error({

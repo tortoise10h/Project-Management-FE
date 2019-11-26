@@ -38,6 +38,8 @@ class Kanban extends React.Component {
   }
 
   setData (newData) {
+    const { kanban: { user } } = this.props
+    const role = user.role
     const allColumnsInfo = {}
     allColumnsInfo.lanes = newData.map((column) => {
       /** Get column info */
@@ -48,7 +50,8 @@ class Kanban extends React.Component {
         style: {
           width: 280
         },
-        droppable: !column.is_locked
+        disallowAddingCard: role === 'Admin' || role === 'Leader' ? false : column.is_locked,
+        droppable: role === 'Admin' || role === 'Leader' ? true : !column.is_locked
       }
       /** Get tasks of column */
       const tasksInfo = column.Tasks.map(task => (
@@ -88,8 +91,6 @@ class Kanban extends React.Component {
   }
 
   async moveTask (fromLaneId, toLaneId, taskId, newIndex) {
-    console.log('======== Bao Minh: Kanban -> moveTask -> toLaneId', toLaneId)
-    console.log('======== Bao Minh: Kanban -> moveTask -> fromLaneId', fromLaneId)
     /** because min value of card is 0 but sequelize cant't sort 0 value
      * so change min value to 1 by newIndex++
      * */
@@ -98,7 +99,6 @@ class Kanban extends React.Component {
     const { updateTask, updateTaskIndex, projectId, getKanbanInfo } = this.props
     const { data } = this.state
     const { lanes } = data
-    console.log('======== Bao Minh: Kanban -> moveTask -> lanes', lanes)
     const toColumnObject = lanes[lanes.findIndex(val => val.id === toLaneId)]
     const fromColumnObject = lanes[lanes.findIndex(val => val.id === fromLaneId)]
 
