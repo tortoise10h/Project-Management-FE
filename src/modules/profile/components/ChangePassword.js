@@ -158,13 +158,6 @@ class ChangePassword extends React.Component {
             </Form.Item>
           </Form>
         </Modal>
-        <br />
-        <Title style={{ textAlign: 'left', marginTop: 10 }} level={4}>
-          Visible{' '}
-        </Title>
-        <Switch
-          defaultChecked
-        />
       </div>
     )
   }

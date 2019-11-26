@@ -408,7 +408,7 @@ class Profile extends React.Component {
                     lg={{ span: 9 }}
                     xl={{ span: 9 }}
                   >
-                    <div className='info-link'>
+                    {/* <div className='info-link'>
                       <Title level={4}>Contact</Title>
                       <Icon
                         className='location-icon'
@@ -424,7 +424,7 @@ class Profile extends React.Component {
                       <Paragraph className='text-edit' editable>linh.lee.20</Paragraph>
                       <Icon className='location-icon' type='twitter' />
                       <Paragraph className='text-edit' editable>linhlee.twt</Paragraph>
-                    </div>
+                    </div> */}
                   </Col>
                 </Row>
                 <Row style={{ marginTop: '3%' }}>
