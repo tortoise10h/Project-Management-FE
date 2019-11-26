@@ -422,7 +422,7 @@ class MenuPage extends React.Component {
       case 'logout':
         storeAccessible.dispatch(clearAll())
         setTimeout(() => {
-          window.location.href = '/'
+          history.push('/register-login')
         }, 200)
         break
       case 'project':

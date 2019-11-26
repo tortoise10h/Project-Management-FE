@@ -52,9 +52,8 @@ class MembersMenu extends React.Component {
   /* End get thong tin member */
 
   /* Remove Member Project */
-  async handleRemoveMember (user_id) {
+  async handleRemoveMember (userId) {
     const { removeMemberProject, project: { id } } = this.props
-    const userId = user_id
     const result = await removeMemberProject(id, userId)
     if (result.data) {
       this.getListMemberProject()
