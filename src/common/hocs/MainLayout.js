@@ -565,17 +565,21 @@ class MenuPage extends React.Component {
               <Col xs={{ span: 0 }} lg={{ span: 12, offset: 1 }} xl={{ span: 12, offset: 1 }} xxl={{ span: 8, offset: 1 }}>
                 {this.setHeader(kanban.project, kanban.user)}
               </Col>
-              <Col xs={{ span: 4 }} lg={{ span: 0 }} className='right-menu-item'>
-                <Popover
-                  style={{ height: 500 }}
-                  placement='bottom'
-                  title='Invite To Board'
-                  content={<ContentPopover history={this.props.history} />}
-                  trigger='click'
-                >
-                  <Icon type='user-add' className='btn-notice' style={{ fontSize: 20 }} />
-                </Popover>
-              </Col>
+              {
+                kanban.project.id ? (
+                  <Col xs={{ span: 4 }} lg={{ span: 0 }} className='right-menu-item'>
+                    <Popover
+                      style={{ height: 500 }}
+                      placement='bottom'
+                      title='Invite To Board'
+                      content={<ContentPopover history={this.props.history} />}
+                      trigger='click'
+                    >
+                      <Icon type='user-add' className='btn-notice' style={{ fontSize: 20 }} />
+                    </Popover>
+                  </Col>
+                ) : null
+              }
               <Col xs={{ span: 4 }} lg={{ span: 1, offset: 5 }} xl={{ span: 1, offset: 6 }} xxl={{ span: 1, offset: 9 }} className='right-menu-item'>
                 <Popover
                   trigger='click'
