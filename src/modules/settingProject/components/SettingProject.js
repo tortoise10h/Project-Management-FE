@@ -67,7 +67,7 @@ class Members extends React.Component {
     const { project } = this.state
     const projectId = id
     const result = await updateProject(projectId, this.cleanObj(project))
-    if (!result) {
+    if (result.error) {
       const errors = result.error
       checkError(errors.error)
       this.setState({ updateLabel: null })

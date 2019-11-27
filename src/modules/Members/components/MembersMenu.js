@@ -178,19 +178,19 @@ class MembersMenu extends React.Component {
           dataSource={result}
           bordered
           scroll={{ x: true }}
-          title={() =>
-            <div>
-              <Search
-                placeholder='Search by name or email'
-                onSearch={value => console.log(value)}
-                style={{ width: '35%' }}
-              />
-              <Select defaultValue='All role' style={{ width: 120, marginLeft: 15 }}>
-                <Option value='owner'>Owner</Option>
-                <Option value='leader'>Leader</Option>
-                <Option value='member'>Member</Option>
-              </Select>
-            </div>}
+          // title={() =>
+          //   <div>
+          //     <Search
+          //       placeholder='Search by name or email'
+          //       onSearch={value => console.log(value)}
+          //       style={{ width: '35%' }}
+          //     />
+          //     <Select defaultValue='All role' style={{ width: 120, marginLeft: 15 }}>
+          //       <Option value='owner'>Owner</Option>
+          //       <Option value='leader'>Leader</Option>
+          //       <Option value='member'>Member</Option>
+          //     </Select>
+          //   </div>}
         />
       </div>
     )
