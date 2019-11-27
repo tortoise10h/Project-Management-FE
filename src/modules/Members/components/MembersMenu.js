@@ -159,9 +159,13 @@ class MembersMenu extends React.Component {
         dataIndex: 'action',
         render: (text, record) => (
           this.state.data.length >= 1 ? (
-            <Popconfirm title='Sure to delete?' onConfirm={() => this.handleRemoveMember(record.user_id)}>
-              <Text style={{ cursor: 'pointer' }} type='danger'>Delete</Text>
-            </Popconfirm>
+            record.role === 'Admin' ? (
+              null
+            ) : (
+              <Popconfirm title='Sure to delete?' onConfirm={() => this.handleRemoveMember(record.user_id)}>
+                <Text style={{ cursor: 'pointer' }} type='danger'>Delete</Text>
+              </Popconfirm>
+            )
           ) : null
         )
       }
