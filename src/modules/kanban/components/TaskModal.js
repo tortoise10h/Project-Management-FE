@@ -221,6 +221,7 @@ export default class TaskModal extends Component {
                                       }}
                                     >
                                       <img
+                                        alt='#'
                                         style={{
                                           borderRadius: '50%',
                                           width: '100%',
@@ -249,11 +250,13 @@ export default class TaskModal extends Component {
                               }
                             >
                               <div className='trello-card--member'>
-                                <img src={member.photo_location !== null ? (
+                                <img
+                                  alt='#'
+                                  src={member.photo_location !== null ? (
                                           `http://localhost:5000/${member.photo_location}`
-                                ) : (
-                                  require('./../../../assets/images/landingpage/user/avatar1.png')
-                                )}
+                                  ) : (
+                                    require('./../../../assets/images/landingpage/user/avatar1.png')
+                                  )}
                                 />
                               </div>
                             </Popover>
