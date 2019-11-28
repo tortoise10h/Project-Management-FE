@@ -534,10 +534,10 @@ class MenuPage extends React.Component {
                 <span style={collapsed ? { display: 'none' } : { display: 'block' }}>PROJECTS</span>
               }
             >
-              <Menu.Item key='dashboard'>
+              {/* <Menu.Item key='dashboard'>
                 <Icon type='bar-chart' />
                 <span>Dashboard</span>
-              </Menu.Item>
+              </Menu.Item> */}
               <Menu.Item key='project'>
                 <Icon type='project' />
                 <span>My projects</span>

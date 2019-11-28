@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import ChangePassword from './ChangePassword'
 import * as moment from 'moment'
 import checkError from '../../../libraries/CheckError'
+import img from '../../../assets/images/project.png'
 
 const { Paragraph, Title } = Typography
 class Profile extends React.Component {
@@ -408,52 +409,47 @@ class Profile extends React.Component {
                     lg={{ span: 9 }}
                     xl={{ span: 9 }}
                   >
-                    {/* <div className='info-link'>
-                      <Title level={4}>Contact</Title>
-                      <Icon
-                        className='location-icon'
-                        type='facebook'
-                        theme='filled'
-                      />
-                      <Paragraph className='text-edit' editable>Linh Lee</Paragraph>
-                      <Icon
-                        className='location-icon'
-                        type='instagram'
-                        theme='filled'
-                      />
-                      <Paragraph className='text-edit' editable>linh.lee.20</Paragraph>
-                      <Icon className='location-icon' type='twitter' />
-                      <Paragraph className='text-edit' editable>linhlee.twt</Paragraph>
-                    </div> */}
-                  </Col>
-                </Row>
-                <Row style={{ marginTop: '3%' }}>
-                  <Col lg={{ span: 15 }} md={{ span: 24 }} sm={{ span: 24 }}>
                     <div className='list-project'>
                       <Title level={4}>List Project</Title>
                       {
-                        projects && projects.slice(0, 3).map((project) => (
-                          <div key={project.id} className='location-icon--project'>
-                            <Icon
-                              key={project.id}
-                              type='check-square'
-                              theme='filled'
-                              style={{ marginRight: 10 }}
-                            />
-                            {project.title}
+                        totalRecord > 0 ? (
+                          projects && projects.slice(0, 3).map((project) => (
+                            <div key={project.id} className='location-icon--project'>
+                              <Icon
+                                key={project.id}
+                                type='project'
+                                theme='filled'
+                                style={{ marginRight: 10 }}
+                              />
+                              {project.title}
+                            </div>
+                          ))
+                        ) : (
+                          <div style={{ marginTop: '15%' }}>
+                            <span>You currently have no projects</span>
+                            <div>
+                              <Link to='/project'>
+                                <Icon type='project' theme='filled' />
+                                <a style={{ marginLeft: 10 }}>Create a project here</a>
+                              </Link>
+                            </div>
                           </div>
-                        ))
+                        )
                       }
                     </div>
                     {
-                      totalRecord > 3
-                        ? <Link to='/project'>
+                      totalRecord > 3 ? (
+                        <Link to='/project'>
                           <a>more projects</a>
                         </Link>
-                        : null
+                      ) : (
+                        null
+                      )
                     }
                   </Col>
-                  <Col lg={{ span: 9 }} md={{ span: 24 }} sm={{ span: 24 }}>
+                </Row>
+                <Row style={{ marginTop: '5%' }}>
+                  <Col lg={{ span: 12 }} md={{ span: 24 }} sm={{ span: 24 }}>
                     <div className='change-pw'>
                       <Title style={{ textAlign: 'left' }} level={4}>
                         Setting Account{' '}
@@ -481,6 +477,22 @@ class Profile extends React.Component {
                           : <></>
                       }
                     </div>
+                  </Col>
+                  <Col lg={{ span: 12 }} md={{ span: 24 }} sm={{ span: 24 }}>
+                    {/* {
+                      totalRecord > 1 ? (
+                        null
+                      ) : (
+                        <img
+                          src={img}
+                          style={{ width: 320 }}
+                        />
+                      )
+                    } */}
+                    <img
+                      src={img}
+                      style={{ width: 320 }}
+                    />
                   </Col>
                 </Row>
               </Col>
