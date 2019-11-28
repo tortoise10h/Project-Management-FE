@@ -581,14 +581,14 @@ class MenuPage extends React.Component {
                 ) : null
               }
               <Col xs={{ span: 4 }} lg={{ span: 1, offset: 5 }} xl={{ span: 1, offset: 6 }} xxl={{ span: 1, offset: 9 }} className='right-menu-item'>
-                <Popover
+                {/* <Popover
                   trigger='click'
                   placement='bottom'
                 >
                   <Badge dot>
                     <Icon type='notification' className='btn-notice' style={{ fontSize: 20 }} />
                   </Badge>
-                </Popover>
+                </Popover> */}
               </Col>
               <Col xs={{ span: 16 }} md={{ span: 10 }} lg={{ span: 5 }} xl={{ span: 4 }} xxl={{ span: 3 }} className='right-menu-item' style={{ float: 'left' }}>
                 <Dropdown

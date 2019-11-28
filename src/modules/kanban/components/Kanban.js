@@ -78,15 +78,16 @@ class Kanban extends React.Component {
     const result = await updateColumn(columnId, {
       title: params.title
     })
-    if (result) {
+    if (result.error) {
+      const errors = result.error
+      CheckError(errors.error)
+      const rs = await getKanbanInfo(projectId)
+      this.setData(rs)
+    } else {
+      // await getKanbanInfo(projectId)
       notification.success({
         message: 'Update column successfully'
       })
-    } else {
-      notification.error({
-        message: 'Server error'
-      })
-      await getKanbanInfo(projectId)
     }
   }
 

@@ -117,11 +117,16 @@ class MyCard extends Component {
     const { id, updateTask } = this.props
     const { taskTitle: title } = this.state
     const rs = await updateTask(id, { title })
-    this.setState({
-      isEdit: false,
-      isChange: true,
-      data: rs
-    })
+    if (rs.error) {
+      const errors = rs.error
+      checkError(errors.error)
+    } else {
+      this.setState({
+        isEdit: false,
+        isChange: true,
+        data: rs
+      })
+    }
   }
 
   // CHANGE DUE DATE
