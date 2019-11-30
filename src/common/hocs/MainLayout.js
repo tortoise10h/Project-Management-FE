@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import './css/style.css'
-import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Badge, Typography, Tooltip } from 'antd'
+import { Layout, Menu, Icon, notification, Row, Col, Popover, Dropdown, Typography, Tooltip } from 'antd'
 import storeAccessible from '../utils/storeAccessible'
 import { clearAll } from '../actions/common'
 import {
@@ -486,7 +486,18 @@ class MenuPage extends React.Component {
             zIndex: 99
           }}
         >
-          <div className='logo' onClick={() => this.props.history.push('/project')} style={{ cursor: 'pointer' }}>
+          <div
+            className='logo'
+            onClick={() => {
+              if (this.props.kanban) {
+                storeAccessible.dispatch(setKanbanInfo({}))
+                storeAccessible.dispatch(setUserRole({}))
+                storeAccessible.dispatch(setProjectInfo({}))
+              }
+              this.props.history.push('/project')
+            }}
+            style={{ cursor: 'pointer' }}
+          >
             <span id='logo' className={logoClass.join(' ')}>
               <img alt='logo' src={require('../../assets/images/logo.svg')} />
               <img alt='Banana' src={require('../../assets/images/BananaBoys.png')} style={{ fill: '#ffff' }} />
