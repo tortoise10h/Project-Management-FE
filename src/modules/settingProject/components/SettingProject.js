@@ -13,11 +13,14 @@ class Members extends React.Component {
     super(props)
     this.state = {
       isChange: false,
-      updateLabel: '',
-      project: []
+      project: [],
+      titleProject: '',
+      statusProject: '',
+      descriptionProject: '',
+      startDatePoj: '',
+      endDatePoj: ''
     }
     this.handleChange = this.handleChange.bind(this)
-    this.handleOnStartUpdate = this.handleOnStartUpdate.bind(this)
     this.handleSave = this.handleSave.bind(this)
     this.handleCancel = this.handleCancel.bind(this)
     this.handleChangeDateStart = this.handleChangeDateStart.bind(this)
@@ -26,23 +29,19 @@ class Members extends React.Component {
     this.handleChangeDescription = this.handleChangeDescription.bind(this)
   }
 
-  /* ============================ GET PROPERTIES OF PROJECT WILL CHANGE  ============================ */
-  handleOnStartUpdate (e) {
-    this.setState({
-      updateLabel: e
-    })
-  }
-  /* ============================ END GET PROPERTIES OF PROJECT WILL CHANGE  ============================ */
-
   /* ============================ COMPARE 2 values WILL CHANGE  ============================ */
   handleChange (e) {
-    const { updateLabel: label, descriptionLabel } = this.state
-    const project = this.state.project
-    if (e !== project[label] && e !== descriptionLabel) {
-      project[label] = e
+    const titleProject = this.state
+    const { project: { title } } = this.props
+    if (e !== titleProject) {
       this.setState({
         isChange: true,
-        project
+        titleProject: e
+      })
+    }
+    if (e === title) {
+      this.setState({
+        isChange: false
       })
     }
   }
@@ -63,24 +62,104 @@ class Members extends React.Component {
 
   /* ============================ FUNCTION UPDATE INFO PROJECT ============================ */
   async handleSave () {
-    const { updateProject, project: { id }, getProjectInfo } = this.props
-    const { project } = this.state
+    const {
+      project: { id },
+      getProjectInfo,
+      updateTitleProject,
+      updateStatusProject,
+      updateDescriptionProject,
+      updateStartDateProject,
+      updateEndDateProject
+    } = this.props
+    const { project: { title, description, status, start_date: startDate, end_date: endDate } } = this.props
+    const { titleProject, statusProject, descriptionProject, startDatePoj, endDatePoj } = this.state
     const projectId = id
-    const result = await updateProject(projectId, this.cleanObj(project))
-    if (result.error) {
-      const errors = result.error
-      checkError(errors.error)
-      this.setState({ updateLabel: null })
-      // this.props.getUserProfileInformation(id)
-    } else {
-      await getProjectInfo(projectId)
-      notification.success({
-        message: 'Save success',
-        placement: 'bottomLeft'
-      })
-      this.setState({
-        isChange: false
-      })
+    const startDateP = startDate ? moment(startDate).format('YYYY-MM-DD') : null
+    const endDateP = endDate ? moment(endDate).format('YYYY-MM-DD') : null
+    if (title !== titleProject) {
+      const result = await updateTitleProject(projectId, titleProject)
+      if (result.error) {
+        const errors = result.error
+        checkError(errors.error)
+        this.setState({ updateLabel: null })
+      } else {
+        await getProjectInfo(projectId)
+        notification.success({
+          message: 'Save success',
+          placement: 'bottomLeft'
+        })
+        this.setState({
+          isChange: false
+        })
+      }
+    }
+    if (status !== statusProject) {
+      const result = await updateStatusProject(projectId, statusProject)
+      if (result.error) {
+        const errors = result.error
+        checkError(errors.error)
+        this.setState({ updateLabel: null })
+      } else {
+        await getProjectInfo(projectId)
+        notification.success({
+          message: 'Save success',
+          placement: 'bottomLeft'
+        })
+        this.setState({
+          isChange: false
+        })
+      }
+    }
+    if (description !== descriptionProject) {
+      const result = await updateDescriptionProject(projectId, descriptionProject)
+      if (result.error) {
+        const errors = result.error
+        checkError(errors.error)
+        this.setState({ updateLabel: null })
+      } else {
+        await getProjectInfo(projectId)
+        notification.success({
+          message: 'Save success',
+          placement: 'bottomLeft'
+        })
+        this.setState({
+          isChange: false
+        })
+      }
+    }
+    if (startDateP !== startDatePoj) {
+      console.log('startdate', startDate)
+      console.log('startDatePoj', startDatePoj)
+      const result = await updateStartDateProject(projectId, startDatePoj)
+      if (result.error) {
+        const errors = result.error
+        checkError(errors.error)
+      } else {
+        await getProjectInfo(projectId)
+        notification.success({
+          message: 'Save success',
+          placement: 'bottomLeft'
+        })
+        this.setState({
+          isChange: false
+        })
+      }
+    }
+    if (endDateP !== endDatePoj) {
+      const result = await updateEndDateProject(projectId, endDatePoj)
+      if (result.error) {
+        const errors = result.error
+        checkError(errors.error)
+      } else {
+        await getProjectInfo(projectId)
+        notification.success({
+          message: 'Save success',
+          placement: 'bottomLeft'
+        })
+        this.setState({
+          isChange: false
+        })
+      }
     }
   }
   /* ============================ END FUNCTION UPDATE INFO PROJECT ============================ */
@@ -88,15 +167,12 @@ class Members extends React.Component {
   /* ============================ FUNCTION CANCEL UPDATE INFO PROJECT ============================ */
   handleCancel () {
     const { project: { title, description, status, start_date: startDate, end_date: endDate } } = this.props
-    const project = {
-      title: title,
-      description: description,
-      status: status,
-      start_date: startDate ? moment(startDate).format('YYYY-MM-DD') : null,
-      end_date: endDate ? moment(endDate).format('YYYY-MM-DD') : null
-    }
     this.setState({
-      project,
+      titleProject: title,
+      statusProject: status,
+      descriptionProject: description,
+      startDatePoj: startDate ? moment(startDate).format('YYYY-MM-DD') : null,
+      endDatePoj: endDate ? moment(endDate).format('YYYY-MM-DD') : null,
       isChange: false
     })
   }
@@ -104,12 +180,11 @@ class Members extends React.Component {
 
   /* ============================ GET AND COMPARE START_DATE FROM DatePicker ============================ */
   async handleChangeDateStart (e, dateString) {
-    const project = this.state.project
-    if (dateString !== project.start_date && dateString !== '') {
-      project.start_date = dateString
+    const startDatePoj = this.state
+    if (dateString !== startDatePoj && dateString !== '') {
       this.setState({
         isChange: true,
-        project
+        startDatePoj: dateString
       })
     }
   }
@@ -117,35 +192,33 @@ class Members extends React.Component {
 
   /* ============================ GET AND COMPARE END_DATE FROM DatePicker ============================ */
   async handleChangeDateEnd (e, dateString) {
-    const project = this.state.project
-    if (dateString !== project.end_date && dateString !== '') {
-      project.end_date = dateString
+    const endDatePoj = this.state
+    if (dateString !== endDatePoj && dateString !== '') {
       this.setState({
         isChange: true,
-        project
+        endDatePoj: dateString
       })
     }
   }
   /* ============================ END GET AND COMPARE END_DATE FROM DatePicker ============================ */
 
   handleChangeStatusProject (e) {
-    const project = this.state.project
-    project.status = e
     this.setState({
       isChange: true,
-      project
+      statusProject: e
     })
   }
 
   handleChangeDescription ({ target: { value } }) {
-    const project = this.state.project
-    if (value !== project.description) {
-      project.description = value
+    const descriptionProject = this.state
+    const { project: { description } } = this.props
+    if (value !== descriptionProject) {
       this.setState({
         isChange: true,
-        project
+        descriptionProject: value
       })
-    } else {
+    }
+    if (value === description) {
       this.setState({
         isChange: false
       })
@@ -155,21 +228,26 @@ class Members extends React.Component {
   /* ============================ GET INFO PROJECT WILL CHANGE FROM STORE ============================ */
   componentDidMount () {
     const { project: { title, description, status, start_date: startDate, end_date: endDate } } = this.props
-    const project = {
-      title: title,
-      description: description,
-      status: status,
-      start_date: startDate ? moment(startDate).format('YYYY-MM-DD') : null,
-      end_date: endDate ? moment(endDate).format('YYYY-MM-DD') : null
-    }
     this.setState({
-      project
+      titleProject: title,
+      statusProject: status,
+      descriptionProject: description,
+      startDatePoj: startDate ? moment(startDate).format('YYYY-MM-DD') : null,
+      endDatePoj: endDate ? moment(endDate).format('YYYY-MM-DD') : null
     })
   }
   /* ============================ END GET INFO PROJECT WILL CHANGE FROM STORE ============================ */
 
   render () {
-    const { isChange, project } = this.state
+    const {
+      isChange,
+      project,
+      titleProject,
+      statusProject,
+      descriptionProject,
+      startDatePoj,
+      endDatePoj
+    } = this.state
     const { project: { owner }, user: { id } } = this.props
     return (
       <div className='projectName' style={{ float: 'left' }}>
@@ -194,18 +272,17 @@ class Members extends React.Component {
               className='project-title'
               style={{ marginTop: 10, fontSize: 20, fontWeight: 'bold', marginLeft: 75 }}
               editable={{
-                onStart: (name = 'title') => this.handleOnStartUpdate(name),
                 onChange: this.handleChange
               }}
             >
-              {project.title}
+              {titleProject}
             </Paragraph>
           ) : (
             <Paragraph
               className='project-title'
               style={{ marginTop: 10, fontSize: 20, fontWeight: 'bold', marginLeft: 75 }}
             >
-              {project.title}
+              {titleProject}
             </Paragraph>
           )
         }
@@ -216,18 +293,18 @@ class Members extends React.Component {
             owner === id ? (
               <TextArea
                 style={{ width: 400, marginTop: 5 }}
-                value={project.description}
+                value={descriptionProject}
                 onChange={this.handleChangeDescription}
                 placeholder='Add a more detailed description for project...'
                 rows={4}
               />
             ) : (
-              project.description ? (
+              descriptionProject ? (
                 <Paragraph
                   className='project-title'
                   style={{ fontStyle: 'oblique', marginLeft: 75, fontSize: 15 }}
                 >
-                  {project.description}
+                  {descriptionProject}
                 </Paragraph>
               ) : (
                 <Paragraph
@@ -246,7 +323,7 @@ class Members extends React.Component {
           {
             owner === id ? (
               <Select
-                value={project.status}
+                value={statusProject}
                 style={{ width: 176, marginLeft: 43, marginTop: 20 }}
                 onChange={(e) => this.handleChangeStatusProject(e)}
               >
@@ -260,7 +337,7 @@ class Members extends React.Component {
                 className='project-title'
                 style={{ fontWeight: 'bold', marginLeft: 75, backgroundColor: '#64CCBD' }}
               >
-                {project.status}
+                {statusProject}
               </Paragraph>
             )
           }
@@ -272,16 +349,16 @@ class Members extends React.Component {
             owner === id ? (
               <DatePicker
                 style={{ marginLeft: 18, marginTop: 20 }}
-                value={project.start_date ? moment(project.start_date, 'YYYY-MM-DD') : ''}
+                value={startDatePoj ? moment(startDatePoj, 'YYYY-MM-DD') : ''}
                 onChange={this.handleChangeDateStart}
               />
             ) : (
-              project.start_date ? (
+              startDatePoj ? (
                 <Paragraph
                   className='project-title'
                   style={{ marginLeft: 75, width: 350 }}
                 >
-                  {project.start_date}
+                  {startDatePoj}
                 </Paragraph>
               ) : (
                 <Paragraph
@@ -301,16 +378,16 @@ class Members extends React.Component {
             owner === id ? (
               <DatePicker
                 style={{ marginLeft: 25, marginTop: 20 }}
-                value={project.end_date ? moment(project.end_date, 'YYYY-MM-DD') : ''}
+                value={endDatePoj ? moment(endDatePoj, 'YYYY-MM-DD') : ''}
                 onChange={this.handleChangeDateEnd}
               />
             ) : (
-              project.end_date ? (
+              endDatePoj ? (
                 <Paragraph
                   className='project-title'
                   style={{ marginLeft: 75, width: 350 }}
                 >
-                  {project.end_date}
+                  {endDatePoj}
                 </Paragraph>
               ) : (
                 <Paragraph

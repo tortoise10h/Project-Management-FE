@@ -4,12 +4,82 @@ import {} from './actions'
 import { setProjectInfo } from '../settingProject/actions'
 
 export default (dispatch, props) => ({
-  updateProject: async (projectId, project) => {
+  updateStartDateProject: async (projectId, startDatePoj) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.updateStartDateProject(projectId)}`,
+        method: 'PUT',
+        data: {
+          start_date: startDatePoj
+        }
+      })
+      return result
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  updateEndDateProject: async (projectId, endDatePoj) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.updateEndDateProject(projectId)}`,
+        method: 'PUT',
+        data: {
+          end_date: endDatePoj
+        }
+      })
+      return result
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  updateTitleProject: async (projectId, titleProject) => {
     try {
       const result = await fetchAuthLoading({
         url: `${ENDPOINTS.updateProject(projectId)}`,
         method: 'PUT',
-        data: project
+        data: {
+          title: titleProject
+        }
+      })
+      return result
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  updateStatusProject: async (projectId, statusProject) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.updateProject(projectId)}`,
+        method: 'PUT',
+        data: {
+          status: statusProject
+        }
+      })
+      return result
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, message: 'Server Error' }
+    }
+  },
+  updateDescriptionProject: async (projectId, descriptionProject) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.updateProject(projectId)}`,
+        method: 'PUT',
+        data: {
+          description: descriptionProject
+        }
       })
       return result
     } catch (error) {
