@@ -14,7 +14,6 @@ class ConfirmSuccess extends Component {
 
   async componentDidMount () {
     const { verifyEmail, history } = this.props
-    console.log('========== Bao Minh: ConfirmSuccess -> componentDidMount -> this.props', this.props)
     const token = new URLSearchParams(history.location.search).get('token')
     const email = new URLSearchParams(history.location.search).get('email')
     const result = await verifyEmail(token, email)

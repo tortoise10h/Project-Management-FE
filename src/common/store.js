@@ -32,7 +32,6 @@ function mapCookieToStorage () {
   let initialState
   try {
     const user = JSON.parse(getCookie('user'))
-    console.log('================>: mapCookieToStorage -> user', user)
     initialState = {
       user: {
         user: user,
