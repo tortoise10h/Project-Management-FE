@@ -18,7 +18,8 @@ class Members extends React.Component {
       statusProject: '',
       descriptionProject: '',
       startDatePoj: '',
-      endDatePoj: ''
+      endDatePoj: '',
+      editProject: []
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSave = this.handleSave.bind(this)
@@ -36,7 +37,11 @@ class Members extends React.Component {
     if (e !== titleProject) {
       this.setState({
         isChange: true,
-        titleProject: e
+        titleProject: e,
+        editProject: {
+          ...this.state.editProject,
+          title: e
+        }
       })
     }
     if (e === title) {
@@ -65,101 +70,24 @@ class Members extends React.Component {
     const {
       project: { id },
       getProjectInfo,
-      updateTitleProject,
-      updateStatusProject,
-      updateDescriptionProject,
-      updateStartDateProject,
-      updateEndDateProject
+      updateProject
     } = this.props
-    const { project: { title, description, status, start_date: startDate, end_date: endDate } } = this.props
-    const { titleProject, statusProject, descriptionProject, startDatePoj, endDatePoj } = this.state
+    const { editProject } = this.state
     const projectId = id
-    const startDateP = startDate ? moment(startDate).format('YYYY-MM-DD') : null
-    const endDateP = endDate ? moment(endDate).format('YYYY-MM-DD') : null
-    if (title !== titleProject) {
-      const result = await updateTitleProject(projectId, titleProject)
-      if (result.error) {
-        const errors = result.error
-        checkError(errors.error)
-        this.setState({ updateLabel: null })
-      } else {
-        await getProjectInfo(projectId)
-        notification.success({
-          message: 'Save success',
-          placement: 'bottomLeft'
-        })
-        this.setState({
-          isChange: false
-        })
-      }
-    }
-    if (status !== statusProject) {
-      const result = await updateStatusProject(projectId, statusProject)
-      if (result.error) {
-        const errors = result.error
-        checkError(errors.error)
-        this.setState({ updateLabel: null })
-      } else {
-        await getProjectInfo(projectId)
-        notification.success({
-          message: 'Save success',
-          placement: 'bottomLeft'
-        })
-        this.setState({
-          isChange: false
-        })
-      }
-    }
-    if (description !== descriptionProject) {
-      const result = await updateDescriptionProject(projectId, descriptionProject)
-      if (result.error) {
-        const errors = result.error
-        checkError(errors.error)
-        this.setState({ updateLabel: null })
-      } else {
-        await getProjectInfo(projectId)
-        notification.success({
-          message: 'Save success',
-          placement: 'bottomLeft'
-        })
-        this.setState({
-          isChange: false
-        })
-      }
-    }
-    if (startDateP !== startDatePoj) {
-      console.log('startdate', startDate)
-      console.log('startDatePoj', startDatePoj)
-      const result = await updateStartDateProject(projectId, startDatePoj)
-      if (result.error) {
-        const errors = result.error
-        checkError(errors.error)
-      } else {
-        await getProjectInfo(projectId)
-        notification.success({
-          message: 'Save success',
-          placement: 'bottomLeft'
-        })
-        this.setState({
-          isChange: false
-        })
-      }
-    }
-    if (endDateP !== endDatePoj) {
-      const result = await updateEndDateProject(projectId, endDatePoj)
-      if (result.error) {
-        const errors = result.error
-        checkError(errors.error)
-      } else {
-        await getProjectInfo(projectId)
-        notification.success({
-          message: 'Save success',
-          placement: 'bottomLeft'
-        })
-        this.setState({
-          isChange: false
-        })
-      }
+
+    const result = await updateProject(projectId, this.cleanObj(editProject))
+    if (result.error) {
+      const errors = result.error
+      checkError(errors.error)
+    } else {
+      await getProjectInfo(projectId)
+      notification.success({
+        message: 'Save success',
+        placement: 'bottomLeft'
+      })
+      this.setState({
+        isChange: false
+      })
     }
   }
   /* ============================ END FUNCTION UPDATE INFO PROJECT ============================ */
@@ -184,6 +112,10 @@ class Members extends React.Component {
     if (dateString !== startDatePoj && dateString !== '') {
       this.setState({
         isChange: true,
+        editProject: {
+          ...this.state.editProject,
+          start_date: dateString
+        },
         startDatePoj: dateString
       })
     }
@@ -196,6 +128,10 @@ class Members extends React.Component {
     if (dateString !== endDatePoj && dateString !== '') {
       this.setState({
         isChange: true,
+        editProject: {
+          ...this.state.editProject,
+          end_date: dateString
+        },
         endDatePoj: dateString
       })
     }
@@ -205,6 +141,10 @@ class Members extends React.Component {
   handleChangeStatusProject (e) {
     this.setState({
       isChange: true,
+      editProject: {
+        ...this.state.editProject,
+        status: e
+      },
       statusProject: e
     })
   }
@@ -215,6 +155,10 @@ class Members extends React.Component {
     if (value !== descriptionProject) {
       this.setState({
         isChange: true,
+        editProject: {
+          ...this.state.editProject,
+          description: value
+        },
         descriptionProject: value
       })
     }
