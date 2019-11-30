@@ -36,10 +36,12 @@ class TaskDescription extends Component {
   }
 
   handleUpdateDescription (e) {
+    console.count()
     const { onUpdateDescription } = this.props
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        console.log('======== Bao Minh: TaskDescription -> handleUpdateDescription -> values', values)
         onUpdateDescription(values.description)
         this.setState({
           isEdit: false,
@@ -67,7 +69,6 @@ class TaskDescription extends Component {
                     })(
                       <TextArea
                         autoFocus
-                        onBlur={this.handleCancel}
                         rows={5}
                         placeholder='Add a more detailed description...'
                       />

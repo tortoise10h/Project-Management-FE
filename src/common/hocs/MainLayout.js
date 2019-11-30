@@ -486,11 +486,11 @@ class MenuPage extends React.Component {
             zIndex: 99
           }}
         >
-          <div className='logo'>
-            <a id='logo' className={logoClass.join(' ')}>
+          <div className='logo' onClick={() => this.props.history.push('/project')} style={{ cursor: 'pointer' }}>
+            <span id='logo' className={logoClass.join(' ')}>
               <img alt='logo' src={require('../../assets/images/logo.svg')} />
               <img alt='Banana' src={require('../../assets/images/BananaBoys.png')} style={{ fill: '#ffff' }} />
-            </a>
+            </span>
           </div>
           <Menu
             onClick={this.handleOnSelectMenuItem}

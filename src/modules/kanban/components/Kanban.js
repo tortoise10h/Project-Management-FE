@@ -183,8 +183,8 @@ class Kanban extends React.Component {
   async getKanbanData () {
     const { getKanbanInfo, getUserRole, getProjectInfo, projectId } = this.props
     const kanbanInfo = await getKanbanInfo(projectId)
-    getUserRole(projectId)
-    getProjectInfo(projectId)
+    await getUserRole(projectId)
+    await getProjectInfo(projectId)
     this.setData(kanbanInfo)
   }
 
