@@ -57,7 +57,6 @@ class AddProject extends Component {
 
   handleSave (formRef) {
     this.formRef = formRef
-    console.log(this.formRef)
   }
 
   render () {
@@ -67,14 +66,6 @@ class AddProject extends Component {
     return (
       <div style={{ paddingRight: 20 }}>
         <Button icon='plus' type='primary' style={btnStyle} size='large' onClick={this.handleShowModal}>Add Project</Button>
-        {/* <ColectionsSubmit
-          wrappedComponentRef={this.handleSave()}
-          visible={this.state.visible}
-          onCreate={this.handleCreate}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          onAddProject={onAddProject}
-        /> */}
         <Modal
           visible={visible}
           title='Create new project'

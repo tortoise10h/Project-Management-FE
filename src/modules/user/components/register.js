@@ -24,7 +24,6 @@ class Register extends React.Component {
       if (!err) {
         onLoading()
         const result = await registerAccount(values)
-        console.log('======== Bao Minh: handleOnSubmit -> result', result)
         if (result) {
           const errors = result.error
           onLoading()

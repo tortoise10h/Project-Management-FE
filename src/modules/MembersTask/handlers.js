@@ -32,16 +32,4 @@ export default (dispatch, props) => ({
       }
     }
   }
-  // getMembersInTask: async (taskId) => {
-  //   try {
-  //     console.log('Run getMembers Task')
-  //     const result = await fetchAuthLoading({
-  //       url: `${ENDPOINTS.getMembersInTask(taskId)}`,
-  //       method: 'GET'
-  //     })
-  //     return result
-  //   } catch (error) {
-  //     return { success: false, message: 'Server Error' }
-  //   }
-  // }
 })

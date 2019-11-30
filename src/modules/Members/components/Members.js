@@ -49,7 +49,6 @@ class Members extends React.Component {
 
   /* get value of messeage */
   handleOnChangeMessage (e) {
-    console.log(e.target.value)
     this.setState({
       invitationMessage: e.target.value
     })

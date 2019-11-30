@@ -15,7 +15,6 @@ export default (dispatch, props) => ({
         data: newUserInfo
       })
     } catch (error) {
-      console.log('========== Bao Minh: error', error.response)
       if (error.response) {
         return { success: false, error: error.response.data }
       }

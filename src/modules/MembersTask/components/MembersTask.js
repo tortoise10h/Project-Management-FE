@@ -68,7 +68,6 @@ class MembersTask extends React.Component {
 
   /* ============================ GET ARRAY USERIDS FROM SELECT ============================ */
   handleChange (value) {
-    console.log(`select ${value}`)
     this.setState({
       userIds: value
     })
