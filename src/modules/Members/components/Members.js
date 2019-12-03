@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select, Input, Button, notification, Tag } from 'antd'
+import { Select, Input, Button, notification } from 'antd'
 import checkError from '../../../libraries/CheckError'
 
 const { Option } = Select
@@ -14,13 +14,15 @@ class Members extends React.Component {
       totalPage: 0,
       userIds: [],
       invitationMessage: 'I\'m working on this project in Banana Boys and wanted to share it with you!',
-      loading: false
+      loading: false,
+      searchMembers: ''
     }
     this.handleChange = this.handleChange.bind(this)
     this.getMembersNotInProject = this.getMembersNotInProject.bind(this)
     this.handleInvite = this.handleInvite.bind(this)
     this.handleOnChangeMessage = this.handleOnChangeMessage.bind(this)
     this.handleLoading = this.handleLoading.bind(this)
+    this.handleOnSearch = this.handleOnSearch.bind(this)
   }
 
   /* Add member for project */
@@ -62,6 +64,19 @@ class Members extends React.Component {
     })
   }
   /* end get userIds of members when select change */
+
+  async handleOnSearch (value) {
+    const search = value
+    const { searchMemberNotInProject, project: { id } } = this.props
+    const projectId = id
+    const result = await searchMemberNotInProject(search, projectId)
+    console.log('=========> TuLinh Debug: >: Members -> handleOnSearch -> result', result)
+    this.setState({
+      Members: result.data.data,
+      totalRecord: result.data.totalRecord,
+      totalPage: result.data.totalPage
+    })
+  }
 
   /* get list members not in project */
   async getMembersNotInProject () {
@@ -106,6 +121,7 @@ class Members extends React.Component {
           placeholder='Email address or name'
           onChange={this.handleChange}
           optionFilterProp='title'
+          onSearch={this.handleOnSearch}
         >
           {children}
         </Select>

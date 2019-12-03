@@ -102,5 +102,22 @@ export default (dispatch, props) => ({
       }
       return { success: false, message: 'Server Error' }
     }
+  },
+  searchMemberNotInProject: async (search, projectId) => {
+    try {
+      const result = await fetchAuthLoading({
+        url: `${ENDPOINTS.searchMemberNotInProject(projectId)}`,
+        method: 'GET',
+        params: {
+          search
+        }
+      })
+      return result
+    } catch (error) {
+      if (error.response) {
+        return { success: false, error: error.response.data }
+      }
+      return { success: false, message: 'Server Error' }
+    }
   }
 })

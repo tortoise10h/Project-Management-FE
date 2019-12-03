@@ -8,7 +8,8 @@ export const ENDPOINTS = {
   getProjectInfo: (projectId, userId) => `${DEFAULT_URL}/project/${projectId}`,
   getListMemberProject: (projectId) => `${DEFAULT_URL}/project/${projectId}/user-project`,
   removeMemberProject: (projectId) => `${DEFAULT_URL}/project/${projectId}/user-project`,
-  updateRoleMemberProject: (projectId, userId) => `${DEFAULT_URL}/project/${projectId}/user-project/${userId}`
+  updateRoleMemberProject: (projectId, userId) => `${DEFAULT_URL}/project/${projectId}/user-project/${userId}`,
+  searchMemberNotInProject: (projectId) => `${DEFAULT_URL}/project/${projectId}/user-not-in-project`
 }
 
 export const LIMIT = 20
