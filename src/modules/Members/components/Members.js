@@ -17,6 +17,7 @@ class Members extends React.Component {
       loading: false,
       searchMembers: ''
     }
+
     this.handleChange = this.handleChange.bind(this)
     this.getMembersNotInProject = this.getMembersNotInProject.bind(this)
     this.handleInvite = this.handleInvite.bind(this)
@@ -69,13 +70,16 @@ class Members extends React.Component {
     const search = value
     const { searchMemberNotInProject, project: { id } } = this.props
     const projectId = id
-    const result = await searchMemberNotInProject(search, projectId)
-    console.log('=========> TuLinh Debug: >: Members -> handleOnSearch -> result', result)
-    this.setState({
-      Members: result.data.data,
-      totalRecord: result.data.totalRecord,
-      totalPage: result.data.totalPage
-    })
+    if (value !== '') {
+      const result = await searchMemberNotInProject(search, projectId)
+      console.log('=========> TuLinh Debug: >: Members -> handleOnSearch -> result', result)
+      this.setState({
+        Members: result.data.data,
+        totalRecord: result.data.totalRecord,
+        totalPage: result.data.totalPage
+      })
+      // this.refs.selectId.blur()
+    }
   }
 
   /* get list members not in project */
@@ -102,31 +106,46 @@ class Members extends React.Component {
 
   render () {
     const { Members, invitationMessage } = this.state
-    const children = Members.map(member => (
-      <Option key={member.id} value={member.id} title={member.name}>
-        <div>
-          {member.name}
-        </div>
-        <small>
-          {member.email}
-        </small>
-      </Option>
-    ))
+    // console.log('=========> TuLinh Debug: >: Members -> render -> Members', Members)
+    // const children = Members.map(member => (
+    //   <Option key={member.id} value={member.id} title={member.name}>
+    //     <div>
+    //       {member.name}
+    //     </div>
+    //     <small>
+    //       {member.email}
+    //     </small>
+    //   </Option>
+    // ))
+    // console.log('=========> TuLinh Debug: >: Members -> render -> children', children)
     return (
       <div className='members' style={{ textAlign: 'center' }}>
         <Select
+          refs='selectId'
           autoFocus
           mode='multiple'
           style={{ width: '300px' }}
           placeholder='Email address or name'
           onChange={this.handleChange}
-          optionFilterProp='title'
+          // optionFilterProp='title'
           onSearch={this.handleOnSearch}
         >
-          {children}
+          {
+            Members.map(member => (
+              <Option key={member.id} value={member.id} title={member.name}>
+                <div>
+                  {member.name}
+                </div>
+                <small>
+                  {member.email}
+                </small>
+              </Option>
+            ))
+          }
         </Select>
         <br />
         <TextArea
+          id='textArea'
           onChange={this.handleOnChangeMessage}
           value={invitationMessage}
           rows={8}
